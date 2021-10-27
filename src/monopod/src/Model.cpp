@@ -8,6 +8,7 @@
 #include <functional>
 #include <tuple>
 #include <unordered_map>
+#include <stdexcept>
 
 using namespace scenario::monopod;
 
@@ -27,14 +28,13 @@ public:
     static std::vector<double> getJointDataSerialized(
         const Model* model,
         const std::vector<std::string>& jointNames,
-        std::function<double(core::JointPtr, const size_t)> getJointData);
+        std::function<double(core::JointPtr)> getJointData);
 
     static bool setJointDataSerialized(
         Model* model,
         const std::vector<double>& data,
         const std::vector<std::string>& jointNames,
-        std::function<bool(core::JointPtr, const double, const size_t)>
-            setDataToDOF);
+        std::function<bool(core::JointPtr, const double)> setJointData);
 };
 
 Model::Model()
@@ -54,34 +54,36 @@ uint64_t Model::id() const
 
 bool Model::initialize()
 {
-
     return true;
+}
+
+bool Model::valid() const
+{
+    bool ok = true;
+    for (auto& joint : this->joints(model->jointNames())) {
+        ok = ok && joint->valid();
+    }
+    return ok;
 }
 
 std::string Model::name() const
 {
-    std::string modelName = "monopod"
+    std::string modelName = "monopod";
     return modelName;
 }
 
-scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
+size_t Model::dofs(const std::vector<std::string>& jointNames) const
 {
-    if (pImpl->joints.find(jointName) != pImpl->joints.end()) {
-        assert(pImpl->joints.at(jointName));
-        return pImpl->joints.at(jointName);
+    const std::vector<std::string>& jointSerialization =
+        jointNames.empty() ? this->jointNames() : jointNames;
+
+    size_t dofs = 0;
+
+    for (const auto& jointName : jointSerialization) {
+        dofs += this->getJoint(jointName)->dofs();
     }
 
-    // Create the joint
-    auto joint = std::make_shared<scenario::gazebo::Joint>();
-
-    if (!joint->initialize(jointEntity, m_ecm, m_eventManager)) {
-        throw exceptions::JointError("Failed to initialize joint", jointName);
-    }
-
-    // Cache the joint instance
-    pImpl->joints[jointName] = joint;
-
-    return joint;
+    return dofs;
 }
 
 std::vector<std::string> Model::jointNames(const bool scoped) const
@@ -93,7 +95,6 @@ std::vector<std::string> Model::jointNames(const bool scoped) const
         return pImpl->buffers.scopedLinkNames.value();
     }
 
-    // Make scoped joint names from joints if it does not exist.
     std::vector<std::string> jointNames;
     for(auto& itr : pImpl->Joints){
         prefix = this->name() + "::" + itr.second->name(scoped);
@@ -108,34 +109,32 @@ std::vector<std::string> Model::jointNames(const bool scoped) const
     }
 }
 
-std::vector<double>
-Model::jointPositions(const std::vector<std::string>& jointNames) const
+scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
 {
-    auto lambda = [](core::JointPtr joint, const size_t dof) -> double {
-        return joint->position(dof);
-    };
-
-    return Impl::getJointDataSerialized(this, jointNames, lambda);
+    if (pImpl->joints.find(jointName) != pImpl->joints.end()) {
+        assert(pImpl->joints.at(jointName));
+        return pImpl->joints.at(jointName);
+    }
+    std::string str = " ";
+    for(auto& name: pImpl->buffers.jointNames)
+        str = str + " " + name;
+    sError << "Joint name does not exist in model. Available models are: " + str +
+           << std::endl;
+    throw std::invalid_argument( "Joint name does not exist in model. Available models are: " + str );
 }
 
-std::vector<double>
-Model::jointVelocities(const std::vector<std::string>& jointNames) const
+std::vector<scenario::core::JointPtr>
+Model::joints(const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint, const size_t dof) -> double {
-        return joint->velocity(dof);
-    };
+    const std::vector<std::string>& jointSerialization =
+        jointNames.empty() ? this->jointNames() : jointNames;
 
-    return Impl::getJointDataSerialized(this, jointNames, lambda);
-}
+    std::vector<core::JointPtr> joints;
 
-std::vector<double>
-Model::jointAccelerations(const std::vector<std::string>& jointNames) const
-{
-    auto lambda = [](core::JointPtr joint, const size_t dof) -> double {
-        return joint->acceleration(dof);
-    };
-
-    return Impl::getJointDataSerialized(this, jointNames, lambda);
+    for (const auto& jointName : jointSerialization) {
+        joints.push_back(this->getJoint(jointName));
+    }
+    return joints;
 }
 
 bool Model::setJointControlMode(const scenario::core::JointControlMode mode,
@@ -153,45 +152,57 @@ bool Model::setJointControlMode(const scenario::core::JointControlMode mode,
     return ok;
 }
 
-std::vector<scenario::core::JointPtr>
-Model::joints(const std::vector<std::string>& jointNames) const
+std::vector<double>
+Model::jointPositions(const std::vector<std::string>& jointNames) const
 {
-    const std::vector<std::string>& jointSerialization =
-        jointNames.empty() ? this->jointNames() : jointNames;
+    auto lambda = [](core::JointPtr joint) -> double {
+        return joint->jointPosition();
+    };
 
-    std::vector<core::JointPtr> joints;
-
-    for (const auto& jointName : jointSerialization) {
-        joints.push_back(this->getJoint(jointName));
-    }
-
-    return joints;
+    return Impl::getJointDataSerialized(this, jointNames, lambda);
 }
 
+std::vector<double>
+Model::jointVelocities(const std::vector<std::string>& jointNames) const
+{
+    auto lambda = [](core::JointPtr joint) -> double {
+        return joint->jointVelocity();
+    };
+
+    return Impl::getJointDataSerialized(this, jointNames, lambda);
+}
+
+std::vector<double>
+Model::jointAccelerations(const std::vector<std::string>& jointNames) const
+{
+    auto lambda = [](core::JointPtr joint) -> double {
+        return joint->jointAcceleration();
+    };
+
+    return Impl::getJointDataSerialized(this, jointNames, lambda);
+}
 
 bool Model::setJointGeneralizedForceTargets(
     const std::vector<double>& forces,
     const std::vector<std::string>& jointNames)
 {
     auto lambda =
-        [](core::JointPtr joint, const double force, const size_t dof) -> bool {
-        return joint->setGeneralizedForceTarget(force, dof);
+        [](core::JointPtr joint, const double force) -> bool {
+        return joint->setJointGeneralizedForceTarget(force);
     };
 
     return Impl::setJointDataSerialized(this, forces, jointNames, lambda);
 }
 
-
 std::vector<double> Model::jointGeneralizedForceTargets(
     const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint, const size_t dof) -> double {
-        return joint->generalizedForceTarget(dof);
+    auto lambda = [](core::JointPtr joint) -> double {
+        return joint->jointGeneralizedForceTarget();
     };
 
     return Impl::getJointDataSerialized(this, jointNames, lambda);
 }
-
 
 // ======================
 // Implementation Methods
@@ -200,7 +211,7 @@ std::vector<double> Model::jointGeneralizedForceTargets(
 std::vector<double> Model::Impl::getJointDataSerialized(
     const Model* model,
     const std::vector<std::string>& jointNames,
-    std::function<double(core::JointPtr, const size_t)> getJointData)
+    std::function<double(core::JointPtr)> getJointData)
 {
     const std::vector<std::string>& jointSerialization =
         jointNames.empty() ? model->jointNames() : jointNames;
@@ -209,8 +220,8 @@ std::vector<double> Model::Impl::getJointDataSerialized(
     data.reserve(model->dofs());
 
     for (auto& joint : model->joints(jointSerialization)) {
-        for (size_t dof = 0; dof < joint->dofs(); ++dof) {
-            data.push_back(getJointData(joint, dof));
+        for (auto& value: getJointData(joint)) {
+            data.push_back(value);
         }
     }
 
@@ -221,8 +232,7 @@ bool Model::Impl::setJointDataSerialized(
     Model* model,
     const std::vector<double>& data,
     const std::vector<std::string>& jointNames,
-    std::function<bool(core::JointPtr, const double, const size_t)>
-        setJointData)
+    std::function<bool(core::JointPtr, const double)> setJointData)
 {
     std::vector<std::string> jointSerialization;
 
@@ -231,11 +241,8 @@ bool Model::Impl::setJointDataSerialized(
     // Set the Total DOF for jointnames passed into func.
     // otherwise do all joints
     if (!jointNames.empty()) {
+        expectedDOFs = model->dofs(jointNames);
         jointSerialization = jointNames;
-
-        for (auto& joint : model->joints(jointSerialization)) {
-            expectedDOFs += joint->dofs();
-        }
     }
     else {
         expectedDOFs = model->dofs();
@@ -244,7 +251,7 @@ bool Model::Impl::setJointDataSerialized(
 
     if (data.size() != expectedDOFs) {
         sError << "The size of value being set for each joint "
-                  "does not match the considered joint's DOFs."
+               << "does not match the considered joint's DOFs."
                << std::endl;
         return false;
     }
@@ -252,43 +259,20 @@ bool Model::Impl::setJointDataSerialized(
     auto it = data.begin();
 
     for (auto& joint : model->joints(jointNames)) {
+        std::vector<double> values;
+        values.reserve(joint->dofs());
         for (size_t dof = 0; dof < joint->dofs(); ++dof) {
-            if (!setJointData(joint, *it++, dof)) {
-                sError << "Failed to set force of joint '" << joint->name()
-                       << "'" << std::endl;
-                return false;
-            }
+          values.push_back(*it++);
+        }
+        if (!setJointData(joint, values)) {
+            sError << "Failed to set force of joint '" << joint->name()
+                   << "'" << std::endl;
+            return false;
         }
     }
     assert(it == data.end());
     return true;
 }
-
-// bool Model::resetJointPositions(const std::vector<double>& positions,
-//                                 const std::vector<std::string>& jointNames)
-// {
-//     auto lambda = [](core::JointPtr joint,
-//                      const double position,
-//                      const size_t dof) -> bool {
-//         return std::static_pointer_cast<Joint>(joint)->resetPosition(position,
-//                                                                      dof);
-//     };
-//
-//     return Impl::setJointDataSerialized(this, positions, jointNames, lambda);
-// }
-//
-// bool Model::resetJointVelocities(const std::vector<double>& velocities,
-//                                  const std::vector<std::string>& jointNames)
-// {
-//     auto lambda = [](core::JointPtr joint,
-//                      const double velocity,
-//                      const size_t dof) -> bool {
-//         return std::static_pointer_cast<Joint>(joint)->resetVelocity(velocity,
-//                                                                      dof);
-//     };
-//
-//     return Impl::setJointDataSerialized(this, velocities, jointNames, lambda);
-// }
 
 // scenario::core::JointLimit
 // Model::jointLimits(const std::vector<std::string>& jointNames) const

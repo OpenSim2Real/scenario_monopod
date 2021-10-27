@@ -22,6 +22,14 @@ public:
         uint64_t id() const override;
 
         bool initialize(const string _name) override;
+        
+        /**
+         * Check if the joint is valid.
+         *
+         * @return True if the model is valid, false otherwise.
+         */
+        virtual bool valid() const = 0;
+
         /**
          * Get the number of degrees of freedom of the joint.
          *
@@ -120,16 +128,6 @@ public:
          */
         std::vector<double> jointAcceleration() const override;
 
-        double position(const size_t dof = 0) const override;
-
-        double velocity(const size_t dof = 0) const override;
-
-        double acceleration(const size_t dof = 0) const override;
-
-        bool setGeneralizedForceTarget(const double force,
-                               const size_t dof = 0) override;
-
-        double generalizedForceTarget(const size_t dof = 0) const override;
         /**
          * Set the generalized force target of the joint.
          *

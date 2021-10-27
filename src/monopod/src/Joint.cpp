@@ -49,6 +49,13 @@ bool Joint::initialize(const string _name)
     return true;
 }
 
+bool Model::valid() const
+{
+    // Hardware check here...
+    bool ok = true;
+    return ok;
+}
+
 scenario::core::JointType Joint::type() const
 {
   const core::JointType type = pImpl->jointType;
@@ -157,45 +164,6 @@ std::vector<double> Joint::jointAcceleration() const
     return jointAcceleration;
 }
 
-double Joint::position(const size_t dof) const
-{
-    if (dof >= this->dofs()) {
-        sError << "The size of position being set for the joint '" +
-               << this->name() + "' does not match the joint's DOFs."
-               << std::endl;
-        return std::numeric_limits<double>::infinity();
-    }
-
-    const std::vector<double>& position = this->jointPosition();
-    return position[dof];
-}
-
-double Joint::velocity(const size_t dof) const
-{
-    if (dof >= this->dofs()) {
-        sError << "The size of velocity being set for the joint '" +
-               << this->name() + "' does not match the joint's DOFs."
-               << std::endl;
-        return std::numeric_limits<double>::infinity();
-    }
-
-    const std::vector<double>& velocity = this->jointVelocity();
-    return velocity[dof];
-}
-
-double Joint::acceleration(const size_t dof) const
-{
-    if (dof >= this->dofs()) {
-        sError << "The size of acceleration being set for the joint '" +
-               << this->name() + "' does not match the joint's DOFs."
-               << std::endl;
-        return std::numeric_limits<double>::infinity();
-    }
-
-    const std::vector<double>& acceleration = this->jointAcceleration();
-    return acceleration[dof];
-}
-
 std::vector<double> Joint::jointGeneralizedForceTarget() const
 {
     return pImpl->forceTarget;
@@ -220,57 +188,6 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
     // Set the component data
     pImpl->forceTarget = force;
-    return true;
-}
-
-double Joint::generalizedForceTarget(const size_t dof) const
-{
-    if (dof >= this->dofs()) {
-        sError << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-               << std::endl;
-        return std::numeric_limits<double>::infinity();
-    }
-
-    const std::vector<double>& force = this->jointGeneralizedForceTarget();
-    return force[dof];
-}
-
-bool Joint::setGeneralizedForceTarget(const double force, const size_t dof)
-{
-    const std::vector<core::JointControlMode> allowedControlModes = {
-        core::JointControlMode::Force};
-
-    auto it = std::find(allowedControlModes.begin(),
-                        allowedControlModes.end(),
-                        this->controlMode());
-
-    if (it == allowedControlModes.end()) {
-        sError << "The active joint control mode does not accept a force "
-               << "target" << std::endl;
-        return false;
-    }
-
-    if (dof >= this->dofs()) {
-        sError << "Joint '" << this->name() << "' does not have DoF#" << dof
-               << std::endl;
-        return false;
-    }
-
-    auto& jointForce = pImpl->forceTarget;
-
-    if (jointForce.size() != this->dofs()) {
-        assert(jointForce.size() == 0);
-        jointForce = std::vector<double>(this->dofs(), 0.0);
-    }
-
-    if (std::abs(force) > this->maxGeneralizedForce(dof)) {
-        sWarning << "The force target is higher than the limit. "
-                 << "The physics engine might clip it." << std::endl;
-    }
-
-    // Set the component data
-    jointForce[dof] = force;
-
     return true;
 }
 
@@ -388,42 +305,4 @@ bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 //     // }
 //
 //     return false;
-// }
-
-// bool Joint::resetJointPosition(const std::vector<double>& position)
-// {
-//     if (position.size() != this->dofs()) {
-//         sError << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-//                << std::endl;
-//         return false;
-//     }
-//
-//     return true;
-// }
-//
-// bool Joint::resetJointVelocity(const std::vector<double>& velocity)
-// {
-//     if (velocity.size() != this->dofs()) {
-//         sError << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-//                << std::endl;
-//         return false;
-//     }
-//
-//     return true;
-// }
-//
-// bool Joint::resetJoint(const std::vector<double>& position,
-//                        const std::vector<double>& velocity)
-// {
-//     bool ok = true;
-//
-//     ok = ok && this->resetJointPosition(position);
-//     ok = ok && this->resetJointVelocity(velocity);
-//
-//     if (!ok) {
-//         sError << "Failed to reset joint '" << this->name() << "'" << std::endl;
-//         return false;
-//     }
-//
-//     return true;
 // }

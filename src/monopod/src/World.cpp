@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <stdexcept>
 #include <functional>
 #include <unordered_map>
 
@@ -51,7 +52,6 @@ public:
 public:
 };
 
-
 World::World()
     : pImpl{std::make_unique<Impl>()}
 {}
@@ -66,9 +66,15 @@ uint64_t World::id() const
 bool World::initialize()
 {
     pImpl->buffers.worldName  = "real_world";
+    std::string modelName = "monopod"
     // initialize the model.
     pImpl->buffers.modelNames.clear();
-    pImpl->buffers.modelNames.push_back("monopod");
+    pImpl->buffers.modelNames.push_back(modelName);
+
+    // Initialize our model class
+    auto model = std::make_shared<scenario::gazebo::Model>();
+    model->initialize();
+    pImpl->models[modelName] = model;
     return true;
 }
 
@@ -88,11 +94,11 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
         assert(pImpl->models.at(modelName));
         return pImpl->models.at(modelName);
     }
-    
-    // Create and initialize the model if no model was found
-    auto model = std::make_shared<scenario::gazebo::Model>();
-    model->initialize(modelEntity, m_ecm, m_eventManager);
 
-    pImpl->models[modelName] = model;
-    return pImpl->models[modelName];
+    std::string str = " ";
+    for(auto& name: pImpl->buffers.modelNames)
+        str = str + " " + name;
+    sError << "Model name does not exist in world. Available models are: " + str +
+           << std::endl;
+    throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str );
 }
