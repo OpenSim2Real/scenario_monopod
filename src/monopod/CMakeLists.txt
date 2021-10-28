@@ -6,52 +6,54 @@
 set(ENV{CMAKE_PREFIX_PATH} ~/.local/lib/python3.8/site-packages/scenario)
 find_package(Scenario COMPONENTS Core REQUIRED)
 
-# ==============
-# ScenarioMonopod
-# ==============
+# Hide this until we need to deploy
 
-set(SCENARIO_MONOPOD_PUBLIC_HDRS
-    include/scenario/monopod/World.h
-    include/scenario/monopod/Model.h
-    include/scenario/monopod/Joint.h)
-
-add_library(ScenarioMonopod
-    ${SCENARIO_MONOPOD_PUBLIC_HDRS}
-    src/World.cpp
-    src/Model.cpp
-    src/Joint.cpp)
-add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
-
-target_include_directories(ScenarioMonopod PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
-
-target_link_libraries(ScenarioMonopod
-    PUBLIC
-    ScenarioCore::ScenarioABC
-    PRIVATE
-    ScenarioCore::CoreUtils
-    # ${dependency path}
-  )
-
-set_target_properties(ScenarioMonopod PROPERTIES
-PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
-
-# ===================
-# Install the targets
-# ===================
-
-install_basic_package_files(ScenarioMonopod
-    COMPONENT Monopod
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-    EXPORT ScenarioMonopodExport
-    DEPENDENCIES ScenarioCore
-    NAMESPACE ScenarioMonopod::
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
-    INSTALL_DESTINATION
-    ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioMonopod
-)
+# # ==============
+# # ScenarioMonopod
+# # ==============
+#
+# set(SCENARIO_MONOPOD_PUBLIC_HDRS
+#     include/scenario/monopod/World.h
+#     include/scenario/monopod/Model.h
+#     include/scenario/monopod/Joint.h)
+#
+# add_library(ScenarioMonopod
+#     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
+#     src/World.cpp
+#     src/Model.cpp
+#     src/Joint.cpp)
+# add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
+#
+# target_include_directories(ScenarioMonopod PUBLIC
+#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+#
+# target_link_libraries(ScenarioMonopod
+#     PUBLIC
+#     ScenarioCore::ScenarioABC
+#     PRIVATE
+#     ScenarioCore::CoreUtils
+#     # ${dependency path}
+#   )
+#
+# set_target_properties(ScenarioMonopod PROPERTIES
+# PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
+#
+# # ===================
+# # Install the targets
+# # ===================
+#
+# install_basic_package_files(ScenarioMonopod
+#     COMPONENT Monopod
+#     VERSION ${PROJECT_VERSION}
+#     COMPATIBILITY AnyNewerVersion
+#     EXPORT ScenarioMonopodExport
+#     DEPENDENCIES ScenarioCore
+#     NAMESPACE ScenarioMonopod::
+#     NO_CHECK_REQUIRED_COMPONENTS_MACRO
+#     INSTALL_DESTINATION
+#     ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioMonopod
+# )
 
 # install_basic_package_files(<Name>
 #                             COMPATIBILITY <compatibility>
@@ -72,8 +74,6 @@ install_basic_package_files(ScenarioMonopod
 #                             [INCLUDE_FILE <file> | INCLUDE_CONTENT <content>]
 #                             [COMPONENT <component>] # (default = "<Name>")
 #                            )
-
-
 
 
 

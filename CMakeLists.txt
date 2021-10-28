@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
 
 # Build type
+set(SCENARIO_BUILD_TYPE "Debug")
 # Set up in setup.py
 if(NOT CMAKE_CONFIGURATION_TYPES)
     if(NOT CMAKE_BUILD_TYPE)
@@ -70,73 +71,69 @@ if(NOT MSVC)
     mark_as_advanced(ENABLE_RPATH)
 endif()
 
-# We dont have the deps folder.
-# # Dependencies
-# add_subdirectory(deps)
-
 if(${CMAKE_VERSION} VERSION_GREATER 3.15)
     cmake_policy(SET CMP0094 NEW)
 endif()
 
-# Enable custom options required to package the CMake project from
-# either setup.py or tools like pypa/pip or pypa/build.
-set(SCENARIO_CALL_FROM_SETUP_PY FALSE
-    CACHE BOOL "Configure the project to be compiled from setuptools")
-
-find_package(SWIG 4.0 QUIET)
-option(SCENARIO_ENABLE_BINDINGS "Enable SWIG bindings" ${SWIG_FOUND})
-
-# Find Python only if requested or if SWIG was automatically found
-if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
-    # Find virtualenv's before system's interpreters
-    set(Python3_FIND_VIRTUALENV "FIRST" CACHE STRING
-        "Configure the detection of virtual environments")
-    set(Python3_FIND_VIRTUALENV_TYPES "FIRST" "ONLY" "STANDARD")
-    mark_as_advanced(Python3_FIND_VIRTUALENV)
-    set_property(CACHE Python3_FIND_VIRTUALENV PROPERTY STRINGS ${Python3_FIND_VIRTUALENV_TYPES})
-
-    # Find Python3
-    find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
-    message(STATUS "Using Python: ${Python3_EXECUTABLE}")
-endif()
+# # Enable custom options required to package the CMake project from
+# # either setup.py or tools like pypa/pip or pypa/build.
+# set(SCENARIO_CALL_FROM_SETUP_PY FALSE
+#     CACHE BOOL "Configure the project to be compiled from setuptools")
+#
+# find_package(SWIG 4.0 QUIET)
+# option(SCENARIO_ENABLE_BINDINGS "Enable SWIG bindings" ${SWIG_FOUND})
+#
+# # Find Python only if requested or if SWIG was automatically found
+# if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
+#     # Find virtualenv's before system's interpreters
+#     set(Python3_FIND_VIRTUALENV "FIRST" CACHE STRING
+#         "Configure the detection of virtual environments")
+#     set(Python3_FIND_VIRTUALENV_TYPES "FIRST" "ONLY" "STANDARD")
+#     mark_as_advanced(Python3_FIND_VIRTUALENV)
+#     set_property(CACHE Python3_FIND_VIRTUALENV PROPERTY STRINGS ${Python3_FIND_VIRTUALENV_TYPES})
+#
+#     # Find Python3
+#     find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+#     message(STATUS "Using Python: ${Python3_EXECUTABLE}")
+# endif()
 
 # Select the appropriate install prefix used throughout the project
 set(SCENARIO_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
 set(SCENARIO_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
 set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 
-# Adjust RPATH dependending on the installation type
-if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
-    # Convert folder separators to CMake style (could be necessary in Windows)
-    file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
-
-    # Add the libraries installed in the Python site-package folder
-    set(EXTRA_RPATH_DIRS
-        "${python3_sitelib_cleaned}"
-        "${python3_sitelib_cleaned}/scenario/bindings")
-
-    unset(python3_sitelib_cleaned)
-else()
-    # Add the libraries installed in the Python site-package folder
-    # (that in this case is CMAKE_INSTALL_PREFIX)
-    set(EXTRA_RPATH_DIRS
-        "${CMAKE_INSTALL_PREFIX}"
-        "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
-endif()
-
-# Configure RPATH
-include(AddInstallRPATHSupport)
-add_install_rpath_support(
-    BIN_DIRS
-    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_BINDIR}"
-    LIB_DIRS
-    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
-    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}/scenario/plugins"
-    "${EXTRA_RPATH_DIRS}"
-    INSTALL_NAME_DIR
-    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
-    DEPENDS ENABLE_RPATH
-    USE_LINK_PATH)
+# # Adjust RPATH dependending on the installation type
+# if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
+#     # Convert folder separators to CMake style (could be necessary in Windows)
+#     file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
+#
+#     # Add the libraries installed in the Python site-package folder
+#     set(EXTRA_RPATH_DIRS
+#         "${python3_sitelib_cleaned}"
+#         "${python3_sitelib_cleaned}/scenario/bindings")
+#
+#     unset(python3_sitelib_cleaned)
+# else()
+#     # Add the libraries installed in the Python site-package folder
+#     # (that in this case is CMAKE_INSTALL_PREFIX)
+#     set(EXTRA_RPATH_DIRS
+#         "${CMAKE_INSTALL_PREFIX}"
+#         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
+# endif()
+#
+# # Configure RPATH
+# include(AddInstallRPATHSupport)
+# add_install_rpath_support(
+#     BIN_DIRS
+#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_BINDIR}"
+#     LIB_DIRS
+#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
+#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}/scenario/plugins"
+#     "${EXTRA_RPATH_DIRS}"
+#     INSTALL_NAME_DIR
+#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
+#     DEPENDS ENABLE_RPATH
+#     USE_LINK_PATH)
 
 # Helper for exporting targets
 # talking about this package here
@@ -150,18 +147,30 @@ include(InstallBasicPackageFiles)
 add_subdirectory(src)
 
 # ========
-# BINDINGS
+# Testing Executable
 # ========
 
-# Disable bindings right now.
-set(SCENARIO_ENABLE_BINDINGS OFF)
+add_executable(Test main.cpp)
 
-if(SCENARIO_ENABLE_BINDINGS)
-    add_subdirectory(bindings)
-endif()
+target_link_libraries(Test PRIVATE
+ScenarioMonopod::ScenarioMonopod)
 
-# Add unistall target
-include(AddUninstallTarget)
+# # ========
+# # BINDINGS
+# # ========
+#
+# # Disable bindings right now.
+# set(SCENARIO_ENABLE_BINDINGS OFF)
+#
+# if(SCENARIO_ENABLE_BINDINGS)
+#     add_subdirectory(bindings)
+# endif()
+#
+# # Add unistall target
+# include(AddUninstallTarget)
+
+
+
 
 #
 # # Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
