@@ -2,7 +2,6 @@
 #include "scenario/monopod/Model.h"
 #include "scenario/monopod/World.h"
 
-#include <limits>
 #include <cassert>
 
 using namespace scenario::monopod;
@@ -125,7 +124,7 @@ bool Joint::setPID(const scenario::core::PID& pid)
 std::vector<double> Joint::jointPosition() const
 {
     const std::vector<double> jointPosition(this->dofs(), 0);
-    // get joint pos from low level control
+    //Todo: get joint pos from low level control
 
     if (jointPosition.size() != this->dofs()) {
         sError << "The size of velocity being set for the joint '" +
@@ -139,7 +138,7 @@ std::vector<double> Joint::jointPosition() const
 std::vector<double> Joint::jointVelocity() const
 {
     const std::vector<double> jointVelocity(this->dofs(), 0);
-    // Get joint Velocity from low level control
+    // Todo: Get joint Velocity from low level control
 
     if (jointVelocity.size() != this->dofs()) {
         sError << "The size of velocity being set for the joint '" +
@@ -153,7 +152,7 @@ std::vector<double> Joint::jointVelocity() const
 std::vector<double> Joint::jointAcceleration() const
 {
     const std::vector<double> jointAcceleration(this->dofs(), 0);
-    // Get joint acceleration from low level control
+    //Todo: Get joint acceleration from low level control
 
     if (jointAcceleration.size() != this->dofs()) {
         sError << "The size of acceleration being set for the joint '" +

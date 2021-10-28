@@ -1,141 +1,223 @@
-# set(EXTRA_COMPONENTS_PUBLIC_HEADERS
-#     include/scenario/gazebo/components/JointPID.h
-#     include/scenario/gazebo/components/SimulatedTime.h
-#     include/scenario/gazebo/components/BasePoseTarget.h
-#     include/scenario/gazebo/components/BaseWorldVelocityTarget.h
-#     include/scenario/gazebo/components/BaseWorldAccelerationTarget.h
-#     include/scenario/gazebo/components/JointControlMode.h
-#     include/scenario/gazebo/components/JointController.h
-#     include/scenario/gazebo/components/JointPositionTarget.h
-#     include/scenario/gazebo/components/JointVelocityTarget.h
-#     include/scenario/gazebo/components/JointAccelerationTarget.h
-#     include/scenario/gazebo/components/HistoryOfAppliedJointForces.h
-#     include/scenario/gazebo/components/ExternalWorldWrenchCmdWithDuration.h
-#     include/scenario/gazebo/components/Timestamp.h
-#     include/scenario/gazebo/components/JointControllerPeriod.h
-#     include/scenario/gazebo/components/JointAcceleration.h
-#     )
-#
-# add_library(ExtraComponents INTERFACE)
-# add_library(ScenarioGazebo::ExtraComponents ALIAS ExtraComponents)
-
-# target_include_directories(ExtraComponents INTERFACE
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
-#
-# target_link_libraries(ExtraComponents INTERFACE ${ignition-gazebo.core})
-#
-# set_target_properties(ExtraComponents PROPERTIES
-#     PUBLIC_HEADER "${EXTRA_COMPONENTS_PUBLIC_HEADERS}")
-#
-# # https://stackoverflow.com/a/29214327
-# # As a workaround target_sources can be used, however it requires more
-# # boilerplate code and it has probles when exporting the INTERFACE target:
-# # https://crascit.com/2016/01/31/enhanced-source-file-handling-with-target_sources/
-# add_custom_target(GazeboExtraComponents SOURCES ${EXTRA_COMPONENTS_PUBLIC_HEADERS})
-
 # ==============
-# ScenarioGazebo
+# Find scanrio Core dependencies
 # ==============
 
-set(SCENARIO_GAZEBO_PUBLIC_HDRS
-    include/scenario/gazebo/World.h
-    include/scenario/gazebo/Model.h
-    include/scenario/gazebo/Joint.h)
+# Fix the path here...
+set(ENV{CMAKE_PREFIX_PATH} ~/.local/lib/python3.8/site-packages/scenario)
+find_package(Scenario COMPONENTS Core REQUIRED)
 
-add_library(ScenarioGazebo
-    ${SCENARIO_GAZEBO_PUBLIC_HDRS}
+# ==============
+# ScenarioMonopod
+# ==============
+
+set(SCENARIO_MONOPOD_PUBLIC_HDRS
+    include/scenario/monopod/World.h
+    include/scenario/monopod/Model.h
+    include/scenario/monopod/Joint.h)
+
+add_library(ScenarioMonopod
+    ${SCENARIO_MONOPOD_PUBLIC_HDRS}
     src/World.cpp
     src/Model.cpp
     src/Joint.cpp)
-add_library(ScenarioGazebo::ScenarioGazebo ALIAS ScenarioGazebo)
+add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
 
-target_include_directories(ScenarioGazebo PUBLIC
+target_include_directories(ScenarioMonopod PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
 
-target_link_libraries(ScenarioGazebo
+target_link_libraries(ScenarioMonopod
     PUBLIC
     ScenarioCore::ScenarioABC
-    ${ignition-gazebo.core}
-    ${ignition-common.ignition-common}
     PRIVATE
     ScenarioCore::CoreUtils
-    ScenarioGazebo::ExtraComponents
-    ${ignition-physics.ignition-physics}
-    ${ignition-fuel_tools.ignition-fuel_tools})
+    # ${dependency path}
+  )
 
-set_target_properties(ScenarioGazebo PROPERTIES
-    PUBLIC_HEADER "${SCENARIO_GAZEBO_PUBLIC_HDRS}")
-
-# # ===============
-# # GazeboSimulator
-# # ===============
-#
-# add_library(GazeboSimulator
-#     include/scenario/gazebo/GazeboSimulator.h
-#     src/GazeboSimulator.cpp)
-# add_library(ScenarioGazebo::GazeboSimulator ALIAS GazeboSimulator)
-#
-# target_include_directories(GazeboSimulator PUBLIC
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
-#
-# target_link_libraries(GazeboSimulator
-#     PUBLIC
-#     ScenarioCore::ScenarioABC
-#     PRIVATE
-#     tiny-process-library::tiny-process-library
-#     ${ignition-gazebo.core}
-#     ScenarioCore::CoreUtils
-#     ScenarioGazebo::ScenarioGazebo
-#     ScenarioGazebo::ExtraComponents
-#     ${ignition-fuel_tools.ignition-fuel_tools})
-#
-# set_target_properties(GazeboSimulator PROPERTIES
-#     PUBLIC_HEADER include/scenario/gazebo/GazeboSimulator.h)
+set_target_properties(ScenarioMonopod PROPERTIES
+PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
 
 # ===================
 # Install the targets
 # ===================
 
-get_property(TPL_IS_IMPORTED
-    TARGET tiny-process-library::tiny-process-library
-    PROPERTY IMPORTED)
-
-if(TPL_IS_IMPORTED)
-    set(EXPORT_TPL_TARGET)
-else()
-    set(EXPORT_TPL_TARGET tiny-process-library)
-endif()
-
-# install(
-#     TARGETS
-#     ExtraComponents ${EXPORT_TPL_TARGET}
-#     EXPORT ScenarioGazeboExport
-#     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
-#     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}
-#     RUNTIME DESTINATION ${SCENARIO_INSTALL_BINDIR}
-#     PUBLIC_HEADER DESTINATION
-#     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/gazebo/components)
-#
-# install(
-#     TARGETS
-#     ScenarioGazebo GazeboSimulator
-#     EXPORT ScenarioGazeboExport
-#     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
-#     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}
-#     RUNTIME DESTINATION ${SCENARIO_INSTALL_BINDIR}
-#     PUBLIC_HEADER DESTINATION
-#     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/gazebo)
-
-install_basic_package_files(ScenarioGazebo
-    COMPONENT Gazebo
+install_basic_package_files(ScenarioMonopod
+    COMPONENT Monopod
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
-    EXPORT ScenarioGazeboExport
-    DEPENDENCIES ScenarioCore ${ignition-gazebo} ${ignition-common}
-    NAMESPACE ScenarioGazebo::
+    EXPORT ScenarioMonopodExport
+    DEPENDENCIES ScenarioCore
+    NAMESPACE ScenarioMonopod::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
     INSTALL_DESTINATION
-    ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioGazebo)
+    ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioMonopod
+)
+
+# install_basic_package_files(<Name>
+#                             COMPATIBILITY <compatibility>
+#                             [VERSION <version>]
+#                             [ARCH_INDEPENDENT]
+#                             [NO_EXPORT | EXPORT <export>] # (default = "EXPORT <Name>")
+#                             [NO_SET_AND_CHECK_MACRO]
+#                             [NO_CHECK_REQUIRED_COMPONENTS_MACRO]
+#                             [VARS_PREFIX <prefix>] # (default = "<Name>")
+#                             [EXPORT_DESTINATION <destination>]
+#                             [INSTALL_DESTINATION <destination>]
+#                             [NAMESPACE <namespace>] # (default = "<Name>::")
+#                             [EXTRA_PATH_VARS_SUFFIX path1 [path2 ...]]
+#                             [CONFIG_TEMPLATE <file>]
+#                             [UPPERCASE_FILENAMES | LOWERCASE_FILENAMES]
+#                             [DEPENDENCIES <dependency1> "<dependency2> [...]" ...]
+#                             [PRIVATE_DEPENDENCIES <dependency1> "<dependency2> [...]" ...]
+#                             [INCLUDE_FILE <file> | INCLUDE_CONTENT <content>]
+#                             [COMPONENT <component>] # (default = "<Name>")
+#                            )
+
+
+
+
+
+# # ===================================
+# # Original CMakeLists for Gazebo
+# # ===================================
+# # set(EXTRA_COMPONENTS_PUBLIC_HEADERS
+# #     include/scenario/gazebo/components/JointPID.h
+# #     include/scenario/gazebo/components/SimulatedTime.h
+# #     include/scenario/gazebo/components/BasePoseTarget.h
+# #     include/scenario/gazebo/components/BaseWorldVelocityTarget.h
+# #     include/scenario/gazebo/components/BaseWorldAccelerationTarget.h
+# #     include/scenario/gazebo/components/JointControlMode.h
+# #     include/scenario/gazebo/components/JointController.h
+# #     include/scenario/gazebo/components/JointPositionTarget.h
+# #     include/scenario/gazebo/components/JointVelocityTarget.h
+# #     include/scenario/gazebo/components/JointAccelerationTarget.h
+# #     include/scenario/gazebo/components/HistoryOfAppliedJointForces.h
+# #     include/scenario/gazebo/components/ExternalWorldWrenchCmdWithDuration.h
+# #     include/scenario/gazebo/components/Timestamp.h
+# #     include/scenario/gazebo/components/JointControllerPeriod.h
+# #     include/scenario/gazebo/components/JointAcceleration.h
+# #     )
+# #
+# # add_library(ExtraComponents INTERFACE)
+# # add_library(ScenarioGazebo::ExtraComponents ALIAS ExtraComponents)
+#
+# # target_include_directories(ExtraComponents INTERFACE
+# #     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+# #     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+# #
+# # target_link_libraries(ExtraComponents INTERFACE ${ignition-gazebo.core})
+# #
+# # set_target_properties(ExtraComponents PROPERTIES
+# #     PUBLIC_HEADER "${EXTRA_COMPONENTS_PUBLIC_HEADERS}")
+# #
+# # # https://stackoverflow.com/a/29214327
+# # # As a workaround target_sources can be used, however it requires more
+# # # boilerplate code and it has probles when exporting the INTERFACE target:
+# # # https://crascit.com/2016/01/31/enhanced-source-file-handling-with-target_sources/
+# # add_custom_target(GazeboExtraComponents SOURCES ${EXTRA_COMPONENTS_PUBLIC_HEADERS})
+#
+# # ==============
+# # ScenarioGazebo
+# # ==============
+#
+# set(SCENARIO_GAZEBO_PUBLIC_HDRS
+#     include/scenario/gazebo/World.h
+#     include/scenario/gazebo/Model.h
+#     include/scenario/gazebo/Joint.h)
+#
+# add_library(ScenarioGazebo
+#     ${SCENARIO_GAZEBO_PUBLIC_HDRS}
+#     src/World.cpp
+#     src/Model.cpp
+#     src/Joint.cpp)
+# add_library(ScenarioGazebo::ScenarioGazebo ALIAS ScenarioGazebo)
+#
+# target_include_directories(ScenarioGazebo PUBLIC
+#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+#
+# target_link_libraries(ScenarioGazebo
+#     PUBLIC
+#     ScenarioCore::ScenarioABC
+#     ${ignition-gazebo.core}
+#     ${ignition-common.ignition-common}
+#     PRIVATE
+#     ScenarioCore::CoreUtils
+#     ScenarioGazebo::ExtraComponents
+#     ${ignition-physics.ignition-physics}
+#     ${ignition-fuel_tools.ignition-fuel_tools})
+#
+# set_target_properties(ScenarioGazebo PROPERTIES
+#     PUBLIC_HEADER "${SCENARIO_GAZEBO_PUBLIC_HDRS}")
+#
+# # # ===============
+# # # GazeboSimulator
+# # # ===============
+# #
+# # add_library(GazeboSimulator
+# #     include/scenario/gazebo/GazeboSimulator.h
+# #     src/GazeboSimulator.cpp)
+# # add_library(ScenarioGazebo::GazeboSimulator ALIAS GazeboSimulator)
+# #
+# # target_include_directories(GazeboSimulator PUBLIC
+# #     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+# #     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+# #
+# # target_link_libraries(GazeboSimulator
+# #     PUBLIC
+# #     ScenarioCore::ScenarioABC
+# #     PRIVATE
+# #     tiny-process-library::tiny-process-library
+# #     ${ignition-gazebo.core}
+# #     ScenarioCore::CoreUtils
+# #     ScenarioGazebo::ScenarioGazebo
+# #     ScenarioGazebo::ExtraComponents
+# #     ${ignition-fuel_tools.ignition-fuel_tools})
+# #
+# # set_target_properties(GazeboSimulator PROPERTIES
+# #     PUBLIC_HEADER include/scenario/gazebo/GazeboSimulator.h)
+#
+# # ===================
+# # Install the targets
+# # ===================
+# # # https://github.com/eidheim/tiny-process-library
+# # get_property(TPL_IS_IMPORTED
+# #     TARGET tiny-process-library::tiny-process-library
+# #     PROPERTY IMPORTED)
+# #
+# # if(TPL_IS_IMPORTED)
+# #     set(EXPORT_TPL_TARGET)
+# # else()
+# #     set(EXPORT_TPL_TARGET tiny-process-library)
+# # endif()
+# #
+# # install(
+# #     TARGETS
+# #     ExtraComponents ${EXPORT_TPL_TARGET}
+# #     EXPORT ScenarioGazeboExport
+# #     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+# #     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+# #     RUNTIME DESTINATION ${SCENARIO_INSTALL_BINDIR}
+# #     PUBLIC_HEADER DESTINATION
+# #     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/gazebo/components)
+#
+# # install(
+# #     TARGETS
+# #     ScenarioGazebo GazeboSimulator
+# #     EXPORT ScenarioGazeboExport
+# #     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+# #     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+# #     RUNTIME DESTINATION ${SCENARIO_INSTALL_BINDIR}
+# #     PUBLIC_HEADER DESTINATION
+# #     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/gazebo)
+#
+# install_basic_package_files(ScenarioGazebo
+#     COMPONENT Gazebo
+#     VERSION ${PROJECT_VERSION}
+#     COMPATIBILITY AnyNewerVersion
+#     EXPORT ScenarioGazeboExport
+#     DEPENDENCIES ScenarioCore ${ignition-gazebo} ${ignition-common}
+#     NAMESPACE ScenarioGazebo::
+#     NO_CHECK_REQUIRED_COMPONENTS_MACRO
+#     INSTALL_DESTINATION
+#     ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioGazebo)
