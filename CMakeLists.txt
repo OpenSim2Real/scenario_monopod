@@ -153,10 +153,8 @@ add_subdirectory(src)
 # BINDINGS
 # ========
 
-# Require to find Ignition libraries when packaging for PyPI
-if(SCENARIO_CALL_FROM_SETUP_PY AND NOT USE_IGNITION)
-    message(FATAL_ERROR "Found no Ignition distribution for PyPI package")
-endif()
+# Disable bindings right now.
+set(SCENARIO_ENABLE_BINDINGS OFF)
 
 if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)
