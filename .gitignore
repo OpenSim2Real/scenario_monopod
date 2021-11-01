@@ -1,54 +1,26 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-**/__pycache__
+*.o
+*.cbp
+*.cmake
+CMakeCache.txt
+cmake_install.cmake
+bin/
+build/
+CMakeLists.txt.user
+**/CMakeFiles/
+venv
+**/.idea
+CMakeScripts
+Testing
+Makefile
+
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+cmake-build-debug/
+
+c++11-features/async_task/async_task.exe
+
 
 .tags
 .tags1
-
-# C extensions
-*.so
-
-# Distribution / packaging
-bin/
-build/
-develop-eggs/
-dist/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-
-# Translations
-*.mo
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
-
-# Rope
-.ropeproject
-
-# Django stuff:
-*.log
-*.pot
-
-# Sphinx documentation
-docs/_build/

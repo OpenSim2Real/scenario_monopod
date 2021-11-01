@@ -11,7 +11,15 @@ int main(int argc, char* argv[])
 {
     // Create the simulator
     scenario::monopod::World world;
+    std::cout << world.name()
+              << std::endl;
 
-    std::cout << world.name();
+    auto modelNames = world.modelNames();
+    std::cout << modelNames
+              << std::endl;
+
+    auto monopod = world.getModel(modelNames[0]);
+    std::cout << monopod.name()
+              << std::endl;
     return 0;
 }
