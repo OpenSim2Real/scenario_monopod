@@ -250,31 +250,26 @@ bool Model::Impl::setJointDataSerialized(
 
     size_t expectedDOFs = 0;
 
-    // Set the Total DOF for jointnames passed into func.
-    // otherwise do all joints
-    if (!jointNames.empty()) {
-        expectedDOFs = model->dofs(jointNames);
-        jointSerialization = jointNames;
-    }
-    else {
-        expectedDOFs = model->dofs();
-        jointSerialization = model->jointNames();
-    }
+    jointSerialization = jointNames.empty() ? model->jointNames() : jointNames;
+    expectedDOFs = model->dofs(jointSerialization);
 
     if (data.size() != expectedDOFs) {
-        // sError << "The size of value being set for each joint "
-        //        << "does not match the considered joint's DOFs."
-        //        << std::endl;
         std::cout << "The size of value being set for each joint "
                   << "does not match the considered joint's DOFs."
                   << std::endl;
+        // sError << "The size of value being set for each joint "
+        //        << "does not match the considered joint's DOFs."
+        //        << std::endl;
         return false;
     }
 
     auto it = data.begin();
+
     for (auto& joint : model->joints(jointNames)) {
+
         std::vector<double> values;
         values.reserve(joint->dofs());
+
         for (size_t dof = 0; dof < joint->dofs(); ++dof) {
           values.push_back(*it++);
         }
@@ -283,7 +278,7 @@ bool Model::Impl::setJointDataSerialized(
             // sError << "Failed to set force of joint '" << joint->name()
             //        << "'" << std::endl;
             std::cout << "Failed to set force of joint '" << joint->name()
-                   << "'" << std::endl;
+                      << "'" << std::endl;
             return false;
         }
     }

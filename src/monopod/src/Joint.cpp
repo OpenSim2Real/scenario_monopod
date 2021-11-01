@@ -156,6 +156,8 @@ std::vector<double> Joint::jointPosition() const
         //        << std::endl;
     }
 
+    std::cout << "Getting position for joint, " + this->name() << std::endl;
+
     return jointPosition;
 }
 
@@ -172,6 +174,8 @@ std::vector<double> Joint::jointVelocity() const
         //        << this->name() + "' does not match the joint's DOFs."
         //        << std::endl;
     }
+
+    std::cout << "Getting velocity for joint, " + this->name() << std::endl;
 
     return jointVelocity;
 }
@@ -190,6 +194,8 @@ std::vector<double> Joint::jointAcceleration() const
         //        << std::endl;
     }
 
+    std::cout << "Getting acceleration for joint, " + this->name() << std::endl;
+
     return jointAcceleration;
 }
 
@@ -202,7 +208,7 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 {
     if (force.size() != this->dofs()) {
         std::cout << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-               << std::endl;
+                  << std::endl;
         // sError << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
         //        << std::endl;
         return false;
@@ -213,10 +219,30 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
     for (size_t dof = 0; dof < this->dofs(); ++dof) {
         if (std::abs(force[dof]) > maxForce[dof]) {
             std::cout << "The force target is higher than the limit. "
-                     << "The physics engine might clip it." << std::endl;
+                      << "The physics engine might clip it."
+                      << std::endl;
             // sWarning << "The force target is higher than the limit. "
             //          << "The physics engine might clip it." << std::endl;
         }
+    }
+
+    switch (this->controlMode()) {
+        case core::JointControlMode::Position:
+        case core::JointControlMode::PositionInterpolated:
+        case core::JointControlMode::Velocity:
+        case core::JointControlMode::VelocityFollowerDart:
+        case core::JointControlMode::Idle:
+        case core::JointControlMode::Invalid:
+            std::cout << "Joint, '" + this->name()
+                      << "' is not in force control mode."
+                      << std::endl;
+            // sError << "Only support force control mode."
+            //        << std::endl;
+            return false;
+        case core::JointControlMode::Force:
+            // Set the component data
+            pImpl->forceTarget = force;
+            break;
     }
 
     // Print values for testing
@@ -225,8 +251,6 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
         std::cout << i << ", ";
     std::cout << std::endl;
 
-    // Set the component data
-    pImpl->forceTarget = force;
     return true;
 }
 

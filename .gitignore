@@ -21,6 +21,7 @@ cmake-build-debug/
 
 c++11-features/async_task/async_task.exe
 
+**/**.so
 
 .tags
 .tags1
