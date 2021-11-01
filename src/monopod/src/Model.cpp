@@ -40,7 +40,23 @@ public:
 
 Model::Model()
     : pImpl{std::make_unique<Impl>()}
-{}
+{
+    // Get the joint names from api
+    // Currently a place holder
+    std::vector<std::string> jointNames = {"upper_leg_joint", "lower_leg_joint",
+                                "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
+    // Set up all the joints.
+    for (auto& jointName : jointNames) {
+        // Initialize The joint
+        // Will need to include the Robot SDK to be passed into the initialize
+        auto joint = std::make_shared<scenario::monopod::Joint>();
+        joint->initialize(jointName, this->name());
+        // Cache joint
+        pImpl->joints[jointName] = joint;
+    }
+    // Do not need to store the joint name.
+    // It will be Cached the first time it is called.
+}
 
 Model::~Model() = default;
 
@@ -52,11 +68,6 @@ uint64_t Model::id() const
     // Return the hashed string
     return std::hash<std::string>{}(scopedModelName);
 }
-
-// bool Model::initialize()
-// {
-//     return true;
-// }
 
 bool Model::valid() const
 {
@@ -98,9 +109,10 @@ std::vector<std::string> Model::jointNames(const bool scoped) const
 
     std::vector<std::string> jointNames;
     for(auto& itr : pImpl->joints){
-        std::string prefix = this->name() + "::" + itr.second->name(scoped);
+        std::string prefix = itr.second->name(scoped);
         jointNames.push_back(prefix);
-      }
+    }
+
     if (scoped) {
         pImpl->buffers.scopedJointNames = std::move(jointNames);
         return pImpl->buffers.scopedJointNames.value();
@@ -260,13 +272,13 @@ bool Model::Impl::setJointDataSerialized(
     }
 
     auto it = data.begin();
-
     for (auto& joint : model->joints(jointNames)) {
         std::vector<double> values;
         values.reserve(joint->dofs());
         for (size_t dof = 0; dof < joint->dofs(); ++dof) {
           values.push_back(*it++);
         }
+
         if (!setJointData(joint, values)) {
             // sError << "Failed to set force of joint '" << joint->name()
             //        << "'" << std::endl;

@@ -6,6 +6,7 @@
 #include <ostream>
 #include <iostream>
 #include <stdexcept>
+#include <limits>
 
 using namespace scenario::monopod;
 const scenario::core::PID DefaultPID;
@@ -14,10 +15,11 @@ class Joint::Impl
 {
 public:
     // We only have Revolute joints
+    scenario::core::JointControlMode jointControlMode = core::JointControlMode::Idle;
     core::JointType jointType = core::JointType::Revolute;
     std::vector<double> forceTarget;
     std::vector<double> jointMaxGeneralizedForce;
-    scenario::core::JointControlMode jointControlMode = core::JointControlMode::Idle;
+    std::string parentModelName;
     std::string name;
 };
 
@@ -31,21 +33,28 @@ uint64_t Joint::id() const
 {
     // Build a unique string identifier of this joint
     const std::string scopedJointName =
-        "monopod::" + this->name(/*scoped=*/true);
+        pImpl->parentModelName + "::" + this->name(/*scoped=*/true);
 
     // Return the hashed string
     return std::hash<std::string>{}(scopedJointName);
 }
 
-bool Joint::initialize(const std::string _name)
+bool Joint::initialize(const std::string _name, const std::string _model_name)
 {
+    // Set the names...
     pImpl->name = _name;
+    pImpl->parentModelName = _model_name;
+
+    // Default max Force is set to inf by default..
+    std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
+    pImpl->jointMaxGeneralizedForce = std::move(defaultMaxForce);
+
+    // Set the force targets to 0 for all DOF...
     std::vector<double> forcetarget(this->dofs(), 0);
     pImpl->forceTarget = forcetarget;
-
     if (this->dofs() > 1) {
         std::cout << "Joints with DoFs > 1 are not currently supported"
-               << std::endl;
+                  << std::endl;
         // sError << "Joints with DoFs > 1 are not currently supported"
         //        << std::endl;
         return false;
@@ -85,8 +94,10 @@ std::string Joint::name(const bool scoped) const
 {
     std::string jointName;
     if (scoped) {
-        jointName = "monopod::" + pImpl->name;
+        jointName = pImpl->parentModelName + "::" + pImpl->name;
         // jointName = utils::getParentModel(*this)->name() + "::" + jointName;
+    }else{
+        jointName = pImpl->name;
     }
     return jointName;
 }
@@ -115,7 +126,7 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
 
 scenario::core::JointControlMode Joint::controlMode() const
 {
-    const core::JointControlMode mode = pImpl->jointControlMode;
+    const core::JointControlMode& mode = pImpl->jointControlMode;
     return mode;
 }
 
@@ -207,6 +218,12 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
             //          << "The physics engine might clip it." << std::endl;
         }
     }
+
+    // Print values for testing
+    std::cout << "Setting the joint, " + this->name() + ", to the force value: ";
+    for (auto i: force)
+        std::cout << i << ", ";
+    std::cout << std::endl;
 
     // Set the component data
     pImpl->forceTarget = force;

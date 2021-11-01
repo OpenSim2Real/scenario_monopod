@@ -21,7 +21,7 @@ public:
 
         uint64_t id() const;
 
-        bool initialize(const std::string _name);
+        bool initialize(const std::string _name, const std::string _model_name);
 
         /**
          * Check if the joint is valid.
