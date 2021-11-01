@@ -1,44 +1,36 @@
+
 # ==============
-# Find scanrio Core dependencies
+# ScenarioMonopod
 # ==============
 
-# Fix the path here...
-set(ENV{CMAKE_PREFIX_PATH} ~/.local/lib/python3.8/site-packages/scenario)
-find_package(Scenario COMPONENTS Core REQUIRED)
+set(SCENARIO_MONOPOD_PUBLIC_HDRS
+    include/scenario/monopod/World.h
+    include/scenario/monopod/Model.h
+    include/scenario/monopod/Joint.h)
+
+add_library(ScenarioMonopod
+    ${SCENARIO_MONOPOD_PUBLIC_HDRS}
+    src/World.cpp
+    src/Model.cpp
+    src/Joint.cpp)
+add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
+
+target_include_directories(ScenarioMonopod PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+
+target_link_libraries(ScenarioMonopod
+    PUBLIC
+    ScenarioCore::ScenarioABC
+    PRIVATE
+    ScenarioCore::CoreUtils
+    # ${dependency path}
+  )
+
+set_target_properties(ScenarioMonopod PROPERTIES
+PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
 
 # Hide this until we need to deploy
-
-# # ==============
-# # ScenarioMonopod
-# # ==============
-#
-# set(SCENARIO_MONOPOD_PUBLIC_HDRS
-#     include/scenario/monopod/World.h
-#     include/scenario/monopod/Model.h
-#     include/scenario/monopod/Joint.h)
-#
-# add_library(ScenarioMonopod
-#     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
-#     src/World.cpp
-#     src/Model.cpp
-#     src/Joint.cpp)
-# add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
-#
-# target_include_directories(ScenarioMonopod PUBLIC
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
-#
-# target_link_libraries(ScenarioMonopod
-#     PUBLIC
-#     ScenarioCore::ScenarioABC
-#     PRIVATE
-#     ScenarioCore::CoreUtils
-#     # ${dependency path}
-#   )
-#
-# set_target_properties(ScenarioMonopod PROPERTIES
-# PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
-#
 # # ===================
 # # Install the targets
 # # ===================

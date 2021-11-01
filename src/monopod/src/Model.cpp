@@ -7,6 +7,7 @@
 #include <chrono>
 #include <functional>
 #include <tuple>
+#include <iostream>
 #include <unordered_map>
 #include <stdexcept>
 
@@ -28,13 +29,13 @@ public:
     static std::vector<double> getJointDataSerialized(
         const Model* model,
         const std::vector<std::string>& jointNames,
-        std::function<double(core::JointPtr)> getJointData);
+        std::function<std::vector<double>(core::JointPtr)> getJointData);
 
     static bool setJointDataSerialized(
         Model* model,
         const std::vector<double>& data,
         const std::vector<std::string>& jointNames,
-        std::function<bool(core::JointPtr, const double)> setJointData);
+        std::function<bool(core::JointPtr, const std::vector<double>)> setJointData);
 };
 
 Model::Model()
@@ -52,15 +53,15 @@ uint64_t Model::id() const
     return std::hash<std::string>{}(scopedModelName);
 }
 
-bool Model::initialize()
-{
-    return true;
-}
+// bool Model::initialize()
+// {
+//     return true;
+// }
 
 bool Model::valid() const
 {
     bool ok = true;
-    for (auto& joint : this->joints(model->jointNames())) {
+    for (auto& joint : this->joints(this->jointNames())) {
         ok = ok && joint->valid();
     }
     return ok;
@@ -91,13 +92,13 @@ std::vector<std::string> Model::jointNames(const bool scoped) const
     if (!scoped && pImpl->buffers.jointNames.has_value()) {
         return pImpl->buffers.jointNames.value();
     }
-    if (scoped && pImpl->buffers.scopedLinkNames.has_value()) {
-        return pImpl->buffers.scopedLinkNames.value();
+    if (scoped && pImpl->buffers.scopedJointNames.has_value()) {
+        return pImpl->buffers.scopedJointNames.value();
     }
 
     std::vector<std::string> jointNames;
-    for(auto& itr : pImpl->Joints){
-        prefix = this->name() + "::" + itr.second->name(scoped);
+    for(auto& itr : pImpl->joints){
+        std::string prefix = this->name() + "::" + itr.second->name(scoped);
         jointNames.push_back(prefix);
       }
     if (scoped) {
@@ -116,10 +117,10 @@ scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
         return pImpl->joints.at(jointName);
     }
     std::string str = " ";
-    for(auto& name: pImpl->buffers.jointNames)
+    for(auto& name: this->jointNames())
         str = str + " " + name;
-    sError << "Joint name does not exist in model. Available models are: " + str +
-           << std::endl;
+    // sError << "Joint name does not exist in model. Available models are: " + str +
+    //        << std::endl;
     throw std::invalid_argument( "Joint name does not exist in model. Available models are: " + str );
 }
 
@@ -155,7 +156,7 @@ bool Model::setJointControlMode(const scenario::core::JointControlMode mode,
 std::vector<double>
 Model::jointPositions(const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint) -> double {
+    auto lambda = [](core::JointPtr joint) -> std::vector<double>  {
         return joint->jointPosition();
     };
 
@@ -165,7 +166,7 @@ Model::jointPositions(const std::vector<std::string>& jointNames) const
 std::vector<double>
 Model::jointVelocities(const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint) -> double {
+    auto lambda = [](core::JointPtr joint) -> std::vector<double>  {
         return joint->jointVelocity();
     };
 
@@ -175,7 +176,7 @@ Model::jointVelocities(const std::vector<std::string>& jointNames) const
 std::vector<double>
 Model::jointAccelerations(const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint) -> double {
+    auto lambda = [](core::JointPtr joint) -> std::vector<double>  {
         return joint->jointAcceleration();
     };
 
@@ -186,8 +187,7 @@ bool Model::setJointGeneralizedForceTargets(
     const std::vector<double>& forces,
     const std::vector<std::string>& jointNames)
 {
-    auto lambda =
-        [](core::JointPtr joint, const double force) -> bool {
+    auto lambda = [](core::JointPtr joint, const std::vector<double> force) -> bool {
         return joint->setJointGeneralizedForceTarget(force);
     };
 
@@ -197,7 +197,7 @@ bool Model::setJointGeneralizedForceTargets(
 std::vector<double> Model::jointGeneralizedForceTargets(
     const std::vector<std::string>& jointNames) const
 {
-    auto lambda = [](core::JointPtr joint) -> double {
+    auto lambda = [](core::JointPtr joint) -> std::vector<double> {
         return joint->jointGeneralizedForceTarget();
     };
 
@@ -211,7 +211,7 @@ std::vector<double> Model::jointGeneralizedForceTargets(
 std::vector<double> Model::Impl::getJointDataSerialized(
     const Model* model,
     const std::vector<std::string>& jointNames,
-    std::function<double(core::JointPtr)> getJointData)
+    std::function<std::vector<double>(core::JointPtr)> getJointData)
 {
     const std::vector<std::string>& jointSerialization =
         jointNames.empty() ? model->jointNames() : jointNames;
@@ -232,7 +232,7 @@ bool Model::Impl::setJointDataSerialized(
     Model* model,
     const std::vector<double>& data,
     const std::vector<std::string>& jointNames,
-    std::function<bool(core::JointPtr, const double)> setJointData)
+    std::function<bool(core::JointPtr, const std::vector<double>)> setJointData)
 {
     std::vector<std::string> jointSerialization;
 
@@ -250,9 +250,12 @@ bool Model::Impl::setJointDataSerialized(
     }
 
     if (data.size() != expectedDOFs) {
-        sError << "The size of value being set for each joint "
-               << "does not match the considered joint's DOFs."
-               << std::endl;
+        // sError << "The size of value being set for each joint "
+        //        << "does not match the considered joint's DOFs."
+        //        << std::endl;
+        std::cout << "The size of value being set for each joint "
+                  << "does not match the considered joint's DOFs."
+                  << std::endl;
         return false;
     }
 
@@ -265,7 +268,9 @@ bool Model::Impl::setJointDataSerialized(
           values.push_back(*it++);
         }
         if (!setJointData(joint, values)) {
-            sError << "Failed to set force of joint '" << joint->name()
+            // sError << "Failed to set force of joint '" << joint->name()
+            //        << "'" << std::endl;
+            std::cout << "Failed to set force of joint '" << joint->name()
                    << "'" << std::endl;
             return false;
         }

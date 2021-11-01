@@ -5,15 +5,13 @@
 #include <chrono>
 #include <string>
 #include <thread>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
     // Create the simulator
-    auto world = scenario::gazebo::world();
+    scenario::monopod::World world;
 
-    // Initialize the simulator
-    world.initialize();
-
-    cout << world.name();
+    std::cout << world.name();
     return 0;
 }

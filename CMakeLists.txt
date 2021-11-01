@@ -138,7 +138,7 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 # Helper for exporting targets
 # talking about this package here
 # http://robotology.github.io/ycm/gh-pages/git-master/module/InstallBasicPackageFiles.html
-include(InstallBasicPackageFiles)
+# include(InstallBasicPackageFiles)
 
 # =========
 # SCENARI/O

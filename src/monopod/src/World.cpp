@@ -1,47 +1,22 @@
-/*
- * Copyright (C) 2020 Istituto Italiano di Tecnologia (IIT)
- * All rights reserved.
- *
- * This project is dual licensed under LGPL v2.1+ or Apache License.
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- * This software may be modified and distributed under the terms of the
- * GNU Lesser General Public License v2.1 or any later version.
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include "scenario/monopod/World.h"
-#include "scenario/monopod/Log.h"
 #include "scenario/monopod/Model.h"
+#include "scenario/monopod/Joint.h"
 
 #include <algorithm>
 #include <cassert>
+#include <ostream>
 #include <stdexcept>
 #include <functional>
 #include <unordered_map>
 
-using namespace scenario::gazebo;
+using namespace scenario::monopod;
 
 class World::Impl
 {
 public:
 
     using ModelName = std::string;
-    std::unordered_map<ModelName, core::ModelPtr> models;
+    std::unordered_map<ModelName, scenario::core::ModelPtr> models;
 
     struct
     {
@@ -54,7 +29,17 @@ public:
 
 World::World()
     : pImpl{std::make_unique<Impl>()}
-{}
+{
+    pImpl->buffers.worldName  = "real_world";
+    std::string modelName = "monopod";
+    // initialize the model.
+    pImpl->buffers.modelNames.clear();
+    pImpl->buffers.modelNames.push_back(modelName);
+
+    // Initialize our model class
+    auto model = std::make_shared<scenario::monopod::Model>();
+    pImpl->models[modelName] = model;
+}
 
 World::~World() = default;
 
@@ -63,19 +48,27 @@ uint64_t World::id() const
     return std::hash<std::string>{}(this->name());
 }
 
-bool World::initialize()
+bool World::valid() const
 {
-    pImpl->buffers.worldName  = "real_world";
-    std::string modelName = "monopod"
-    // initialize the model.
-    pImpl->buffers.modelNames.clear();
-    pImpl->buffers.modelNames.push_back(modelName);
+    bool ok = true;
+    for (auto& model : this->models(this->modelNames())) {
+        ok = ok && model->valid();
+    }
+    return ok;
+}
 
-    // Initialize our model class
-    auto model = std::make_shared<scenario::gazebo::Model>();
-    model->initialize();
-    pImpl->models[modelName] = model;
-    return true;
+std::vector<scenario::core::ModelPtr> World::models(const std::vector<std::string>& modelNames) const
+{
+    const std::vector<std::string>& modelSerialization =
+        modelNames.empty() ? this->modelNames() : modelNames;
+
+    std::vector<core::ModelPtr> models;
+
+    for (const auto& modelName : modelSerialization) {
+        models.push_back(this->getModel(modelName));
+    }
+
+    return models;
 }
 
 std::string World::name() const
@@ -98,7 +91,7 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
     std::string str = " ";
     for(auto& name: pImpl->buffers.modelNames)
         str = str + " " + name;
-    sError << "Model name does not exist in world. Available models are: " + str +
-           << std::endl;
+    // sError << "Model name does not exist in world. Available models are: " + str
+    //        << std::endl;
     throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str );
 }

@@ -12,23 +12,23 @@ namespace scenario::monopod {
     class Joint;
 } // namespace scenario::monopod
 
-class scenario::monopod::Joint final
-    : public scenario::core::Joint
+using namespace scenario::monopod;
+class scenario::monopod::Joint final : public scenario::core::Joint
 {
 public:
     Joint();
     virtual ~Joint();
 
-        uint64_t id() const override;
+        uint64_t id() const;
 
-        bool initialize(const string _name) override;
-        
+        bool initialize(const std::string _name);
+
         /**
          * Check if the joint is valid.
          *
          * @return True if the model is valid, false otherwise.
          */
-        virtual bool valid() const = 0;
+        bool valid() const override;
 
         /**
          * Get the number of degrees of freedom of the joint.
@@ -50,7 +50,7 @@ public:
          *
          * @return The type of the joint.
          */
-        JointType type() const override;
+        core::JointType type() const override;
 
         /**
          * Set the joint control mode.
@@ -58,7 +58,7 @@ public:
          * @param mode The desired control mode.
          * @return True for success, false otherwise.
          */
-        bool setControlMode(const JointControlMode mode) override;
+        bool setControlMode(const core::JointControlMode mode) override;
 
         /**
          * get the joint control mode.
@@ -66,7 +66,7 @@ public:
          * @return the joint control mode
          */
 
-        scenario::core::JointControlMode Joint::controlMode() override;
+        core::JointControlMode controlMode() const override;
 
         /**
          * Get the PID parameters of the joint.
@@ -77,7 +77,7 @@ public:
          * @return The joint PID parameters.
          */
 
-        PID pid() const override;
+        core::PID pid() const override;
 
         /**
          * Set the PID parameters of the joint.
@@ -85,7 +85,7 @@ public:
          * @param pid The desired PID parameters.
          * @return True for success, false otherwise.
          */
-        bool setPID(const PID& pid) override;
+        bool setPID(const core::PID& pid) override;
 
         /**
          * Get the maximum generalized force that could be applied to the joint.
@@ -151,7 +151,138 @@ public:
     private:
         class Impl;
         std::unique_ptr<Impl> pImpl;
+
+        // =============
+        // Scenario core
+        // =============
+
+       double controllerPeriod() const override;
+
+       bool historyOfAppliedJointForcesEnabled() const override;
+
+       bool enableHistoryOfAppliedJointForces(
+           const bool enable = true,
+           const size_t maxHistorySize = 100) override;
+
+       std::vector<double> historyOfAppliedJointForces() const override;
+
+       double coulombFriction() const override;
+
+       double viscousFriction() const override;
+
+       // ==================
+       // Single DOF methods
+       // ==================
+
+       core::Limit positionLimit(const size_t dof = 0) const override;
+
+       core::Limit velocityLimit(const size_t dof = 0) const override;
+
+       bool setVelocityLimit(const double maxVelocity,
+                             const size_t dof = 0) override;
+
+       double maxGeneralizedForce(const size_t dof = 0) const override;
+
+       bool setMaxGeneralizedForce(const double maxForce,
+                                   const size_t dof = 0) override;
+
+       double position(const size_t dof = 0) const override;
+
+       double velocity(const size_t dof = 0) const override;
+
+       double acceleration(const size_t dof = 0) const override;
+
+       double generalizedForce(const size_t dof = 0) const override;
+
+       bool setPositionTarget(const double position,
+                              const size_t dof = 0) override;
+
+       bool setVelocityTarget(const double velocity,
+                              const size_t dof = 0) override;
+
+       bool setAccelerationTarget(const double acceleration,
+                                  const size_t dof = 0) override;
+
+       bool setGeneralizedForceTarget(const double force,
+                                      const size_t dof = 0) override;
+
+       double positionTarget(const size_t dof = 0) const override;
+
+       double velocityTarget(const size_t dof = 0) const override;
+
+       double accelerationTarget(const size_t dof = 0) const override;
+
+       double generalizedForceTarget(const size_t dof = 0) const override;
+
+       // =================
+       // Multi DOF methods
+       // =================
+
+       core::JointLimit jointPositionLimit() const override;
+
+       core::JointLimit jointVelocityLimit() const override;
+
+       bool setJointVelocityLimit(const std::vector<double>& maxVelocity) override;
+
+       std::vector<double> jointGeneralizedForce() const override;
+
+       bool setJointPositionTarget(const std::vector<double>& position) override;
+
+       bool setJointVelocityTarget(const std::vector<double>& velocity) override;
+
+       bool setJointAccelerationTarget(
+           const std::vector<double>& acceleration) override;
+
+       std::vector<double> jointPositionTarget() const override;
+
+       std::vector<double> jointVelocityTarget() const override;
+
+       std::vector<double> jointAccelerationTarget() const override;
+
     };
+
+    // =============
+    // Scenario core
+    // =============
+   inline double scenario::monopod::Joint::controllerPeriod() const {exit(0);};
+   inline bool scenario::monopod::Joint::historyOfAppliedJointForcesEnabled() const {exit(0);};
+   inline bool scenario::monopod::Joint::enableHistoryOfAppliedJointForces( const bool enable, const size_t maxHistorySize) {exit(0);};
+   inline std::vector<double> scenario::monopod::Joint::historyOfAppliedJointForces() const {exit(0);};
+   inline double scenario::monopod::Joint::coulombFriction() const {exit(0);};
+   inline double scenario::monopod::Joint::viscousFriction() const {exit(0);};
+   // ==================
+   // Single DOF methods
+   // ==================
+   inline scenario::core::Limit scenario::monopod::Joint::positionLimit(const size_t dof) const {exit(0);};
+   inline scenario::core::Limit scenario::monopod::Joint::velocityLimit(const size_t dof) const {exit(0);};
+   inline bool scenario::monopod::Joint::setVelocityLimit(const double maxVelocity, const size_t dof) {exit(0);};
+   inline double scenario::monopod::Joint::maxGeneralizedForce(const size_t dof) const {exit(0);};
+   inline bool scenario::monopod::Joint::setMaxGeneralizedForce(const double maxForce, const size_t dof) {exit(0);};
+   inline double scenario::monopod::Joint::position(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::velocity(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::acceleration(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::generalizedForce(const size_t dof) const {exit(0);};
+   inline bool scenario::monopod::Joint::setPositionTarget(const double position, const size_t dof) {exit(0);};
+   inline bool scenario::monopod::Joint::setVelocityTarget(const double velocity, const size_t dof) {exit(0);};
+   inline bool scenario::monopod::Joint::setAccelerationTarget(const double acceleration, const size_t dof) {exit(0);};
+   inline bool scenario::monopod::Joint::setGeneralizedForceTarget(const double force, const size_t dof) {exit(0);};
+   inline double scenario::monopod::Joint::positionTarget(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::velocityTarget(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::accelerationTarget(const size_t dof) const {exit(0);};
+   inline double scenario::monopod::Joint::generalizedForceTarget(const size_t dof) const {exit(0);};
+   // =================
+   // Multi DOF methods
+   // =================
+   inline scenario::core::JointLimit scenario::monopod::Joint::jointPositionLimit() const {exit(0);};
+   inline scenario::core::JointLimit scenario::monopod::Joint::jointVelocityLimit() const {exit(0);};
+   inline bool scenario::monopod::Joint::setJointVelocityLimit(const std::vector<double>& maxVelocity) {exit(0);};
+   inline std::vector<double> scenario::monopod::Joint::jointGeneralizedForce() const {exit(0);};
+   inline bool scenario::monopod::Joint::setJointVelocityTarget(const std::vector<double>& velocity) {exit(0);};
+   inline bool scenario::monopod::Joint::setJointPositionTarget(const std::vector<double>& position) {exit(0);};
+   inline bool scenario::monopod::Joint::setJointAccelerationTarget(const std::vector<double>& acceleration) {exit(0);};
+   inline std::vector<double> scenario::monopod::Joint::jointPositionTarget() const {exit(0);};
+   inline std::vector<double> scenario::monopod::Joint::jointVelocityTarget() const {exit(0);};
+   inline std::vector<double> scenario::monopod::Joint::jointAccelerationTarget() const {exit(0);};
 
 #endif // SCENARIO_MONOPOD_JOINT_H
 

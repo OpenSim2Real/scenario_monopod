@@ -12,33 +12,36 @@ namespace scenario::monopod {
     class World;
 } // namespace scenario::monopod
 
-class scenario::monopod::World final
-    : public scenario::core::World
+using namespace scenario::monopod;
+
+class scenario::monopod::World final : public scenario::core::World
 {
 public:
     World();
-    virtual ~World();
+    ~World();
+
+    uint64_t id() const;
 
     /**
      * Check if the world is valid.
      *
      * @return True if the world is valid, false otherwise.
      */
-    virtual bool valid() const = 0;
+    bool valid() const override;
 
     /**
      * Get the name of the world.
      *
      * @return The name of the world.
      */
-    virtual std::string name() const = 0;
+    std::string name() const override;
 
     /**
      * Get the name of the models that are part of the world.
      *
      * @return The list of model names.
      */
-    virtual std::vector<std::string> modelNames() const = 0;
+    std::vector<std::string> modelNames() const override;
 
     /**
      * Get a model part of the world.
@@ -46,7 +49,7 @@ public:
      * @param modelName The name of the model to get.
      * @return The model if it is part of the world, ``nullptr`` otherwise.
      */
-    virtual ModelPtr getModel(const std::string& modelName) const = 0;
+    scenario::core::ModelPtr getModel(const std::string& modelName) const override;
 
     /**
      * Get the models of the world.
@@ -55,8 +58,20 @@ public:
      * ``World::modelNames`` is used.
      * @return A vector of pointers to the model objects.
      */
-    virtual std::vector<ModelPtr> models( //
-        const std::vector<std::string>& modelNames = {}) const = 0;
+    std::vector<scenario::core::ModelPtr> models( //
+        const std::vector<std::string>& modelNames = {}) const override;
+private:
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
+    // ==========
+    // World Core
+    // ==========
+
+    double time() const override;
+    std::array<double, 3> gravity() const override;
 };
+
+inline double World::time() const {exit(0);};
+inline std::array<double, 3> World::gravity() const {exit(0);};
 
 #endif // SCENARIO_MONOPOD_WORLD_H
