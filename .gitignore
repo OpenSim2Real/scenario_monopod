@@ -25,3 +25,6 @@ c++11-features/async_task/async_task.exe
 
 .tags
 .tags1
+
+**.log
+**/**.log
