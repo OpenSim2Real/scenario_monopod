@@ -252,6 +252,33 @@ src/World.cpp.s:
 	cd /home/capstone/Documents/Repos/SIM && $(MAKE) -f src/monopod/CMakeFiles/ScenarioMonopod.dir/build.make src/monopod/CMakeFiles/ScenarioMonopod.dir/src/World.cpp.s
 .PHONY : src/World.cpp.s
 
+src/easylogging++.o: src/easylogging++.cc.o
+
+.PHONY : src/easylogging++.o
+
+# target to build an object file
+src/easylogging++.cc.o:
+	cd /home/capstone/Documents/Repos/SIM && $(MAKE) -f src/monopod/CMakeFiles/ScenarioMonopod.dir/build.make src/monopod/CMakeFiles/ScenarioMonopod.dir/src/easylogging++.cc.o
+.PHONY : src/easylogging++.cc.o
+
+src/easylogging++.i: src/easylogging++.cc.i
+
+.PHONY : src/easylogging++.i
+
+# target to preprocess a source file
+src/easylogging++.cc.i:
+	cd /home/capstone/Documents/Repos/SIM && $(MAKE) -f src/monopod/CMakeFiles/ScenarioMonopod.dir/build.make src/monopod/CMakeFiles/ScenarioMonopod.dir/src/easylogging++.cc.i
+.PHONY : src/easylogging++.cc.i
+
+src/easylogging++.s: src/easylogging++.cc.s
+
+.PHONY : src/easylogging++.s
+
+# target to generate assembly for a file
+src/easylogging++.cc.s:
+	cd /home/capstone/Documents/Repos/SIM && $(MAKE) -f src/monopod/CMakeFiles/ScenarioMonopod.dir/build.make src/monopod/CMakeFiles/ScenarioMonopod.dir/src/easylogging++.cc.s
+.PHONY : src/easylogging++.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -274,6 +301,9 @@ help:
 	@echo "... src/World.o"
 	@echo "... src/World.i"
 	@echo "... src/World.s"
+	@echo "... src/easylogging++.o"
+	@echo "... src/easylogging++.i"
+	@echo "... src/easylogging++.s"
 .PHONY : help
 
 

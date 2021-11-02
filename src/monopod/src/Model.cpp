@@ -11,6 +11,8 @@
 #include <unordered_map>
 #include <stdexcept>
 
+#include "scenario/monopod/easylogging++.h"
+
 using namespace scenario::monopod;
 
 class Model::Impl
@@ -131,8 +133,9 @@ scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
     std::string str = " ";
     for(auto& name: this->jointNames())
         str = str + " " + name;
-    // sError << "Joint name does not exist in model. Available models are: " + str +
-    //        << std::endl;
+
+    LOG(ERROR) << "Joint name does not exist in model. Available models are: " + str
+               << std::endl;
     throw std::invalid_argument( "Joint name does not exist in model. Available models are: " + str );
 }
 
@@ -254,12 +257,9 @@ bool Model::Impl::setJointDataSerialized(
     expectedDOFs = model->dofs(jointSerialization);
 
     if (data.size() != expectedDOFs) {
-        std::cout << "The size of value being set for each joint "
-                  << "does not match the considered joint's DOFs."
-                  << std::endl;
-        // sError << "The size of value being set for each joint "
-        //        << "does not match the considered joint's DOFs."
-        //        << std::endl;
+        LOG(ERROR) << "The size of value being set for each joint "
+                   << "does not match the considered joint's DOFs."
+                   << std::endl;
         return false;
     }
 
@@ -275,10 +275,8 @@ bool Model::Impl::setJointDataSerialized(
         }
 
         if (!setJointData(joint, values)) {
-            // sError << "Failed to set force of joint '" << joint->name()
-            //        << "'" << std::endl;
-            std::cout << "Failed to set force of joint '" << joint->name()
-                      << "'" << std::endl;
+            LOG(ERROR) << "Failed to set force of joint '" << joint->name()
+                       << "'" << std::endl;
             return false;
         }
     }

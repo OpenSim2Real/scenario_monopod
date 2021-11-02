@@ -9,6 +9,14 @@
 #include <functional>
 #include <unordered_map>
 
+#include "scenario/monopod/easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP;
+
+// #ifndef ELPP_STL_LOGGING
+// #   define ELPP_STL_LOGGING
+// #endif
+
 using namespace scenario::monopod;
 
 class World::Impl
@@ -30,6 +38,12 @@ public:
 World::World()
     : pImpl{std::make_unique<Impl>()}
 {
+    // char* a = { '--v=2' };
+    // char *args[] = { "--v=0", 0 };
+    // START_EASYLOGGINGPP(1, args);
+    // el::Loggers::addFlag(el::LoggingFlag::HierarchicalLogging);
+    // el::Loggers::setVerboseLevel(9);
+
     pImpl->buffers.worldName  = "real_world";
     std::string modelName = "monopod";
     // initialize the model.
@@ -91,7 +105,8 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
     std::string str = " ";
     for(auto& name: pImpl->buffers.modelNames)
         str = str + " " + name;
-    // sError << "Model name does not exist in world. Available models are: " + str
-    //        << std::endl;
+
+    LOG(ERROR) << "Model name does not exist in world. Available models are: " + str
+               << std::endl;
     throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str );
 }

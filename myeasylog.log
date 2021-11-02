@@ -1,0 +1,355 @@
+2021-11-02 01:43:24,083 INFO [default] My first info log using default logger
+2021-11-02 01:43:47,880 INFO [default] My first info log using default logger
+2021-11-02 01:54:52,174 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+
+2021-11-02 01:54:52,174 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 01:54:52,174 INFO [default] Setting the joint, upper_leg_joint, to the force value: 
+2021-11-02 01:54:52,174 INFO [default] 1, 
+2021-11-02 01:54:52,174 INFO [default] 
+
+2021-11-02 01:54:52,174 INFO [default] Setting the joint, lower_leg_joint, to the force value: 
+2021-11-02 01:54:52,175 INFO [default] 2, 
+2021-11-02 01:54:52,175 INFO [default] 
+
+2021-11-02 01:54:52,175 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 
+2021-11-02 01:54:52,175 INFO [default] 3, 
+2021-11-02 01:54:52,175 INFO [default] 
+
+2021-11-02 01:54:52,175 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 
+2021-11-02 01:54:52,175 INFO [default] 4, 
+2021-11-02 01:54:52,175 INFO [default] 
+
+2021-11-02 01:54:52,175 INFO [default] Setting the joint, hip_joint, to the force value: 
+2021-11-02 01:54:52,175 INFO [default] 5, 
+2021-11-02 01:54:52,175 INFO [default] 
+
+2021-11-02 01:54:52,175 INFO [default] Getting position for joint, upper_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting position for joint, lower_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting position for joint, boom_pitch_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting position for joint, boom_yaw_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting position for joint, hip_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting velocity for joint, upper_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting velocity for joint, lower_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting velocity for joint, boom_pitch_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting velocity for joint, boom_yaw_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting velocity for joint, hip_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting acceleration for joint, upper_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting acceleration for joint, lower_leg_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting acceleration for joint, boom_pitch_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting acceleration for joint, boom_yaw_joint
+
+2021-11-02 01:54:52,175 INFO [default] Getting acceleration for joint, hip_joint
+
+2021-11-02 01:59:24,419 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 01:59:24,419 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 01:59:24,419 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 01:59:24,419 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 01:59:24,419 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 01:59:24,419 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 01:59:24,419 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 01:59:24,419 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 01:59:24,420 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 01:59:24,420 INFO [default] Getting position for joint, hip_joint
+2021-11-02 01:59:24,420 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 01:59:24,420 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 01:59:24,420 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 01:59:24,420 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 01:59:24,420 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 01:59:24,420 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 01:59:24,420 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:00:09,630 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:00:09,630 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:00:09,630 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:00:09,630 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:00:09,630 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:00:09,630 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:00:09,630 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:00:09,631 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:00:09,631 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:00:09,631 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:00:09,631 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:00:09,631 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:00:09,631 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:00:09,631 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:00:09,631 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:00:09,631 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:00:09,631 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:00:21,629 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:00:21,629 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:00:21,629 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:00:21,629 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:00:21,629 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:00:21,629 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:00:21,629 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:00:21,629 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:00:21,630 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:00:21,630 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:00:21,630 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:00:21,630 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:00:21,630 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:00:21,630 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:00:21,630 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:00:21,630 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:00:21,630 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:12:50,919 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:12:50,919 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:12:50,919 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:12:50,919 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:12:50,919 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:12:50,919 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:12:50,919 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:12:50,919 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:12:50,919 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:12:50,919 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:12:50,919 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:12:50,919 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:12:50,919 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:12:50,919 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:12:50,919 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:12:50,920 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:12:50,920 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:12:50,920 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:12:50,920 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:12:50,920 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:12:50,920 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:12:50,920 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:13:04,632 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:13:04,632 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:13:04,632 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:13:04,632 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:13:04,632 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:13:04,632 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:13:04,632 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:13:04,633 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:13:04,633 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:13:04,633 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:13:04,633 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:13:04,633 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:13:04,633 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:13:04,633 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:13:04,633 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:13:04,633 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:13:04,633 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:23:59,426 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:23:59,427 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:23:59,427 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:23:59,427 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:23:59,427 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:23:59,427 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:23:59,427 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:23:59,427 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:23:59,427 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:23:59,427 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:23:59,427 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:23:59,427 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:23:59,427 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:23:59,427 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:23:59,427 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:23:59,427 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:23:59,427 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:31:02,482 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:31:02,482 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:31:02,482 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:31:02,482 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:31:02,482 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:31:02,482 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:31:02,482 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:31:02,482 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:31:02,482 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:31:02,482 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:31:02,482 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:31:02,482 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:31:02,482 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:31:02,482 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:31:02,482 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:31:02,482 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:31:02,482 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:31:21,960 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:31:21,960 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:31:21,961 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:31:21,961 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:31:21,961 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:31:21,961 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:31:21,961 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:31:21,961 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:31:21,961 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:31:21,961 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:31:21,961 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:31:21,961 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:31:21,961 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:31:21,961 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:31:21,961 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:31:21,961 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:31:21,961 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 02:51:05,780 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 02:51:05,780 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 02:51:05,780 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 02:51:05,780 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 02:51:05,780 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 02:51:05,780 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 02:51:05,780 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 02:51:05,780 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 02:51:05,780 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 02:51:05,781 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 02:51:05,781 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 02:51:05,781 INFO [default] Getting position for joint, hip_joint
+2021-11-02 02:51:05,781 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 02:51:05,781 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 02:51:05,781 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 02:51:05,781 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 02:51:05,781 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 02:51:05,781 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 02:51:05,781 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 02:51:05,781 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 02:51:05,781 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 02:51:05,781 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 03:01:09,189 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 03:01:09,189 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 03:01:09,190 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 03:01:09,190 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 03:01:09,190 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 03:01:09,190 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 03:01:09,190 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 03:01:09,190 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 03:01:09,190 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 03:01:09,190 INFO [default] Getting position for joint, hip_joint
+2021-11-02 03:01:09,190 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 03:01:09,190 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 03:01:09,190 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 03:01:09,190 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 03:01:09,190 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 03:01:09,190 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 03:01:09,190 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 03:01:29,798 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 03:01:29,798 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 03:01:29,798 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 03:01:29,798 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 03:01:29,798 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 03:01:29,798 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 03:01:29,798 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 03:01:29,798 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 03:01:29,798 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 03:01:29,798 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 03:01:29,798 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 03:01:29,798 INFO [default] Getting position for joint, hip_joint
+2021-11-02 03:01:29,798 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 03:01:29,798 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 03:01:29,798 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 03:01:29,798 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 03:01:29,798 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 03:01:29,799 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 03:01:29,799 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 03:01:29,799 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 03:01:29,799 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 03:01:29,799 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 03:01:48,372 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 03:01:48,372 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 03:01:48,372 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 03:01:48,372 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 03:01:48,372 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 03:01:48,372 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 03:01:48,372 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 03:01:48,372 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 03:01:48,372 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 03:01:48,372 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 03:01:48,372 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 03:01:48,372 INFO [default] Getting position for joint, hip_joint
+2021-11-02 03:01:48,372 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 03:01:48,372 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 03:01:48,372 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 03:01:48,372 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 03:01:48,372 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 03:01:48,372 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 03:01:48,372 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 03:01:48,373 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 03:01:48,373 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 03:01:48,373 INFO [default] Getting acceleration for joint, hip_joint
+2021-11-02 03:02:04,610 ERROR [default] Joint, 'upper_leg_joint' is not in force control mode.
+2021-11-02 03:02:04,610 ERROR [default] Failed to set force of joint 'upper_leg_joint'
+
+2021-11-02 03:02:04,610 INFO [default] Setting the joint, upper_leg_joint, to the force value: 1.000000, 
+2021-11-02 03:02:04,610 INFO [default] Setting the joint, lower_leg_joint, to the force value: 2.000000, 
+2021-11-02 03:02:04,610 INFO [default] Setting the joint, boom_pitch_joint, to the force value: 3.000000, 
+2021-11-02 03:02:04,610 INFO [default] Setting the joint, boom_yaw_joint, to the force value: 4.000000, 
+2021-11-02 03:02:04,610 INFO [default] Setting the joint, hip_joint, to the force value: 5.000000, 
+2021-11-02 03:02:04,610 INFO [default] Getting position for joint, upper_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting position for joint, lower_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting position for joint, boom_pitch_joint
+2021-11-02 03:02:04,610 INFO [default] Getting position for joint, boom_yaw_joint
+2021-11-02 03:02:04,610 INFO [default] Getting position for joint, hip_joint
+2021-11-02 03:02:04,610 INFO [default] Getting velocity for joint, upper_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting velocity for joint, lower_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting velocity for joint, boom_pitch_joint
+2021-11-02 03:02:04,610 INFO [default] Getting velocity for joint, boom_yaw_joint
+2021-11-02 03:02:04,610 INFO [default] Getting velocity for joint, hip_joint
+2021-11-02 03:02:04,610 INFO [default] Getting acceleration for joint, upper_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting acceleration for joint, lower_leg_joint
+2021-11-02 03:02:04,610 INFO [default] Getting acceleration for joint, boom_pitch_joint
+2021-11-02 03:02:04,610 INFO [default] Getting acceleration for joint, boom_yaw_joint
+2021-11-02 03:02:04,610 INFO [default] Getting acceleration for joint, hip_joint
