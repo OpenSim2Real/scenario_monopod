@@ -38,12 +38,7 @@ public:
 World::World()
     : pImpl{std::make_unique<Impl>()}
 {
-    // char* a = { '--v=2' };
-    // char *args[] = { "--v=0", 0 };
-    // START_EASYLOGGINGPP(1, args);
-    // el::Loggers::addFlag(el::LoggingFlag::HierarchicalLogging);
-    // el::Loggers::setVerboseLevel(9);
-
+    // Set up the names for world and model.
     pImpl->buffers.worldName  = "real_world";
     std::string modelName = "monopod";
     // initialize the model.
@@ -97,6 +92,7 @@ std::vector<std::string> World::modelNames() const
 
 scenario::core::ModelPtr World::getModel(const std::string& modelName) const
 {
+    // Get the model with the name
     if (pImpl->models.find(modelName) != pImpl->models.end()) {
         assert(pImpl->models.at(modelName));
         return pImpl->models.at(modelName);
@@ -106,7 +102,6 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
     for(auto& name: pImpl->buffers.modelNames)
         str = str + " " + name;
 
-    LOG(ERROR) << "Model name does not exist in world. Available models are: " + str
-               << std::endl;
-    throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str );
+    LOG(ERROR) << "Model name does not exist in world. Available models are: " + str;
+    throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str);
 }
