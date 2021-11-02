@@ -1,6 +1,8 @@
 *.o
 *.cbp
-*.cmake
+bindings/*.cmake
+src/*.cmake
+
 CMakeCache.txt
 cmake_install.cmake
 bin/
