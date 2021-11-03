@@ -15,6 +15,7 @@ add_library(ScenarioMonopod
     src/Model.cpp
     src/Joint.cpp
     src/easylogging++.cc)
+
 add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
 
 target_include_directories(ScenarioMonopod PUBLIC
@@ -31,6 +32,17 @@ target_link_libraries(ScenarioMonopod
 
 set_target_properties(ScenarioMonopod PROPERTIES
 PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
+
+# install(
+#     TARGETS
+#     ScenarioMonopod
+#     EXPORT ScenarioMonopodExport
+#     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+#     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}
+#     RUNTIME DESTINATION ${SCENARIO_INSTALL_BINDIR}
+#     PUBLIC_HEADER DESTINATION
+#     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/monopod)
+
 
 # Hide this until we need to deploy
 # # ===================

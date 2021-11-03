@@ -14,6 +14,7 @@ include(GNUInstallDirs)
 
 # Build type
 set(SCENARIO_BUILD_TYPE "Debug")
+
 # Set up in setup.py
 if(NOT CMAKE_CONFIGURATION_TYPES)
     if(NOT CMAKE_BUILD_TYPE)
@@ -120,8 +121,8 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 #         "${CMAKE_INSTALL_PREFIX}"
 #         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
 # endif()
-#
-# # Configure RPATH
+
+# Configure RPATH
 # include(AddInstallRPATHSupport)
 # add_install_rpath_support(
 #     BIN_DIRS
@@ -151,9 +152,7 @@ add_subdirectory(src)
 # ========
 
 add_executable(Test main.cpp)
-
-target_link_libraries(Test PRIVATE
-ScenarioMonopod::ScenarioMonopod)
+target_link_libraries(Test PRIVATE ScenarioMonopod)
 
 # # ========
 # # BINDINGS

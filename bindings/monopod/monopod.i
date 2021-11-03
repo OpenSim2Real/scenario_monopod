@@ -8,7 +8,7 @@
 #include <cstdint>
 %}
 
-%naturalvar
+// %naturalvar
 
 // STL classes
 %include <stdint.i>
@@ -17,8 +17,6 @@
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
-// %include <std_numeric_limits.i>
-%include <exception.i>
 
 // Import the module with core classes
 // From http://www.swig.org/Doc4.0/Modules.html

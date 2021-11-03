@@ -13,10 +13,6 @@
 
 INITIALIZE_EASYLOGGINGPP;
 
-// #ifndef ELPP_STL_LOGGING
-// #   define ELPP_STL_LOGGING
-// #endif
-
 using namespace scenario::monopod;
 
 class World::Impl

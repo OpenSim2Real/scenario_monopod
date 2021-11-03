@@ -38,6 +38,7 @@ set(UseSWIG_MODULE_VERSION 2)
 include(${SWIG_USE_FILE})
 
 # By default, install ScenarIO in the python site-package directory
+
 if(NOT BINDINGS_INSTALL_PREFIX)
     set(BINDINGS_INSTALL_PREFIX ${Python3_SITELIB})
 endif()
@@ -57,14 +58,11 @@ else()
 endif()
 
 # Add the SWIG folders
-add_subdirectory(monopod)
+add_subdirectory(core)
 
 # Add the SWIG folders
-# add_subdirectory(core)
-# if(SCENARIO_USE_IGNITION)
-#     add_subdirectory(gazebo)
-# endif()
-#
+add_subdirectory(monopod)
+
 # # Move main init.py file to package root of the build tree
 # configure_file(
 #     ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
