@@ -158,8 +158,8 @@ target_link_libraries(Test PRIVATE ScenarioMonopod)
 # # BINDINGS
 # # ========
 
-# # Disable bindings right now.
-# set(SCENARIO_ENABLE_BINDINGS OFF)
+# Disable bindings right now.
+set(SCENARIO_ENABLE_BINDINGS OFF)
 
 if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)
