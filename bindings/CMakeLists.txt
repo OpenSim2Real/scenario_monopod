@@ -63,6 +63,8 @@ add_subdirectory(core)
 # Add the SWIG folders
 add_subdirectory(monopod)
 
+# set(ENV{LD_LIBRARY_PATH} ~/.local/lib/python3.8/site-packages/scenario)
+
 # # Move main init.py file to package root of the build tree
 # configure_file(
 #     ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py

@@ -9,9 +9,9 @@
 #include <functional>
 #include <unordered_map>
 
-#include "scenario/monopod/easylogging++.h"
-
-INITIALIZE_EASYLOGGINGPP;
+// #include "scenario/monopod/easylogging++.h"
+//
+// INITIALIZE_EASYLOGGINGPP;
 
 using namespace scenario::monopod;
 
@@ -42,7 +42,7 @@ World::World()
     pImpl->buffers.modelNames.push_back(modelName);
 
     // Initialize our model class
-    auto model = std::make_shared<scenario::monopod::Model>();
+    scenario::core::ModelPtr model = std::make_shared<scenario::monopod::Model>();
     pImpl->models[modelName] = model;
 }
 
@@ -67,7 +67,7 @@ std::vector<scenario::core::ModelPtr> World::models(const std::vector<std::strin
     const std::vector<std::string>& modelSerialization =
         modelNames.empty() ? this->modelNames() : modelNames;
 
-    std::vector<core::ModelPtr> models;
+    std::vector<scenario::core::ModelPtr> models;
 
     for (const auto& modelName : modelSerialization) {
         models.push_back(this->getModel(modelName));
@@ -98,6 +98,6 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
     for(auto& name: pImpl->buffers.modelNames)
         str = str + " " + name;
 
-    LOG(ERROR) << "Model name does not exist in world. Available models are: " + str;
+    // LOG(ERROR) << "Model name does not exist in world. Available models are: " + str;
     throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str);
 }

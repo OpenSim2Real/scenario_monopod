@@ -2,19 +2,30 @@
 # ==============
 # ScenarioMonopod
 # ==============
+#
+# set(SCENARIO_MONOPOD_PUBLIC_HDRS
+#     include/scenario/monopod/World.h
+#     include/scenario/monopod/Model.h
+#     include/scenario/monopod/Joint.h
+#     include/scenario/monopod/easylogging++.h)
+#
+# add_library(ScenarioMonopod
+#     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
+#     src/World.cpp
+#     src/Model.cpp
+#     src/Joint.cpp
+#     src/easylogging++.cc)
 
 set(SCENARIO_MONOPOD_PUBLIC_HDRS
     include/scenario/monopod/World.h
     include/scenario/monopod/Model.h
-    include/scenario/monopod/Joint.h
-    include/scenario/monopod/easylogging++.h)
+    include/scenario/monopod/Joint.h)
 
 add_library(ScenarioMonopod
     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
     src/World.cpp
     src/Model.cpp
-    src/Joint.cpp
-    src/easylogging++.cc)
+    src/Joint.cpp)
 
 add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
 
@@ -32,6 +43,9 @@ target_link_libraries(ScenarioMonopod
 
 set_target_properties(ScenarioMonopod PROPERTIES
 PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
+
+# ExternalProject_Add(scenarioCore )
+
 
 # install(
 #     TARGETS

@@ -122,7 +122,7 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 #         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
 # endif()
 
-# Configure RPATH
+# # Configure RPATH
 # include(AddInstallRPATHSupport)
 # add_install_rpath_support(
 #     BIN_DIRS
@@ -159,7 +159,7 @@ target_link_libraries(Test PRIVATE ScenarioMonopod)
 # # ========
 
 # Disable bindings right now.
-set(SCENARIO_ENABLE_BINDINGS OFF)
+# set(SCENARIO_ENABLE_BINDINGS OFF)
 
 if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)

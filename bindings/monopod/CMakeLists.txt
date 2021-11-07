@@ -9,12 +9,14 @@ swig_add_library(${scenario_swig_name}
     LANGUAGE python
     OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/../scenario/bindings
     OUTFILE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..
-    SOURCES ${scenario_swig_name}.i)
+  SOURCES ${scenario_swig_name}.i)
 
-target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python)
+target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonopod)
 
-target_link_libraries(${scenario_swig_name} PUBLIC ScenarioCore)
-target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
+# target_link_libraries(${scenario_swig_name} PUBLIC ScenarioCore)
+# target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
+
+# swig_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
 
 add_library(ScenarioSwig::monopod ALIAS monopod)
 
@@ -32,15 +34,15 @@ set_property(TARGET ${scenario_swig_name} PROPERTY
 # https://github.com/swig/swig/issues/773
 target_compile_definitions(${scenario_swig_name} PRIVATE NDEBUG)
 
-# Get the gazebo.py wrapper file
+# Get the monopod.py wrapper file
 get_property(WRAPPER_PY_FILE TARGET ${scenario_swig_name} PROPERTY SWIG_SUPPORT_FILES)
 
-install(
-    TARGETS ${scenario_swig_name}
-    LIBRARY DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
-    ARCHIVE DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
-    RUNTIME DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
-
-install(
-    FILES ${WRAPPER_PY_FILE}
-    DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
+# install(
+#     TARGETS ${scenario_swig_name}
+#     LIBRARY DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
+#     ARCHIVE DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
+#     RUNTIME DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
+#
+# install(
+#     FILES ${WRAPPER_PY_FILE}
+#     DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)

@@ -97,6 +97,8 @@ from typing import Tuple
 %include "scenario/core/World.h"
 
 // Downcast pointers to the implementation classes
-#if defined (SCENARIO_HAS_GAZEBO)
-%include "../gazebo/to_gazebo.i"
-#endif
+// #if defined (SCENARIO_HAS_GAZEBO)
+// %include "../gazebo/to_gazebo.i"
+// #endif
+
+%include "../monopod/to_monopod.i"
