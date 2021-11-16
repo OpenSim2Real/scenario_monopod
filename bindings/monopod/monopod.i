@@ -61,17 +61,17 @@
 %rename("") JointControlMode;
 
 // Other templates for ScenarI/O APIs
-//%shared_ptr(scenario::monopod::Joint)
-//%shared_ptr(scenario::monopod::Model)
+%shared_ptr(scenario::monopod::Joint)
+%shared_ptr(scenario::monopod::Model)
 %shared_ptr(scenario::monopod::World)
 
 // Ignored methods
 // %ignore "scenario/monopod/easylogging++.h";
 
-%ignore "scenario/monopod/Joint.h";
-%ignore "scenario/monopod/Model.h";
+// %ignore "scenario/monopod/Joint.h";
+// %ignore "scenario/monopod/Model.h";
 
 // ScenarI/O headers
 //%include "scenario/monopod/Joint.h"
-//%include "scenario/monopod/Model.h"
+%include "scenario/monopod/Model.h"
 %include "scenario/monopod/World.h"

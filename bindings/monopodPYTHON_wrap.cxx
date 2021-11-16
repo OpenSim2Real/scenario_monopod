@@ -2666,27 +2666,31 @@ SWIGINTERN PyObject *SWIG_PyStaticMethod_New(PyObject *SWIGUNUSEDPARM(self), PyO
 #define SWIGTYPE_p_first_type swig_types[3]
 #define SWIGTYPE_p_int swig_types[4]
 #define SWIGTYPE_p_long_long swig_types[5]
-#define SWIGTYPE_p_scenario__core__World swig_types[6]
-#define SWIGTYPE_p_scenario__monopod__World swig_types[7]
-#define SWIGTYPE_p_second_type swig_types[8]
-#define SWIGTYPE_p_short swig_types[9]
-#define SWIGTYPE_p_signed_char swig_types[10]
-#define SWIGTYPE_p_size_type swig_types[11]
-#define SWIGTYPE_p_std__invalid_argument swig_types[12]
-#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Joint_t swig_types[13]
-#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Link_t swig_types[14]
-#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Model_t swig_types[15]
-#define SWIGTYPE_p_std__shared_ptrT_scenario__core__World_t swig_types[16]
-#define SWIGTYPE_p_std__shared_ptrT_scenario__monopod__World_t swig_types[17]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t swig_types[18]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[19]
-#define SWIGTYPE_p_unsigned_char swig_types[20]
-#define SWIGTYPE_p_unsigned_int swig_types[21]
-#define SWIGTYPE_p_unsigned_long_long swig_types[22]
-#define SWIGTYPE_p_unsigned_short swig_types[23]
-#define SWIGTYPE_p_value_type swig_types[24]
-static swig_type_info *swig_types[26];
-static swig_module_info swig_module = {swig_types, 25, 0, 0, 0, 0};
+#define SWIGTYPE_p_scenario__core__Model swig_types[6]
+#define SWIGTYPE_p_scenario__core__World swig_types[7]
+#define SWIGTYPE_p_scenario__monopod__Model swig_types[8]
+#define SWIGTYPE_p_scenario__monopod__World swig_types[9]
+#define SWIGTYPE_p_second_type swig_types[10]
+#define SWIGTYPE_p_short swig_types[11]
+#define SWIGTYPE_p_signed_char swig_types[12]
+#define SWIGTYPE_p_size_type swig_types[13]
+#define SWIGTYPE_p_std__invalid_argument swig_types[14]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Joint_t swig_types[15]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Link_t swig_types[16]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__core__Model_t swig_types[17]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__core__World_t swig_types[18]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Joint_t swig_types[19]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t swig_types[20]
+#define SWIGTYPE_p_std__shared_ptrT_scenario__monopod__World_t swig_types[21]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t swig_types[22]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[23]
+#define SWIGTYPE_p_unsigned_char swig_types[24]
+#define SWIGTYPE_p_unsigned_int swig_types[25]
+#define SWIGTYPE_p_unsigned_long_long swig_types[26]
+#define SWIGTYPE_p_unsigned_short swig_types[27]
+#define SWIGTYPE_p_value_type swig_types[28]
+static swig_type_info *swig_types[30];
+static swig_module_info swig_module = {swig_types, 29, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4755,6 +4759,111 @@ namespace swig {
 	};
       }
     
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyInt_FromLong(static_cast< long >(value));
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_size_t  (size_t value)
+{    
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  if (sizeof(size_t) <= sizeof(unsigned long)) {
+#endif
+    return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  } else {
+    /* assume sizeof(size_t) <= sizeof(unsigned long long) */
+    return SWIG_From_unsigned_SS_long_SS_long  (static_cast< unsigned long long >(value));
+  }
+#endif
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_bool (PyObject *obj, bool *val)
+{
+  int r;
+  if (!PyBool_Check(obj))
+    return SWIG_ERROR;
+  r = PyObject_IsTrue(obj);
+  if (r == -1)
+    return SWIG_ERROR;
+  if (val) *val = r ? true : false;
+  return SWIG_OK;
+}
+
+
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
+namespace swig {
+  template <> struct traits< double > {
+    typedef value_category category;
+    static const char* type_name() { return"double"; }
+  };
+  template <>  struct traits_asval< double > {
+    typedef double value_type;
+    static int asval(PyObject *obj, value_type *val) {
+      return SWIG_AsVal_double (obj, val);
+    }
+  };
+  template <>  struct traits_from< double > {
+    typedef double value_type;
+    static PyObject *from(const value_type& val) {
+      return SWIG_From_double  (val);
+    }
+  };
+}
+
+
+      namespace swig {
+	template <>  struct traits<std::vector< double, std::allocator< double > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::vector<" "double" "," "std::allocator< double >" " >";
+	  }
+	};
+      }
+    
+
+SWIGINTERN int
+SWIG_AsVal_int (PyObject * obj, int *val)
+{
+  long v;
+  int res = SWIG_AsVal_long (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v < INT_MIN || v > INT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = static_cast< int >(v);
+    }
+  }  
+  return res;
+}
+
+
+  namespace swig {
+    template <>  struct traits< scenario::core::JointPtr > {
+      typedef pointer_category category;
+      static const char* type_name() { return"scenario::core::JointPtr"; }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::vector< scenario::core::JointPtr, std::allocator< scenario::core::JointPtr > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::vector<" "scenario::core::JointPtr" "," "std::allocator< scenario::core::JointPtr >" " >";
+	  }
+	};
+      }
+    
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -5564,6 +5673,1500 @@ SWIGINTERN PyObject *SwigPyIterator_swigregister(PyObject *SWIGUNUSEDPARM(self),
   return SWIG_Py_Void();
 }
 
+SWIGINTERN PyObject *_wrap_new_Model(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "new_Model", 0, 0, 0)) SWIG_fail;
+  {
+    try {
+      result = (scenario::monopod::Model *)new scenario::monopod::Model();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  {
+    std::shared_ptr<  scenario::monopod::Model > *smartresult = result ? new std::shared_ptr<  scenario::monopod::Model >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_Model(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Model" "', argument " "1"" of type '" "scenario::monopod::Model *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_id(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint64_t result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_id" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = (uint64_t)((scenario::monopod::Model const *)arg1)->id();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_valid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_valid" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = (bool)((scenario::monopod::Model const *)arg1)->valid();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_name" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->name();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_dofs__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  size_t result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_dofs" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_dofs" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_dofs" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->dofs((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_dofs__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  size_t result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_dofs" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->dofs();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_dofs(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_dofs", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_dofs__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_dofs__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_dofs'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::dofs(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::dofs() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_get_joint(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  scenario::core::JointPtr result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Model_get_joint", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_get_joint" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_get_joint" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_get_joint" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->getJoint((std::string const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  {
+    std::shared_ptr<  scenario::core::Joint > *smartresult = result ? new std::shared_ptr<  scenario::core::Joint >(result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_scenario__core__Joint_t, SWIG_POINTER_OWN);
+  }
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_names__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  std::vector< std::string,std::allocator< std::string > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_names" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Model_joint_names" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointNames(arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_names__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  std::vector< std::string,std::allocator< std::string > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_names" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointNames();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_names(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joint_names", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joint_names__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_bool(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_Model_joint_names__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joint_names'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::jointNames(bool const) const\n"
+    "    scenario::monopod::Model::jointNames() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_positions__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_positions" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_joint_positions" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_joint_positions" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointPositions((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_positions__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_positions" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointPositions();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_positions(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joint_positions", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joint_positions__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_joint_positions__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joint_positions'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::jointPositions(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::jointPositions() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_velocities__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_velocities" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_joint_velocities" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_joint_velocities" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointVelocities((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_velocities__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_velocities" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointVelocities();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_velocities(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joint_velocities", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joint_velocities__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_joint_velocities__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joint_velocities'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::jointVelocities(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::jointVelocities() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_accelerations__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_accelerations" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_joint_accelerations" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_joint_accelerations" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointAccelerations((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_accelerations__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_accelerations" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointAccelerations();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_accelerations(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joint_accelerations", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joint_accelerations__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_joint_accelerations__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joint_accelerations'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::jointAccelerations(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::jointAccelerations() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_control_mode__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  scenario::core::JointControlMode arg2 ;
+  std::vector< std::string,std::allocator< std::string > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model > *smartarg1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int res3 = SWIG_OLDOBJ ;
+  bool result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_set_joint_control_mode" "', argument " "1"" of type '" "scenario::monopod::Model *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Model_set_joint_control_mode" "', argument " "2"" of type '" "scenario::core::JointControlMode""'");
+  } 
+  arg2 = static_cast< scenario::core::JointControlMode >(val2);
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Model_set_joint_control_mode" "', argument " "3"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_set_joint_control_mode" "', argument " "3"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  {
+    try {
+      result = (bool)(arg1)->setJointControlMode(arg2,(std::vector< std::string,std::allocator< std::string > > const &)*arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_control_mode__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  scenario::core::JointControlMode arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model > *smartarg1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  bool result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_set_joint_control_mode" "', argument " "1"" of type '" "scenario::monopod::Model *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Model_set_joint_control_mode" "', argument " "2"" of type '" "scenario::core::JointControlMode""'");
+  } 
+  arg2 = static_cast< scenario::core::JointControlMode >(val2);
+  {
+    try {
+      result = (bool)(arg1)->setJointControlMode(arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_control_mode(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_set_joint_control_mode", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_Model_set_joint_control_mode__SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        int res = swig::asptr(argv[2], (std::vector< std::string,std::allocator< std::string > >**)(0));
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_Model_set_joint_control_mode__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_set_joint_control_mode'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::setJointControlMode(scenario::core::JointControlMode const,std::vector< std::string,std::allocator< std::string > > const &)\n"
+    "    scenario::monopod::Model::setJointControlMode(scenario::core::JointControlMode const)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joints__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  SwigValueWrapper< std::vector< std::shared_ptr< scenario::core::Joint >,std::allocator< std::shared_ptr< scenario::core::Joint > > > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joints" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_joints" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_joints" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->joints((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< scenario::core::JointPtr,std::allocator< scenario::core::JointPtr > > >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joints__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  SwigValueWrapper< std::vector< std::shared_ptr< scenario::core::Joint >,std::allocator< std::shared_ptr< scenario::core::Joint > > > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joints" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->joints();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< scenario::core::JointPtr,std::allocator< scenario::core::JointPtr > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joints(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joints", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joints__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_joints__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joints'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::joints(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::joints() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_generalized_force_targets__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< double,std::allocator< double > > *arg2 = 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  int res3 = SWIG_OLDOBJ ;
+  bool result;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_set_joint_generalized_force_targets" "', argument " "1"" of type '" "scenario::monopod::Model *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< double,std::allocator< double > > *ptr = (std::vector< double,std::allocator< double > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_set_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_set_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Model_set_joint_generalized_force_targets" "', argument " "3"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_set_joint_generalized_force_targets" "', argument " "3"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  {
+    try {
+      result = (bool)(arg1)->setJointGeneralizedForceTargets((std::vector< double,std::allocator< double > > const &)*arg2,(std::vector< std::string,std::allocator< std::string > > const &)*arg3);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_generalized_force_targets__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< double,std::allocator< double > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  bool result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_set_joint_generalized_force_targets" "', argument " "1"" of type '" "scenario::monopod::Model *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< double,std::allocator< double > > *ptr = (std::vector< double,std::allocator< double > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_set_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_set_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = (bool)(arg1)->setJointGeneralizedForceTargets((std::vector< double,std::allocator< double > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_set_joint_generalized_force_targets(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_set_joint_generalized_force_targets", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< double,std::allocator< double > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_set_joint_generalized_force_targets__SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< double,std::allocator< double > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = swig::asptr(argv[2], (std::vector< std::string,std::allocator< std::string > >**)(0));
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_Model_set_joint_generalized_force_targets__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_set_joint_generalized_force_targets'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::setJointGeneralizedForceTargets(std::vector< double,std::allocator< double > > const &,std::vector< std::string,std::allocator< std::string > > const &)\n"
+    "    scenario::monopod::Model::setJointGeneralizedForceTargets(std::vector< double,std::allocator< double > > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_generalized_force_targets__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  std::vector< std::string,std::allocator< std::string > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_generalized_force_targets" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::vector< std::string,std::allocator< std::string > > *ptr = (std::vector< std::string,std::allocator< std::string > > *)0;
+    res2 = swig::asptr(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Model_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Model_joint_generalized_force_targets" "', argument " "2"" of type '" "std::vector< std::string,std::allocator< std::string > > const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointGeneralizedForceTargets((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_generalized_force_targets__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  scenario::monopod::Model *arg1 = (scenario::monopod::Model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< scenario::monopod::Model const > tempshared1 ;
+  std::shared_ptr< scenario::monopod::Model const > *smartarg1 = 0 ;
+  std::vector< double,std::allocator< double > > result;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Model_joint_generalized_force_targets" "', argument " "1"" of type '" "scenario::monopod::Model const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const scenario::monopod::Model > * >(argp1);
+      arg1 = const_cast< scenario::monopod::Model * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = ((scenario::monopod::Model const *)arg1)->jointGeneralizedForceTargets();
+    } catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+  }
+  resultobj = swig::from(static_cast< std::vector< double,std::allocator< double > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Model_joint_generalized_force_targets(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Model_joint_generalized_force_targets", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Model_joint_generalized_force_targets__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = swig::asptr(argv[1], (std::vector< std::string,std::allocator< std::string > >**)(0));
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Model_joint_generalized_force_targets__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Model_joint_generalized_force_targets'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    scenario::monopod::Model::jointGeneralizedForceTargets(std::vector< std::string,std::allocator< std::string > > const &) const\n"
+    "    scenario::monopod::Model::jointGeneralizedForceTargets() const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *Model_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *Model_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
 SWIGINTERN PyObject *_wrap_new_World(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   scenario::monopod::World *result = 0 ;
@@ -5837,8 +7440,8 @@ SWIGINTERN PyObject *_wrap_World_get_model(PyObject *SWIGUNUSEDPARM(self), PyObj
     }
   }
   {
-    std::shared_ptr<  scenario::core::Model > *smartresult = result ? new std::shared_ptr<  scenario::core::Model >(result) : 0;
-    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_scenario__core__Model_t, SWIG_POINTER_OWN);
+    std::shared_ptr<  scenario::monopod::Model > *smartresult = result ? new std::shared_ptr<  scenario::monopod::Model >(result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_scenario__monopod__Model_t, SWIG_POINTER_OWN);
   }
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -5857,7 +7460,7 @@ SWIGINTERN PyObject *_wrap_World_models__SWIG_0(PyObject *SWIGUNUSEDPARM(self), 
   std::shared_ptr< scenario::monopod::World const > tempshared1 ;
   std::shared_ptr< scenario::monopod::World const > *smartarg1 = 0 ;
   int res2 = SWIG_OLDOBJ ;
-  SwigValueWrapper< std::vector< std::shared_ptr< scenario::core::Model >,std::allocator< std::shared_ptr< scenario::core::Model > > > > result;
+  SwigValueWrapper< std::vector< std::shared_ptr< scenario::monopod::Model >,std::allocator< std::shared_ptr< scenario::monopod::Model > > > > result;
   
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   {
@@ -5893,7 +7496,7 @@ SWIGINTERN PyObject *_wrap_World_models__SWIG_0(PyObject *SWIGUNUSEDPARM(self), 
       SWIG_exception(SWIG_RuntimeError, e.what());
     }
   }
-  resultobj = SWIG_NewPointerObj((new std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >(static_cast< const std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >& >(result))), SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t, SWIG_POINTER_OWN |  0 );
+  resultobj = SWIG_NewPointerObj((new std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >(static_cast< const std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >& >(result))), SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t, SWIG_POINTER_OWN |  0 );
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
 fail:
@@ -5909,7 +7512,7 @@ SWIGINTERN PyObject *_wrap_World_models__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   std::shared_ptr< scenario::monopod::World const > tempshared1 ;
   std::shared_ptr< scenario::monopod::World const > *smartarg1 = 0 ;
-  SwigValueWrapper< std::vector< std::shared_ptr< scenario::core::Model >,std::allocator< std::shared_ptr< scenario::core::Model > > > > result;
+  SwigValueWrapper< std::vector< std::shared_ptr< scenario::monopod::Model >,std::allocator< std::shared_ptr< scenario::monopod::Model > > > > result;
   
   if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
   {
@@ -5934,7 +7537,7 @@ SWIGINTERN PyObject *_wrap_World_models__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
       SWIG_exception(SWIG_RuntimeError, e.what());
     }
   }
-  resultobj = SWIG_NewPointerObj((new std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >(static_cast< const std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >& >(result))), SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t, SWIG_POINTER_OWN |  0 );
+  resultobj = SWIG_NewPointerObj((new std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >(static_cast< const std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > >& >(result))), SWIGTYPE_p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -6010,6 +7613,117 @@ static PyMethodDef SwigMethods[] = {
 	 { "SwigPyIterator___add__", _wrap_SwigPyIterator___add__, METH_VARARGS, NULL},
 	 { "SwigPyIterator___sub__", _wrap_SwigPyIterator___sub__, METH_VARARGS, NULL},
 	 { "SwigPyIterator_swigregister", SwigPyIterator_swigregister, METH_O, NULL},
+	 { "new_Model", _wrap_new_Model, METH_NOARGS, NULL},
+	 { "delete_Model", _wrap_delete_Model, METH_O, NULL},
+	 { "Model_id", _wrap_Model_id, METH_O, NULL},
+	 { "Model_valid", _wrap_Model_valid, METH_O, "\n"
+		"Check if the model is valid.\n"
+		"\n"
+		":rtype: boolean\n"
+		":return: True if the model is valid, false otherwise.\n"
+		""},
+	 { "Model_name", _wrap_Model_name, METH_O, "\n"
+		"Get the name of the model.\n"
+		"\n"
+		":rtype: string\n"
+		":return: The name of the model.\n"
+		""},
+	 { "Model_dofs", _wrap_Model_dofs, METH_VARARGS, NULL},
+	 { "Model_get_joint", _wrap_Model_get_joint, METH_VARARGS, "\n"
+		"Get a joint belonging to the model.\n"
+		"\n"
+		":type jointName: string\n"
+		":param jointName: The name of the joint.\n"
+		":raises: std::runtime_error if the joint does not exist.\n"
+		":rtype: :py:class:`Joint`\n"
+		":return: The desired joint.\n"
+		""},
+	 { "Model_joint_names", _wrap_Model_joint_names, METH_VARARGS, "\n"
+		"Get the name of all the model's joints.\n"
+		"\n"
+		":type scoped: boolean\n"
+		":param scoped: Scope the joint names with the model name,\n"
+		"    (e.g. ``mymodel::joint1``).\n"
+		":rtype: Tuple[string]\n"
+		":return: The list of joint names.\n"
+		""},
+	 { "Model_joint_positions", _wrap_Model_joint_positions, METH_VARARGS, "\n"
+		"Get the joint positions.\n"
+		"\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints that also\n"
+		"    defines the joint serialization. By default, ``Model::jointNames`` is\n"
+		"    used.\n"
+		":rtype: Tuple[float]\n"
+		":return: The serialization of joint positions. The vector has as many\n"
+		"    elements as DoFs of the considered joints.\n"
+		""},
+	 { "Model_joint_velocities", _wrap_Model_joint_velocities, METH_VARARGS, "\n"
+		"Get the joint velocities.\n"
+		"\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints that also\n"
+		"    defines the joint serialization. By default, ``Model::jointNames`` is\n"
+		"    used.\n"
+		":rtype: Tuple[float]\n"
+		":return: The serialization of joint velocities. The vector has as many\n"
+		"    elements as DoFs of the considered joints.\n"
+		""},
+	 { "Model_joint_accelerations", _wrap_Model_joint_accelerations, METH_VARARGS, "\n"
+		"Get the joint accelerations.\n"
+		"\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints that also\n"
+		"    defines the joint serialization. By default, ``Model::jointNames`` is\n"
+		"    used.\n"
+		":rtype: Tuple[float]\n"
+		":return: The serialization of joint accelerations. The vector has as many\n"
+		"    elements as DoFs of the considered joints.\n"
+		""},
+	 { "Model_set_joint_control_mode", _wrap_Model_set_joint_control_mode, METH_VARARGS, "\n"
+		"Set the control mode of model joints.\n"
+		"\n"
+		":type mode: int\n"
+		":param mode: The desired joint control mode.\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints that also\n"
+		"    defines the joint serialization. By default, ``Model::jointNames`` is\n"
+		"    used.\n"
+		":rtype: boolean\n"
+		":return: True for success, false otherwise.\n"
+		""},
+	 { "Model_joints", _wrap_Model_joints, METH_VARARGS, "\n"
+		"Get the joints of the model.\n"
+		"\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints. By default,\n"
+		"    ``Model::jointNames`` is used.\n"
+		":rtype: Tuple[Joint]\n"
+		":return: A vector of pointers to the joint objects.\n"
+		""},
+	 { "Model_set_joint_generalized_force_targets", _wrap_Model_set_joint_generalized_force_targets, METH_VARARGS, "\n"
+		"Set the generalized force targets of the joints.\n"
+		"\n"
+		":type forces: Tuple[float]\n"
+		":param forces: The vector with the joint generalized force targets. It\n"
+		"    must have as many elements as the considered joint DoFs.\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints. By default,\n"
+		"    ``Model::jointNames`` is used.\n"
+		":rtype: boolean\n"
+		":return: True for success, false otherwise.\n"
+		""},
+	 { "Model_joint_generalized_force_targets", _wrap_Model_joint_generalized_force_targets, METH_VARARGS, "\n"
+		"Get the generalized force targets of the joints.\n"
+		"\n"
+		":type jointNames: Tuple[string]\n"
+		":param jointNames: Optional vector of considered joints. By default,\n"
+		"    ``Model::jointNames`` is used.\n"
+		":rtype: Tuple[float]\n"
+		":return: The generalized force targets of the joints.\n"
+		""},
+	 { "Model_swigregister", Model_swigregister, METH_O, NULL},
+	 { "Model_swiginit", Model_swiginit, METH_VARARGS, NULL},
 	 { "new_World", _wrap_new_World, METH_NOARGS, NULL},
 	 { "delete_World", _wrap_delete_World, METH_O, NULL},
 	 { "World_id", _wrap_World_id, METH_O, NULL},
@@ -6060,8 +7774,15 @@ static PyMethodDef SwigMethods_proxydocs[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_scenario__monopod__ModelTo_p_scenario__core__Model(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((scenario::core::Model *)  ((scenario::monopod::Model *) x));
+}
 static void *_p_scenario__monopod__WorldTo_p_scenario__core__World(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((scenario::core::World *)  ((scenario::monopod::World *) x));
+}
+static void *_p_std__shared_ptrT_scenario__monopod__Model_tTo_p_std__shared_ptrT_scenario__core__Model_t(void *x, int *newmemory) {
+    *newmemory = SWIG_CAST_NEW_MEMORY;
+    return (void *) new std::shared_ptr< scenario::core::Model >(*(std::shared_ptr< scenario::monopod::Model > *)x);
 }
 static void *_p_std__shared_ptrT_scenario__monopod__World_tTo_p_std__shared_ptrT_scenario__core__World_t(void *x, int *newmemory) {
     *newmemory = SWIG_CAST_NEW_MEMORY;
@@ -6073,7 +7794,9 @@ static swig_type_info _swigt__p_difference_type = {"_p_difference_type", "differ
 static swig_type_info _swigt__p_first_type = {"_p_first_type", "first_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t *|int_fast32_t *|int32_t *|int_fast16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long_long = {"_p_long_long", "int_least64_t *|int_fast64_t *|int64_t *|long long *|intmax_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_scenario__core__Model = {"_p_scenario__core__Model", "scenario::core::Model *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_scenario__core__World = {"_p_scenario__core__World", "scenario::core::World *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_scenario__monopod__Model = {"_p_scenario__monopod__Model", "scenario::monopod::Model *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_scenario__monopod__World = {"_p_scenario__monopod__World", "scenario::monopod::World *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_second_type = {"_p_second_type", "second_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *|int_least16_t *|int16_t *", 0, 0, (void*)0, 0};
@@ -6082,10 +7805,12 @@ static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0
 static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_scenario__core__Joint_t = {"_p_std__shared_ptrT_scenario__core__Joint_t", "scenario::core::JointPtr *|std::shared_ptr< scenario::core::Joint > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_scenario__core__Link_t = {"_p_std__shared_ptrT_scenario__core__Link_t", "scenario::core::LinkPtr *|std::shared_ptr< scenario::core::Link > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__shared_ptrT_scenario__core__Model_t = {"_p_std__shared_ptrT_scenario__core__Model_t", "scenario::core::ModelPtr *|std::shared_ptr< scenario::core::Model > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__shared_ptrT_scenario__core__Model_t = {"_p_std__shared_ptrT_scenario__core__Model_t", "std::shared_ptr< scenario::core::Model > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_scenario__core__World_t = {"_p_std__shared_ptrT_scenario__core__World_t", "std::shared_ptr< scenario::core::World > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__shared_ptrT_scenario__monopod__Joint_t = {"_p_std__shared_ptrT_scenario__monopod__Joint_t", "std::shared_ptr< scenario::monopod::Joint > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__shared_ptrT_scenario__monopod__Model_t = {"_p_std__shared_ptrT_scenario__monopod__Model_t", "scenario::core::ModelPtr *|std::shared_ptr< scenario::monopod::Model > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_scenario__monopod__World_t = {"_p_std__shared_ptrT_scenario__monopod__World_t", "std::shared_ptr< scenario::monopod::World > *|scenario::core::WorldPtr *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t = {"_p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t", "std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > > *|std::vector< std::shared_ptr< scenario::core::Model >,std::allocator< std::shared_ptr< scenario::core::Model > > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t = {"_p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t", "std::vector< std::shared_ptr< scenario::monopod::Model >,std::allocator< std::shared_ptr< scenario::monopod::Model > > > *|std::vector< scenario::core::ModelPtr,std::allocator< scenario::core::ModelPtr > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_char = {"_p_unsigned_char", "unsigned char *|uint_least8_t *|uint_fast8_t *|uint8_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "uintptr_t *|uint_least32_t *|uint_fast32_t *|uint32_t *|unsigned int *|uint_fast16_t *", 0, 0, (void*)0, 0};
@@ -6100,7 +7825,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_first_type,
   &_swigt__p_int,
   &_swigt__p_long_long,
+  &_swigt__p_scenario__core__Model,
   &_swigt__p_scenario__core__World,
+  &_swigt__p_scenario__monopod__Model,
   &_swigt__p_scenario__monopod__World,
   &_swigt__p_second_type,
   &_swigt__p_short,
@@ -6111,8 +7838,10 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__shared_ptrT_scenario__core__Link_t,
   &_swigt__p_std__shared_ptrT_scenario__core__Model_t,
   &_swigt__p_std__shared_ptrT_scenario__core__World_t,
+  &_swigt__p_std__shared_ptrT_scenario__monopod__Joint_t,
+  &_swigt__p_std__shared_ptrT_scenario__monopod__Model_t,
   &_swigt__p_std__shared_ptrT_scenario__monopod__World_t,
-  &_swigt__p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t,
+  &_swigt__p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t,
   &_swigt__p_swig__SwigPyIterator,
   &_swigt__p_unsigned_char,
   &_swigt__p_unsigned_int,
@@ -6127,7 +7856,9 @@ static swig_cast_info _swigc__p_difference_type[] = {  {&_swigt__p_difference_ty
 static swig_cast_info _swigc__p_first_type[] = {  {&_swigt__p_first_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_long_long[] = {  {&_swigt__p_long_long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_scenario__core__Model[] = {  {&_swigt__p_scenario__core__Model, 0, 0, 0},  {&_swigt__p_scenario__monopod__Model, _p_scenario__monopod__ModelTo_p_scenario__core__Model, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_scenario__core__World[] = {  {&_swigt__p_scenario__core__World, 0, 0, 0},  {&_swigt__p_scenario__monopod__World, _p_scenario__monopod__WorldTo_p_scenario__core__World, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_scenario__monopod__Model[] = {  {&_swigt__p_scenario__monopod__Model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_scenario__monopod__World[] = {  {&_swigt__p_scenario__monopod__World, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_second_type[] = {  {&_swigt__p_second_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 0, 0}};
@@ -6136,10 +7867,12 @@ static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0}
 static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_scenario__core__Joint_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__core__Joint_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_scenario__core__Link_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__core__Link_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__shared_ptrT_scenario__core__Model_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__core__Model_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__shared_ptrT_scenario__core__Model_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__core__Model_t, 0, 0, 0},  {&_swigt__p_std__shared_ptrT_scenario__monopod__Model_t, _p_std__shared_ptrT_scenario__monopod__Model_tTo_p_std__shared_ptrT_scenario__core__Model_t, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_scenario__core__World_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__core__World_t, 0, 0, 0},  {&_swigt__p_std__shared_ptrT_scenario__monopod__World_t, _p_std__shared_ptrT_scenario__monopod__World_tTo_p_std__shared_ptrT_scenario__core__World_t, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__shared_ptrT_scenario__monopod__Joint_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__monopod__Joint_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__shared_ptrT_scenario__monopod__Model_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__monopod__Model_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_scenario__monopod__World_t[] = {  {&_swigt__p_std__shared_ptrT_scenario__monopod__World_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t[] = {  {&_swigt__p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t[] = {  {&_swigt__p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_char[] = {  {&_swigt__p_unsigned_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
@@ -6154,7 +7887,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_first_type,
   _swigc__p_int,
   _swigc__p_long_long,
+  _swigc__p_scenario__core__Model,
   _swigc__p_scenario__core__World,
+  _swigc__p_scenario__monopod__Model,
   _swigc__p_scenario__monopod__World,
   _swigc__p_second_type,
   _swigc__p_short,
@@ -6165,8 +7900,10 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__shared_ptrT_scenario__core__Link_t,
   _swigc__p_std__shared_ptrT_scenario__core__Model_t,
   _swigc__p_std__shared_ptrT_scenario__core__World_t,
+  _swigc__p_std__shared_ptrT_scenario__monopod__Joint_t,
+  _swigc__p_std__shared_ptrT_scenario__monopod__Model_t,
   _swigc__p_std__shared_ptrT_scenario__monopod__World_t,
-  _swigc__p_std__vectorT_std__shared_ptrT_scenario__core__Model_t_std__allocatorT_std__shared_ptrT_scenario__core__Model_t_t_t,
+  _swigc__p_std__vectorT_std__shared_ptrT_scenario__monopod__Model_t_std__allocatorT_std__shared_ptrT_scenario__monopod__Model_t_t_t,
   _swigc__p_swig__SwigPyIterator,
   _swigc__p_unsigned_char,
   _swigc__p_unsigned_int,

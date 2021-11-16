@@ -124,6 +124,161 @@ _monopod.SwigPyIterator_swigregister(SwigPyIterator)
 
 SHARED_PTR_DISOWN = _monopod.SHARED_PTR_DISOWN
 import scenario.bindings.core
+class Model(scenario.bindings.core.Model):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        _monopod.Model_swiginit(self, _monopod.new_Model())
+    __swig_destroy__ = _monopod.delete_Model
+
+    def id(self):
+        return _monopod.Model_id(self)
+
+    def valid(self):
+        r"""
+        Check if the model is valid.
+
+        :rtype: boolean
+        :return: True if the model is valid, false otherwise.
+        """
+        return _monopod.Model_valid(self)
+
+    def name(self):
+        r"""
+        Get the name of the model.
+
+        :rtype: string
+        :return: The name of the model.
+        """
+        return _monopod.Model_name(self)
+
+    def dofs(self, *args):
+        return _monopod.Model_dofs(self, *args)
+
+    def get_joint(self, joint_name):
+        r"""
+        Get a joint belonging to the model.
+
+        :type jointName: string
+        :param jointName: The name of the joint.
+        :raises: std::runtime_error if the joint does not exist.
+        :rtype: :py:class:`Joint`
+        :return: The desired joint.
+        """
+        return _monopod.Model_get_joint(self, joint_name)
+
+    def joint_names(self, scoped=False):
+        r"""
+        Get the name of all the model's joints.
+
+        :type scoped: boolean
+        :param scoped: Scope the joint names with the model name,
+            (e.g. ``mymodel::joint1``).
+        :rtype: Tuple[string]
+        :return: The list of joint names.
+        """
+        return _monopod.Model_joint_names(self, scoped)
+
+    def joint_positions(self, *args):
+        r"""
+        Get the joint positions.
+
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints that also
+            defines the joint serialization. By default, ``Model::jointNames`` is
+            used.
+        :rtype: Tuple[float]
+        :return: The serialization of joint positions. The vector has as many
+            elements as DoFs of the considered joints.
+        """
+        return _monopod.Model_joint_positions(self, *args)
+
+    def joint_velocities(self, *args):
+        r"""
+        Get the joint velocities.
+
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints that also
+            defines the joint serialization. By default, ``Model::jointNames`` is
+            used.
+        :rtype: Tuple[float]
+        :return: The serialization of joint velocities. The vector has as many
+            elements as DoFs of the considered joints.
+        """
+        return _monopod.Model_joint_velocities(self, *args)
+
+    def joint_accelerations(self, *args):
+        r"""
+        Get the joint accelerations.
+
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints that also
+            defines the joint serialization. By default, ``Model::jointNames`` is
+            used.
+        :rtype: Tuple[float]
+        :return: The serialization of joint accelerations. The vector has as many
+            elements as DoFs of the considered joints.
+        """
+        return _monopod.Model_joint_accelerations(self, *args)
+
+    def set_joint_control_mode(self, *args):
+        r"""
+        Set the control mode of model joints.
+
+        :type mode: int
+        :param mode: The desired joint control mode.
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints that also
+            defines the joint serialization. By default, ``Model::jointNames`` is
+            used.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Model_set_joint_control_mode(self, *args)
+
+    def joints(self, *args):
+        r"""
+        Get the joints of the model.
+
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints. By default,
+            ``Model::jointNames`` is used.
+        :rtype: Tuple[Joint]
+        :return: A vector of pointers to the joint objects.
+        """
+        return _monopod.Model_joints(self, *args)
+
+    def set_joint_generalized_force_targets(self, *args):
+        r"""
+        Set the generalized force targets of the joints.
+
+        :type forces: Tuple[float]
+        :param forces: The vector with the joint generalized force targets. It
+            must have as many elements as the considered joint DoFs.
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints. By default,
+            ``Model::jointNames`` is used.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Model_set_joint_generalized_force_targets(self, *args)
+
+    def joint_generalized_force_targets(self, *args):
+        r"""
+        Get the generalized force targets of the joints.
+
+        :type jointNames: Tuple[string]
+        :param jointNames: Optional vector of considered joints. By default,
+            ``Model::jointNames`` is used.
+        :rtype: Tuple[float]
+        :return: The generalized force targets of the joints.
+        """
+        return _monopod.Model_joint_generalized_force_targets(self, *args)
+
+# Register Model in _monopod:
+_monopod.Model_swigregister(Model)
+
 class World(scenario.bindings.core.World):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
