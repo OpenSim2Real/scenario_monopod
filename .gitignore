@@ -2,7 +2,7 @@
 *.cbp
 bindings/*.cmake
 src/*.cmake
-
+_deps
 CMakeCache.txt
 cmake_install.cmake
 bin/
@@ -14,7 +14,7 @@ venv
 CMakeScripts
 Testing
 Makefile
-
+*.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake

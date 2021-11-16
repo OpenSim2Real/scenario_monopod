@@ -1,0 +1,11 @@
+set(Scenario_VERSION @PACKAGE_VERSION@)
+
+@PACKAGE_INIT@
+
+@PACKAGE_DEPENDENCIES@
+
+include("${CMAKE_CURRENT_LIST_DIR}/ScenarioTargets.cmake")
+
+
+
+@INCLUDED_CONTENT@

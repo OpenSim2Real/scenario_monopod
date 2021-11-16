@@ -39,6 +39,35 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/home/capstone/Documents/Repos/SIM/src/core/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/home/capstone/Documents/Repos/SIM/src/monopod/cmake_install.cmake")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xScenariox" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario" TYPE FILE FILES "/home/capstone/Documents/Repos/SIM/ScenarioConfigVersion.cmake")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xScenariox" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario" TYPE FILE RENAME "ScenarioConfig.cmake" FILES "/home/capstone/Documents/Repos/SIM/src/CMakeFiles/ScenarioConfig.cmake.install")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xScenariox" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario/ScenarioTargets.cmake")
+    file(DIFFERENT EXPORT_FILE_CHANGED FILES
+         "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario/ScenarioTargets.cmake"
+         "/home/capstone/Documents/Repos/SIM/src/CMakeFiles/Export/lib/cmake/Scenario/ScenarioTargets.cmake")
+    if(EXPORT_FILE_CHANGED)
+      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario/ScenarioTargets-*.cmake")
+      if(OLD_CONFIG_FILES)
+        message(STATUS "Old export file \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario/ScenarioTargets.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
+        file(REMOVE ${OLD_CONFIG_FILES})
+      endif()
+    endif()
+  endif()
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/Scenario" TYPE FILE FILES "/home/capstone/Documents/Repos/SIM/src/CMakeFiles/Export/lib/cmake/Scenario/ScenarioTargets.cmake")
 endif()
 

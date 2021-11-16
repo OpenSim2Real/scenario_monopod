@@ -63,6 +63,9 @@ if(SCENARIO_USE_IWYU)
     endif()
 endif()
 
+# Dependencies
+add_subdirectory(deps)
+
 # Settings for RPATH - Run Path
 # explaination https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling
 if(NOT MSVC)
@@ -103,43 +106,43 @@ set(SCENARIO_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
 set(SCENARIO_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
 set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 
-# # Adjust RPATH dependending on the installation type
-# if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
-#     # Convert folder separators to CMake style (could be necessary in Windows)
-#     file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
-#
-#     # Add the libraries installed in the Python site-package folder
-#     set(EXTRA_RPATH_DIRS
-#         "${python3_sitelib_cleaned}"
-#         "${python3_sitelib_cleaned}/scenario/bindings")
-#
-#     unset(python3_sitelib_cleaned)
-# else()
-#     # Add the libraries installed in the Python site-package folder
-#     # (that in this case is CMAKE_INSTALL_PREFIX)
-#     set(EXTRA_RPATH_DIRS
-#         "${CMAKE_INSTALL_PREFIX}"
-#         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
-# endif()
+# Adjust RPATH dependending on the installation type
+if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
+    # Convert folder separators to CMake style (could be necessary in Windows)
+    file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
 
-# # Configure RPATH
-# include(AddInstallRPATHSupport)
-# add_install_rpath_support(
-#     BIN_DIRS
-#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_BINDIR}"
-#     LIB_DIRS
-#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
-#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}/scenario/plugins"
-#     "${EXTRA_RPATH_DIRS}"
-#     INSTALL_NAME_DIR
-#     "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
-#     DEPENDS ENABLE_RPATH
-#     USE_LINK_PATH)
+    # Add the libraries installed in the Python site-package folder
+    set(EXTRA_RPATH_DIRS
+        "${python3_sitelib_cleaned}"
+        "${python3_sitelib_cleaned}/scenario/bindings")
+
+    unset(python3_sitelib_cleaned)
+else()
+    # Add the libraries installed in the Python site-package folder
+    # (that in this case is CMAKE_INSTALL_PREFIX)
+    set(EXTRA_RPATH_DIRS
+        "${CMAKE_INSTALL_PREFIX}"
+        "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
+endif()
+
+# Configure RPATH
+include(AddInstallRPATHSupport)
+add_install_rpath_support(
+    BIN_DIRS
+    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_BINDIR}"
+    LIB_DIRS
+    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
+    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}/scenario/plugins"
+    "${EXTRA_RPATH_DIRS}"
+    INSTALL_NAME_DIR
+    "${CMAKE_INSTALL_PREFIX}/${SCENARIO_INSTALL_LIBDIR}"
+    DEPENDS ENABLE_RPATH
+    USE_LINK_PATH)
 
 # Helper for exporting targets
 # talking about this package here
 # http://robotology.github.io/ycm/gh-pages/git-master/module/InstallBasicPackageFiles.html
-# include(InstallBasicPackageFiles)
+include(InstallBasicPackageFiles)
 
 # =========
 # SCENARI/O
