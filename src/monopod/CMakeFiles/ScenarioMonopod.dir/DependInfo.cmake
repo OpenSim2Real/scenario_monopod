@@ -18,7 +18,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "src/monopod/include"
-  "/home/capstone/.local/lib/python3.8/site-packages/scenario/include"
+  "/home/capstone/Documents/Repos/scenario/src/core/include"
   )
 
 # Targets to which this target links.

@@ -2,7 +2,10 @@
 # Find scanrio Core dependencies
 # ==============
 # Fix the path here...
-set(ENV{CMAKE_PREFIX_PATH} ~/.local/lib/python3.8/site-packages/scenario)
+# set(ENV{CMAKE_PREFIX_PATH} ~/.local/lib/python3.8/site-packages/scenario)
+# find_package(Scenario COMPONENTS Core REQUIRED)
+
+set(ENV{CMAKE_PREFIX_PATH} ~/Documents/Repos/scenario)
 find_package(Scenario COMPONENTS Core REQUIRED)
 
 set(SCENARIO_COMPONENTS ScenarioCore)
