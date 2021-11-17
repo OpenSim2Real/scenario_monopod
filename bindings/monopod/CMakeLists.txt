@@ -37,12 +37,12 @@ target_compile_definitions(${scenario_swig_name} PRIVATE NDEBUG)
 # Get the monopod.py wrapper file
 get_property(WRAPPER_PY_FILE TARGET ${scenario_swig_name} PROPERTY SWIG_SUPPORT_FILES)
 
-# install(
-#     TARGETS ${scenario_swig_name}
-#     LIBRARY DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
-#     ARCHIVE DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
-#     RUNTIME DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
-#
-# install(
-#     FILES ${WRAPPER_PY_FILE}
-#     DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
+install(
+    TARGETS ${scenario_swig_name}
+    LIBRARY DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
+    ARCHIVE DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings
+    RUNTIME DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
+
+install(
+    FILES ${WRAPPER_PY_FILE}
+    DESTINATION ${SCENARIO_PACKAGE_INSTALL_DIR}/bindings)
