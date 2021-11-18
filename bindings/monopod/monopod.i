@@ -1,5 +1,7 @@
 %module(package="scenario.bindings") monopod
 
+// %include "to_monopod.i"
+
 %{
 #define SWIG_FILE_WITH_INIT
 #include "scenario/monopod/Joint.h"
@@ -16,21 +18,21 @@
 
 %naturalvar;
 
-// Keep templated functions above the %rename directive
-// %inline %{
-// namespace scenario::monopod::utils {
-//     template <typename Base, typename Derived>
-//     std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
-//     {
-//         return std::dynamic_pointer_cast<Derived>(base);
-//     }
-// }
-// %}
+//Keep templated functions above the %rename directive
+%inline %{
+namespace scenario::monopod::utils {
+   template <typename Base, typename Derived>
+   std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
+   {
+       return std::dynamic_pointer_cast<Derived>(base);
+   }
+}
+%}
 
 // Helpers for downcasting to monopod classes
-// %template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
-// %template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
-// %template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
+//%template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
+//%template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
+//%template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
 
 // STL classes
 %include <stdint.i>
@@ -39,6 +41,8 @@
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
+
+%template(VectorOfModels) std::vector<scenario::core::ModelPtr>;
 
 // Import the module with core classes
 // From http://www.swig.org/Doc4.0/Modules.html
@@ -67,11 +71,10 @@
 
 // Ignored methods
 // %ignore "scenario/monopod/easylogging++.h";
-
 // %ignore "scenario/monopod/Joint.h";
 // %ignore "scenario/monopod/Model.h";
 
 // ScenarI/O headers
-//%include "scenario/monopod/Joint.h"
+%include "scenario/monopod/Joint.h"
 %include "scenario/monopod/Model.h"
 %include "scenario/monopod/World.h"

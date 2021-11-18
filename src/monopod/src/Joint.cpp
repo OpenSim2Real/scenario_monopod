@@ -3,15 +3,15 @@
 #include "scenario/monopod/World.h"
 
 #include <cassert>
-#include <ostream>
-#include <iostream>
+// #include <ostream>
+// #include <iostream>
 #include <stdexcept>
 #include <limits>
 
 // #include "scenario/monopod/easylogging++.h"
 
 using namespace scenario::monopod;
-// const scenario::core::PID DefaultPID;
+const scenario::core::PID DefaultPID;
 
 class Joint::Impl
 {
@@ -121,7 +121,7 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
 
 scenario::core::JointControlMode Joint::controlMode() const
 {
-    const core::JointControlMode& mode = pImpl->jointControlMode;
+    const scenario::core::JointControlMode mode = pImpl->jointControlMode;
     return mode;
 }
 
@@ -204,12 +204,12 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
     }
 
     switch (this->controlMode()) {
-        case core::JointControlMode::Position:
-        case core::JointControlMode::PositionInterpolated:
-        case core::JointControlMode::Velocity:
-        case core::JointControlMode::VelocityFollowerDart:
-        case core::JointControlMode::Idle:
-        case core::JointControlMode::Invalid:
+        case scenario::core::JointControlMode::Position:
+        case scenario::core::JointControlMode::PositionInterpolated:
+        case scenario::core::JointControlMode::Velocity:
+        case scenario::core::JointControlMode::VelocityFollowerDart:
+        case scenario::core::JointControlMode::Idle:
+        case scenario::core::JointControlMode::Invalid:
             // LOG(ERROR) << "Joint, '" + this->name()
             //            << "' is not in force control mode.";
             return false;
@@ -232,14 +232,14 @@ std::vector<double> Joint::jointMaxGeneralizedForce() const
 {
     std::vector<double> maxGeneralizedForce;
     switch (this->type()) {
-        case core::JointType::Revolute: {
+        case scenario::core::JointType::Revolute: {
             maxGeneralizedForce = pImpl->jointMaxGeneralizedForce;
             break;
         }
-        case core::JointType::Fixed:
-        case core::JointType::Prismatic:
-        case core::JointType::Invalid:
-        case core::JointType::Ball:{
+        case scenario::core::JointType::Fixed:
+        case scenario::core::JointType::Prismatic:
+        case scenario::core::JointType::Invalid:
+        case scenario::core::JointType::Ball:{
             // LOG(WARNING) << "Type of Joint with name '" << this->name()
             //              << "' has no max effort defined" << std::endl;
             break;

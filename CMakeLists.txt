@@ -63,9 +63,6 @@ if(SCENARIO_USE_IWYU)
     endif()
 endif()
 
-# Dependencies
-add_subdirectory(deps)
-
 # Settings for RPATH - Run Path
 # explaination https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling
 if(NOT MSVC)
@@ -74,6 +71,9 @@ if(NOT MSVC)
     option(ENABLE_RPATH "Enable RPATH installation" TRUE)
     mark_as_advanced(ENABLE_RPATH)
 endif()
+
+# Dependencies
+add_subdirectory(deps)
 
 if(${CMAKE_VERSION} VERSION_GREATER 3.15)
     cmake_policy(SET CMP0094 NEW)

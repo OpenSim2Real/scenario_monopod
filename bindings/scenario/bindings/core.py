@@ -8,9 +8,6 @@
 from typing import Tuple
 
 
-from typing import Union
-
-
 
 from sys import version_info as _swig_python_version_info
 if _swig_python_version_info < (2, 7, 0):
@@ -1939,11 +1936,6 @@ class Joint(object):
         """
         return _core.Joint_joint_generalized_force_target(self)
 
-    def to_monopod(self) -> Union["scenario.bindings.monopod.Joint", "scenario.bindings.core.Joint"]:
-        import scenario.bindings.monopod
-        return scenario.bindings.monopod.ToMonopodJoint(self)
-
-
 # Register Joint in _core:
 _core.Joint_swigregister(Joint)
 
@@ -2932,11 +2924,6 @@ class Model(object):
         """
         return _core.Model_base_world_angular_acceleration_target(self)
 
-    def to_monopod(self) -> Union["scenario.bindings.monopod.Model", "scenario.bindings.core.Model"]:
-        import scenario.bindings.monopod
-        return scenario.bindings.monopod.ToMonopodModel(self)
-
-
 # Register Model in _core:
 _core.Model_swigregister(Model)
 
@@ -3017,11 +3004,6 @@ class World(object):
         :return: A vector of pointers to the model objects.
         """
         return _core.World_models(self, *args)
-
-    def to_monopod(self) -> Union["scenario.bindings.monopod.World", "scenario.bindings.core.World"]:
-        import scenario.bindings.monopod
-        return scenario.bindings.monopod.ToMonopodWorld(self)
-
 
 # Register World in _core:
 _core.World_swigregister(World)

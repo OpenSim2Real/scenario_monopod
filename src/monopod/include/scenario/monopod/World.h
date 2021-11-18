@@ -1,3 +1,4 @@
+
 #ifndef SCENARIO_MONOPOD_WORLD_H
 #define SCENARIO_MONOPOD_WORLD_H
 
@@ -12,13 +13,13 @@ namespace scenario::monopod {
     class World;
 } // namespace scenario::monopod
 
-using namespace scenario::monopod;
-
-class scenario::monopod::World final : public scenario::core::World
+class scenario::monopod::World final
+      : public scenario::core::World
+      // , public std::enable_shared_from_this<scenario::monopod::World>
 {
 public:
     World();
-    ~World();
+    virtual ~World();
 
     uint64_t id() const;
 
@@ -71,7 +72,7 @@ private:
     std::array<double, 3> gravity() const override;
 };
 
-inline double World::time() const {exit(0);};
-inline std::array<double, 3> World::gravity() const {exit(0);};
+inline double scenario::monopod::World::time() const {exit(0);};
+inline std::array<double, 3> scenario::monopod::World::gravity() const {exit(0);};
 
 #endif // SCENARIO_MONOPOD_WORLD_H

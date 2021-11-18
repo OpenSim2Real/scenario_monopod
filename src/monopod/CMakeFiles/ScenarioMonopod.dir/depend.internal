@@ -3,28 +3,28 @@
 
 src/monopod/CMakeFiles/ScenarioMonopod.dir/src/Joint.cpp.o
  /home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Joint.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Link.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Model.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/World.h
+ src/core/include/scenario/core/Joint.h
+ src/core/include/scenario/core/Link.h
+ src/core/include/scenario/core/Model.h
+ src/core/include/scenario/core/World.h
  src/monopod/include/scenario/monopod/Joint.h
  src/monopod/include/scenario/monopod/Model.h
  src/monopod/include/scenario/monopod/World.h
 src/monopod/CMakeFiles/ScenarioMonopod.dir/src/Model.cpp.o
  /home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Joint.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Link.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Model.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/World.h
+ src/core/include/scenario/core/Joint.h
+ src/core/include/scenario/core/Link.h
+ src/core/include/scenario/core/Model.h
+ src/core/include/scenario/core/World.h
  src/monopod/include/scenario/monopod/Joint.h
  src/monopod/include/scenario/monopod/Model.h
  src/monopod/include/scenario/monopod/World.h
 src/monopod/CMakeFiles/ScenarioMonopod.dir/src/World.cpp.o
  /home/capstone/Documents/Repos/SIM/src/monopod/src/World.cpp
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Joint.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Link.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/Model.h
- /home/capstone/Documents/Repos/scenario/src/core/include/scenario/core/World.h
+ src/core/include/scenario/core/Joint.h
+ src/core/include/scenario/core/Link.h
+ src/core/include/scenario/core/Model.h
+ src/core/include/scenario/core/World.h
  src/monopod/include/scenario/monopod/Joint.h
  src/monopod/include/scenario/monopod/Model.h
  src/monopod/include/scenario/monopod/World.h

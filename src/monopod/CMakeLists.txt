@@ -44,8 +44,6 @@ target_link_libraries(ScenarioMonopod
 set_target_properties(ScenarioMonopod PROPERTIES
 PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
 
-# ExternalProject_Add(scenarioCore )
-
 
 install(
     TARGETS
@@ -57,8 +55,6 @@ install(
     PUBLIC_HEADER DESTINATION
     ${SCENARIO_INSTALL_INCLUDEDIR}/scenario/monopod)
 
-
-# Hide this until we need to deploy
 # ===================
 # Install the targets
 # ===================

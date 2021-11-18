@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
-#include <ostream>
+// #include <ostream>
 #include <stdexcept>
 #include <functional>
 #include <unordered_map>
@@ -18,17 +18,14 @@ using namespace scenario::monopod;
 class World::Impl
 {
 public:
-
     using ModelName = std::string;
-    std::unordered_map<ModelName, scenario::core::ModelPtr> models;
+    std::unordered_map<ModelName, core::ModelPtr> models;
 
     struct
     {
         std::vector<std::string> modelNames;
         std::string worldName;
     } buffers;
-
-public:
 };
 
 World::World()

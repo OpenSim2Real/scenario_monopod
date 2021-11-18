@@ -2,5 +2,5 @@ import scenario.bindings.monopod as monopod
 
 
 world = monopod.World()
-
-print(world.models())
+model = world.get_model("monopod")
+print(model.joint_names())

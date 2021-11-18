@@ -123,7 +123,286 @@ class SwigPyIterator(object):
 _monopod.SwigPyIterator_swigregister(SwigPyIterator)
 
 SHARED_PTR_DISOWN = _monopod.SHARED_PTR_DISOWN
+class VectorOfModels(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def iterator(self):
+        return _monopod.VectorOfModels_iterator(self)
+    def __iter__(self):
+        return self.iterator()
+
+    def __nonzero__(self):
+        return _monopod.VectorOfModels___nonzero__(self)
+
+    def __bool__(self):
+        return _monopod.VectorOfModels___bool__(self)
+
+    def __len__(self):
+        return _monopod.VectorOfModels___len__(self)
+
+    def __getslice__(self, i, j):
+        return _monopod.VectorOfModels___getslice__(self, i, j)
+
+    def __setslice__(self, *args):
+        return _monopod.VectorOfModels___setslice__(self, *args)
+
+    def __delslice__(self, i, j):
+        return _monopod.VectorOfModels___delslice__(self, i, j)
+
+    def __delitem__(self, *args):
+        return _monopod.VectorOfModels___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        return _monopod.VectorOfModels___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        return _monopod.VectorOfModels___setitem__(self, *args)
+
+    def pop(self):
+        return _monopod.VectorOfModels_pop(self)
+
+    def append(self, x):
+        return _monopod.VectorOfModels_append(self, x)
+
+    def empty(self):
+        return _monopod.VectorOfModels_empty(self)
+
+    def size(self):
+        return _monopod.VectorOfModels_size(self)
+
+    def swap(self, v):
+        return _monopod.VectorOfModels_swap(self, v)
+
+    def begin(self):
+        return _monopod.VectorOfModels_begin(self)
+
+    def end(self):
+        return _monopod.VectorOfModels_end(self)
+
+    def rbegin(self):
+        return _monopod.VectorOfModels_rbegin(self)
+
+    def rend(self):
+        return _monopod.VectorOfModels_rend(self)
+
+    def clear(self):
+        return _monopod.VectorOfModels_clear(self)
+
+    def get_allocator(self):
+        return _monopod.VectorOfModels_get_allocator(self)
+
+    def pop_back(self):
+        return _monopod.VectorOfModels_pop_back(self)
+
+    def erase(self, *args):
+        return _monopod.VectorOfModels_erase(self, *args)
+
+    def __init__(self, *args):
+        _monopod.VectorOfModels_swiginit(self, _monopod.new_VectorOfModels(*args))
+
+    def push_back(self, x):
+        return _monopod.VectorOfModels_push_back(self, x)
+
+    def front(self):
+        return _monopod.VectorOfModels_front(self)
+
+    def back(self):
+        return _monopod.VectorOfModels_back(self)
+
+    def assign(self, n, x):
+        return _monopod.VectorOfModels_assign(self, n, x)
+
+    def resize(self, *args):
+        return _monopod.VectorOfModels_resize(self, *args)
+
+    def insert(self, *args):
+        return _monopod.VectorOfModels_insert(self, *args)
+
+    def reserve(self, n):
+        return _monopod.VectorOfModels_reserve(self, n)
+
+    def capacity(self):
+        return _monopod.VectorOfModels_capacity(self)
+    __swig_destroy__ = _monopod.delete_VectorOfModels
+
+# Register VectorOfModels in _monopod:
+_monopod.VectorOfModels_swigregister(VectorOfModels)
+
 import scenario.bindings.core
+class Joint(scenario.bindings.core.Joint):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        _monopod.Joint_swiginit(self, _monopod.new_Joint())
+    __swig_destroy__ = _monopod.delete_Joint
+
+    def id(self):
+        return _monopod.Joint_id(self)
+
+    def initialize(self, _name, _model_name):
+        return _monopod.Joint_initialize(self, _name, _model_name)
+
+    def valid(self):
+        r"""
+        Check if the joint is valid.
+
+        :rtype: boolean
+        :return: True if the model is valid, false otherwise.
+        """
+        return _monopod.Joint_valid(self)
+
+    def dofs(self):
+        r"""
+        Get the number of degrees of freedom of the joint.
+
+        :rtype: int
+        :return: The number of DOFs of the joint.
+        """
+        return _monopod.Joint_dofs(self)
+
+    def name(self, scoped=False):
+        r"""
+        Get the name of the joint.
+
+        :type scoped: boolean
+        :param scoped: If true, the scoped name of the joint is returned.
+        :rtype: string
+        :return: The name of the joint.
+        """
+        return _monopod.Joint_name(self, scoped)
+
+    def type(self):
+        r"""
+        Get the type of the joint.
+
+        :rtype: int
+        :return: The type of the joint.
+        """
+        return _monopod.Joint_type(self)
+
+    def set_control_mode(self, mode):
+        r"""
+        Set the joint control mode.
+
+        :type mode: int
+        :param mode: The desired control mode.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Joint_set_control_mode(self, mode)
+
+    def control_mode(self):
+        r"""
+        get the joint control mode.
+
+        :rtype: int
+        :return: the joint control mode
+        """
+        return _monopod.Joint_control_mode(self)
+
+    def pid(self):
+        r"""
+        Get the PID parameters of the joint.
+
+        If no PID parameters have been set, the default parameters are
+        returned.
+
+        :rtype: :py:class:`PID`
+        :return: The joint PID parameters.
+        """
+        return _monopod.Joint_pid(self)
+
+    def set_pid(self, pid):
+        r"""
+        Set the PID parameters of the joint.
+
+        :type pid: :py:class:`PID`
+        :param pid: The desired PID parameters.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Joint_set_pid(self, pid)
+
+    def joint_max_generalized_force(self):
+        r"""
+        Get the maximum generalized force that could be applied to the joint.
+
+        :rtype: Tuple[float]
+        :return: The maximum generalized force of the joint.
+        """
+        return _monopod.Joint_joint_max_generalized_force(self)
+
+    def set_joint_max_generalized_force(self, max_force):
+        r"""
+        Set the maximum generalized force that can be applied to the joint.
+
+        This limit can be used to clip the force applied by joint
+        controllers.
+
+        :type maxForce: Tuple[float]
+        :param maxForce: A vector with the maximum generalized forces of the
+            joint DOFs.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Joint_set_joint_max_generalized_force(self, max_force)
+
+    def joint_position(self):
+        r"""
+        Get the position of the joint.
+
+        :rtype: Tuple[float]
+        :return: The position of the joint.
+        """
+        return _monopod.Joint_joint_position(self)
+
+    def joint_velocity(self):
+        r"""
+        Get the velocity of the joint.
+
+        :rtype: Tuple[float]
+        :return: The velocity of the joint.
+        """
+        return _monopod.Joint_joint_velocity(self)
+
+    def joint_acceleration(self):
+        r"""
+        Get the acceleration of the joint.
+
+        :rtype: Tuple[float]
+        :return: The acceleration of the joint.
+        """
+        return _monopod.Joint_joint_acceleration(self)
+
+    def set_joint_generalized_force_target(self, force):
+        r"""
+        Set the generalized force target of the joint.
+
+        Note that if there's friction or other loss components, the real
+        joint force will differ.
+
+        :type force: Tuple[float]
+        :param force: A vector with the generalized force targets of the joint
+            DOFs.
+        :rtype: boolean
+        :return: True for success, false otherwise.
+        """
+        return _monopod.Joint_set_joint_generalized_force_target(self, force)
+
+    def joint_generalized_force_target(self):
+        r"""
+        Get the active generalized force target.
+
+        :rtype: Tuple[float]
+        :return: The generalized force target of the joint.
+        """
+        return _monopod.Joint_joint_generalized_force_target(self)
+
+# Register Joint in _monopod:
+_monopod.Joint_swigregister(Joint)
+
 class Model(scenario.bindings.core.Model):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
