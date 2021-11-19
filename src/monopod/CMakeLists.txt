@@ -3,29 +3,18 @@
 # ScenarioMonopod
 # ==============
 #
-# set(SCENARIO_MONOPOD_PUBLIC_HDRS
-#     include/scenario/monopod/World.h
-#     include/scenario/monopod/Model.h
-#     include/scenario/monopod/Joint.h
-#     include/scenario/monopod/easylogging++.h)
-#
-# add_library(ScenarioMonopod
-#     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
-#     src/World.cpp
-#     src/Model.cpp
-#     src/Joint.cpp
-#     src/easylogging++.cc)
-
 set(SCENARIO_MONOPOD_PUBLIC_HDRS
     include/scenario/monopod/World.h
     include/scenario/monopod/Model.h
-    include/scenario/monopod/Joint.h)
+    include/scenario/monopod/Joint.h
+    include/scenario/monopod/easylogging++.h)
 
 add_library(ScenarioMonopod
     ${SCENARIO_MONOPOD_PUBLIC_HDRS}
     src/World.cpp
     src/Model.cpp
-    src/Joint.cpp)
+    src/Joint.cpp
+    src/easylogging++.cc)
 
 add_library(ScenarioMonopod::ScenarioMonopod ALIAS ScenarioMonopod)
 
@@ -33,7 +22,6 @@ target_include_directories(ScenarioMonopod PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
 
-# set(CMAKE_PREFIX_PATH "~/Documents/Repos/scenario")
 set(CMAKE_PREFIX_PATH "~/.local/lib/python3.8/site-packages/scenario")
 find_package(Scenario REQUIRED Core)
 
@@ -74,23 +62,3 @@ install_basic_package_files(ScenarioMonopod
     INSTALL_DESTINATION
     ${SCENARIO_INSTALL_LIBDIR}/cmake/ScenarioMonopod
 )
-
-# install_basic_package_files(<Name>
-#                             COMPATIBILITY <compatibility>
-#                             [VERSION <version>]
-#                             [ARCH_INDEPENDENT]
-#                             [NO_EXPORT | EXPORT <export>] # (default = "EXPORT <Name>")
-#                             [NO_SET_AND_CHECK_MACRO]
-#                             [NO_CHECK_REQUIRED_COMPONENTS_MACRO]
-#                             [VARS_PREFIX <prefix>] # (default = "<Name>")
-#                             [EXPORT_DESTINATION <destination>]
-#                             [INSTALL_DESTINATION <destination>]
-#                             [NAMESPACE <namespace>] # (default = "<Name>::")
-#                             [EXTRA_PATH_VARS_SUFFIX path1 [path2 ...]]
-#                             [CONFIG_TEMPLATE <file>]
-#                             [UPPERCASE_FILENAMES | LOWERCASE_FILENAMES]
-#                             [DEPENDENCIES <dependency1> "<dependency2> [...]" ...]
-#                             [PRIVATE_DEPENDENCIES <dependency1> "<dependency2> [...]" ...]
-#                             [INCLUDE_FILE <file> | INCLUDE_CONTENT <content>]
-#                             [COMPONENT <component>] # (default = "<Name>")
-#                            )

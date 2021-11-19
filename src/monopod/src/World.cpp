@@ -9,9 +9,9 @@
 #include <functional>
 #include <unordered_map>
 
-// #include "scenario/monopod/easylogging++.h"
-//
-// INITIALIZE_EASYLOGGINGPP;
+#include "scenario/monopod/easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP;
 
 using namespace scenario::monopod;
 
@@ -95,6 +95,6 @@ scenario::core::ModelPtr World::getModel(const std::string& modelName) const
     for(auto& name: pImpl->buffers.modelNames)
         str = str + " " + name;
 
-    // LOG(ERROR) << "Model name does not exist in world. Available models are: " + str;
+    LOG(ERROR) << "Model name does not exist in world. Available models are: " + str;
     throw std::invalid_argument( "Model name does not exist in world. Available models are: " + str);
 }

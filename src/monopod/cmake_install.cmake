@@ -65,6 +65,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/capstone/Documents/Repos/SIM/src/monopod/include/scenario/monopod/World.h"
     "/home/capstone/Documents/Repos/SIM/src/monopod/include/scenario/monopod/Model.h"
     "/home/capstone/Documents/Repos/SIM/src/monopod/include/scenario/monopod/Joint.h"
+    "/home/capstone/Documents/Repos/SIM/src/monopod/include/scenario/monopod/easylogging++.h"
     )
 endif()
 

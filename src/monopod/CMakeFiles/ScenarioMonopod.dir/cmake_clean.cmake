@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ScenarioMonopod.dir/src/Joint.cpp.o"
   "CMakeFiles/ScenarioMonopod.dir/src/Model.cpp.o"
   "CMakeFiles/ScenarioMonopod.dir/src/World.cpp.o"
+  "CMakeFiles/ScenarioMonopod.dir/src/easylogging++.cc.o"
 )
 
 # Per-language clean rules from dependency scanning.

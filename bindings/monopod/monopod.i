@@ -18,21 +18,20 @@
 
 %naturalvar;
 
-//Keep templated functions above the %rename directive
-%inline %{
-namespace scenario::monopod::utils {
-   template <typename Base, typename Derived>
-   std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
-   {
-       return std::dynamic_pointer_cast<Derived>(base);
-   }
-}
-%}
+// %inline %{
+// namespace scenario::monopod::utils {
+//    template <typename Base, typename Derived>
+//    std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
+//    {
+//        return std::dynamic_pointer_cast<Derived>(base);
+//    }
+// }
+// %}
 
-// Helpers for downcasting to monopod classes
-//%template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
-//%template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
-//%template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
+// // Helpers for downcasting to monopod classes
+// %template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
+// %template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
+// %template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
 
 // STL classes
 %include <stdint.i>
@@ -70,7 +69,7 @@ namespace scenario::monopod::utils {
 %shared_ptr(scenario::monopod::World)
 
 // Ignored methods
-// %ignore "scenario/monopod/easylogging++.h";
+%ignore "scenario/monopod/easylogging++.h";
 // %ignore "scenario/monopod/Joint.h";
 // %ignore "scenario/monopod/Model.h";
 

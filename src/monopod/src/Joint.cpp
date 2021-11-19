@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <limits>
 
-// #include "scenario/monopod/easylogging++.h"
+#include "scenario/monopod/easylogging++.h"
 
 using namespace scenario::monopod;
 const scenario::core::PID DefaultPID;
@@ -55,7 +55,7 @@ bool Joint::initialize(const std::string _name, const std::string _model_name)
     std::vector<double> forcetarget(this->dofs(), 0);
     pImpl->forceTarget = forcetarget;
     if (this->dofs() > 1) {
-        // LOG(ERROR) << "Joints with DoFs > 1 are not currently supported";
+        LOG(ERROR) << "Joints with DoFs > 1 are not currently supported";
         return false;
     }
     // Todo::Set default PID here.
@@ -113,7 +113,7 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
         case core::JointControlMode::VelocityFollowerDart:
         case core::JointControlMode::Idle:
         case core::JointControlMode::Invalid:
-            // LOG(ERROR) << "Only support force control mode.";
+            LOG(ERROR) << "Only support force control mode.";
             return false;
     }
     return false;
@@ -143,11 +143,11 @@ std::vector<double> Joint::jointPosition() const
     //Todo: get joint pos from low level control
 
     if (jointPosition.size() != this->dofs()) {
-        // LOG(ERROR) << "The size of velocity being set for the joint '"
-        //            << this->name() + "' does not match the joint's DOFs.";
+        LOG(ERROR) << "The size of velocity being set for the joint '"
+                   + this->name() + "' does not match the joint's DOFs.";
     }
 
-    // LOG(INFO) << "Getting position for joint, " + this->name();
+    LOG(INFO) << "Getting position for joint, " + this->name();
 
     return jointPosition;
 }
@@ -158,11 +158,11 @@ std::vector<double> Joint::jointVelocity() const
     // Todo: Get joint Velocity from low level control
 
     if (jointVelocity.size() != this->dofs()) {
-        // LOG(ERROR) << "The size of velocity being set for the joint '"
-        //            << this->name() + "' does not match the joint's DOFs.";
+        LOG(ERROR) << "The size of velocity being set for the joint '"
+                    + this->name() + "' does not match the joint's DOFs.";
     }
 
-    // LOG(INFO) << "Getting velocity for joint, " + this->name();
+    LOG(INFO) << "Getting velocity for joint, " + this->name();
 
     return jointVelocity;
 }
@@ -173,11 +173,11 @@ std::vector<double> Joint::jointAcceleration() const
     //Todo: Get joint acceleration from low level control
 
     if (jointAcceleration.size() != this->dofs()) {
-        // LOG(ERROR) << "The size of acceleration being set for the joint '"
-        //            << this->name() + "' does not match the joint's DOFs.";
+        LOG(ERROR) << "The size of acceleration being set for the joint '"
+                   + this->name() + "' does not match the joint's DOFs.";
     }
 
-    // LOG(INFO) << "Getting acceleration for joint, " + this->name();
+    LOG(INFO) << "Getting acceleration for joint, " + this->name();
 
     return jointAcceleration;
 }
@@ -190,7 +190,7 @@ std::vector<double> Joint::jointGeneralizedForceTarget() const
 bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 {
     if (force.size() != this->dofs()) {
-        // LOG(ERROR) << "Wrong number of elements (joint_dofs=" << this->dofs() << ")";
+        LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
         return false;
 
     }
@@ -198,8 +198,7 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
     const std::vector<double>& maxForce = this->jointMaxGeneralizedForce();
     for (size_t dof = 0; dof < this->dofs(); ++dof) {
         if (std::abs(force[dof]) > maxForce[dof]) {
-            // LOG(WARNING) << "The force target is higher than the limit. "
-            //              << "The physics engine might clip it.";
+            LOG(WARNING) << "The force target is higher than the limit. Will be clipped.";
         }
     }
 
@@ -210,8 +209,8 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
         case scenario::core::JointControlMode::VelocityFollowerDart:
         case scenario::core::JointControlMode::Idle:
         case scenario::core::JointControlMode::Invalid:
-            // LOG(ERROR) << "Joint, '" + this->name()
-            //            << "' is not in force control mode.";
+            LOG(ERROR) << "Joint, '" + this->name()
+                        + "' is not in force control mode.";
             return false;
         case core::JointControlMode::Force:
             // Set the component data
@@ -223,7 +222,7 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
     std::string msg = "Setting the joint, " + this->name() + ", to the force value: ";
     for (auto i: force)
         msg = msg + std::to_string(i) + ", ";
-    // LOG(INFO) << msg;
+    LOG(INFO) << msg;
 
     return true;
 }
@@ -240,8 +239,8 @@ std::vector<double> Joint::jointMaxGeneralizedForce() const
         case scenario::core::JointType::Prismatic:
         case scenario::core::JointType::Invalid:
         case scenario::core::JointType::Ball:{
-            // LOG(WARNING) << "Type of Joint with name '" << this->name()
-            //              << "' has no max effort defined" << std::endl;
+            LOG(WARNING) << "Type of Joint with name '" + this->name()
+                          + "' has no max effort defined";
             break;
         }
     }
@@ -252,8 +251,7 @@ bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 {
 
     if (maxForce.size() != this->dofs()) {
-        // LOG(ERROR) << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-        //            << std::endl;
+        LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
         return false;
     }
 
