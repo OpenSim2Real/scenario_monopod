@@ -3,7 +3,7 @@
 # ==============
 # Fix the path here...
 
-add_subdirectory(core)
+# add_subdirectory(core)
 
 set(SCENARIO_COMPONENTS ScenarioCore)
 set(SCENARIO_PRIVATE_DEPENDENCIES "")

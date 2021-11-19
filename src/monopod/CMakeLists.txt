@@ -33,6 +33,10 @@ target_include_directories(ScenarioMonopod PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
 
+# set(CMAKE_PREFIX_PATH "~/Documents/Repos/scenario")
+set(CMAKE_PREFIX_PATH "~/.local/lib/python3.8/site-packages/scenario")
+find_package(Scenario REQUIRED Core)
+
 target_link_libraries(ScenarioMonopod
     PUBLIC
     ScenarioCore::ScenarioABC

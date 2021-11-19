@@ -109,7 +109,7 @@ lib/libScenarioMonopod.so: src/monopod/CMakeFiles/ScenarioMonopod.dir/src/World.
 lib/libScenarioMonopod.so: src/monopod/CMakeFiles/ScenarioMonopod.dir/src/Model.cpp.o
 lib/libScenarioMonopod.so: src/monopod/CMakeFiles/ScenarioMonopod.dir/src/Joint.cpp.o
 lib/libScenarioMonopod.so: src/monopod/CMakeFiles/ScenarioMonopod.dir/build.make
-lib/libScenarioMonopod.so: lib/libCoreUtils.so
+lib/libScenarioMonopod.so: /home/capstone/.local/lib/python3.8/site-packages/scenario/lib/libCoreUtils.a
 lib/libScenarioMonopod.so: src/monopod/CMakeFiles/ScenarioMonopod.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/capstone/Documents/Repos/SIM/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library ../../lib/libScenarioMonopod.so"
 	cd /home/capstone/Documents/Repos/SIM/src/monopod && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ScenarioMonopod.dir/link.txt --verbose=$(VERBOSE)
