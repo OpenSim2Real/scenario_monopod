@@ -12,9 +12,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Include useful features
 include(GNUInstallDirs)
 
-# Build type
-set(SCENARIO_BUILD_TYPE "Debug")
-
 # Set up in setup.py
 if(NOT CMAKE_CONFIGURATION_TYPES)
     if(NOT CMAKE_BUILD_TYPE)
@@ -110,12 +107,11 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
     # Convert folder separators to CMake style (could be necessary in Windows)
     file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
-
     # Add the libraries installed in the Python site-package folder
     set(EXTRA_RPATH_DIRS
         "${python3_sitelib_cleaned}"
         "${python3_sitelib_cleaned}/scenario/bindings")
-
+        message(STATUS "____---____: ${python3_sitelib_cleaned}")
     unset(python3_sitelib_cleaned)
 else()
     # Add the libraries installed in the Python site-package folder
@@ -124,6 +120,7 @@ else()
         "${CMAKE_INSTALL_PREFIX}"
         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
 endif()
+
 
 # Configure RPATH
 include(AddInstallRPATHSupport)
@@ -160,9 +157,6 @@ target_link_libraries(Test PRIVATE ScenarioMonopod)
 # # ========
 # # BINDINGS
 # # ========
-
-# Disable bindings right now.
-# set(SCENARIO_ENABLE_BINDINGS OFF)
 
 if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)

@@ -1,16 +1,13 @@
 # ==============
 # Find scanrio Core dependencies
 # ==============
-# Fix the path here...
-
-# add_subdirectory(core)
 
 set(SCENARIO_COMPONENTS ScenarioCore)
 set(SCENARIO_PRIVATE_DEPENDENCIES "")
 
 add_subdirectory(monopod)
-# list(APPEND SCENARIO_COMPONENTS ScenarioMonopod ScenarioGazebo)
-list(APPEND SCENARIO_COMPONENTS ScenarioMonopod)
+list(APPEND SCENARIO_COMPONENTS ScenarioMonopod ScenarioGazebo)
+# list(APPEND SCENARIO_COMPONENTS ScenarioMonopod)
 
 # Dummy meta target for the top-level EXPORT
 add_library(Scenario INTERFACE)
