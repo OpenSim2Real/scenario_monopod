@@ -20,7 +20,7 @@ compile_commands.json
 CTestTestfile.cmake
 
 **/**.in
-
+bindings/scenario/
 
 cmake-build-debug/
 
