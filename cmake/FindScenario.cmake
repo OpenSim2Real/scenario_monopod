@@ -1,3 +1,4 @@
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 
 execute_process(
     COMMAND "${Python3_EXECUTABLE}" -c "import scenario; print(scenario.__path__[0])"
