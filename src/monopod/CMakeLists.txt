@@ -22,7 +22,14 @@ target_include_directories(ScenarioMonopod PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
 
-find_package(Scenario REQUIRED Core)
+# find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+# execute_process(
+#     COMMAND "${Python3_EXECUTABLE}" -c "import scenario; print(scenario.__path__[0])"
+#     OUTPUT_VARIABLE Scenario_OUT_PATH
+# )
+
+# set(CMAKE_PREFIX_PATH "/home/capstone/.local/lib/python3.8/site-packages/scenario")
+find_package(Scenario COMPONENTS Core REQUIRED NO_MODULE)
 
 target_link_libraries(ScenarioMonopod
     PUBLIC

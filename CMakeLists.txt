@@ -145,6 +145,15 @@ include(InstallBasicPackageFiles)
 # SCENARI/O
 # =========
 
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}" -c "import scenario; print(scenario.__path__[0])"
+    OUTPUT_VARIABLE Scenario_OUT_PATH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+SET(Scenario_ROOT ${Scenario_OUT_PATH})
+find_package(Scenario REQUIRED Core)
+
 add_subdirectory(src)
 
 # ========
