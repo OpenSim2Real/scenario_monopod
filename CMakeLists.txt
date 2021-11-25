@@ -111,7 +111,8 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 set(Scenario_ROOT ${Scenario_OUT_PATH})
-find_package(Scenario REQUIRED Core NO_MODULE)
+message(STATUS "found scenario root path: ${Scenario_ROOT}")
+find_package(Scenario COMPONENTS Core REQUIRED NO_MODULE)
 
 # This is weird. Set Scenario_root for original package as the install prefix
 # so that it gets installed into the pip install location...
@@ -122,8 +123,6 @@ find_package(Scenario REQUIRED Core NO_MODULE)
 
 # NOTE: if bindings are installed when the not pip installing we will have an issue
 # Since we cant just "extend" existing bindings. This needs a lot more thought
-
-set(CMAKE_INSTALL_PREFIX ${Scenario_ROOT})
 
 # Select the appropriate install prefix used throughout the project
 set(SCENARIO_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
@@ -139,7 +138,7 @@ if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
 
     # Set the runtime to be where scenario was originally installed. assuming
     # That manual cmake build relies on scenario being pip installed.
-
+    set(CMAKE_INSTALL_PREFIX ${Scenario_ROOT})
     file(TO_CMAKE_PATH "${Scenario_OUT_PATH}" python3_sitelib_cleaned)
     get_filename_component(python3_sitelib_cleaned ${python3_sitelib_cleaned} DIRECTORY)
     set(BINDINGS_INSTALL_PREFIX ${python3_sitelib_cleaned})
@@ -158,7 +157,7 @@ else()
 endif()
 
 
-# Configure RPATH 
+# Configure RPATH
 include(AddInstallRPATHSupport)
 add_install_rpath_support(
     BIN_DIRS
