@@ -98,6 +98,33 @@ if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
     message(STATUS "Using Python: ${Python3_EXECUTABLE}")
 endif()
 
+# =========
+# Find Scenario root
+# =========
+
+# Assume that scenario was installed using pip... This is necesary for this to work
+
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}" -c "import scenario; print(scenario.__path__[0])"
+    OUTPUT_VARIABLE Scenario_OUT_PATH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+set(Scenario_ROOT ${Scenario_OUT_PATH})
+find_package(Scenario REQUIRED Core NO_MODULE)
+
+# This is weird. Set Scenario_root for original package as the install prefix
+# so that it gets installed into the pip install location...
+# TODO: This is super hacky need to fix. Instead make this only happen when
+# pip installing. (pip install will then pre clean then install pip scenario).
+# However if scenario pip install does not exist we will need to make sure that
+# Scenario exists somewhere that cmake can find when linking after build.
+
+# NOTE: if bindings are installed when the not pip installing we will have an issue
+# Since we cant just "extend" existing bindings. This needs a lot more thought
+
+set(CMAKE_INSTALL_PREFIX ${Scenario_ROOT})
+
 # Select the appropriate install prefix used throughout the project
 set(SCENARIO_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
 set(SCENARIO_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
@@ -105,13 +132,22 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Adjust RPATH dependending on the installation type
 if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
+
+    # OLD method is commented below,
     # Convert folder separators to CMake style (could be necessary in Windows)
-    file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
+    # file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
+
+    # Set the runtime to be where scenario was originally installed. assuming
+    # That manual cmake build relies on scenario being pip installed.
+
+    file(TO_CMAKE_PATH "${Scenario_OUT_PATH}" python3_sitelib_cleaned)
+    get_filename_component(python3_sitelib_cleaned ${python3_sitelib_cleaned} DIRECTORY)
+    set(BINDINGS_INSTALL_PREFIX ${python3_sitelib_cleaned})
+
     # Add the libraries installed in the Python site-package folder
     set(EXTRA_RPATH_DIRS
         "${python3_sitelib_cleaned}"
         "${python3_sitelib_cleaned}/scenario/bindings")
-        message(STATUS "____---____: ${python3_sitelib_cleaned}")
     unset(python3_sitelib_cleaned)
 else()
     # Add the libraries installed in the Python site-package folder
@@ -144,15 +180,6 @@ include(InstallBasicPackageFiles)
 # =========
 # SCENARI/O
 # =========
-
-find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
-execute_process(
-    COMMAND "${Python3_EXECUTABLE}" -c "import scenario; print(scenario.__path__[0])"
-    OUTPUT_VARIABLE Scenario_OUT_PATH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-SET(Scenario_ROOT ${Scenario_OUT_PATH})
-find_package(Scenario REQUIRED Core)
 
 add_subdirectory(src)
 
