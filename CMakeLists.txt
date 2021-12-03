@@ -98,6 +98,14 @@ if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
     message(STATUS "Using Python: ${Python3_EXECUTABLE}")
 endif()
 
+# =========
+# Find Scenario root
+# =========
+
+# Assume that scenario was installed using pip... This is necesary for this to work
+
+find_package(Scenario COMPONENTS Core REQUIRED)
+
 # Select the appropriate install prefix used throughout the project
 set(SCENARIO_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
 set(SCENARIO_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
@@ -107,11 +115,12 @@ set(SCENARIO_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
 if(SCENARIO_ENABLE_BINDINGS AND NOT SCENARIO_CALL_FROM_SETUP_PY)
     # Convert folder separators to CMake style (could be necessary in Windows)
     file(TO_CMAKE_PATH "${Python3_SITELIB}" python3_sitelib_cleaned)
+
     # Add the libraries installed in the Python site-package folder
     set(EXTRA_RPATH_DIRS
         "${python3_sitelib_cleaned}"
         "${python3_sitelib_cleaned}/scenario/bindings")
-        message(STATUS "____---____: ${python3_sitelib_cleaned}")
+
     unset(python3_sitelib_cleaned)
 else()
     # Add the libraries installed in the Python site-package folder
@@ -120,7 +129,6 @@ else()
         "${CMAKE_INSTALL_PREFIX}"
         "${CMAKE_INSTALL_PREFIX}/scenario/bindings")
 endif()
-
 
 # Configure RPATH
 include(AddInstallRPATHSupport)

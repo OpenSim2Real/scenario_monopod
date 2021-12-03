@@ -21,6 +21,7 @@ CTestTestfile.cmake
 
 **/**.in
 bindings/scenario/
+bindings/*.cxx
 
 cmake-build-debug/
 

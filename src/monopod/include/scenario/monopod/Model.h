@@ -15,7 +15,7 @@ namespace scenario::monopod {
 
 class scenario::monopod::Model final
       : public scenario::core::Model
-      // , public std::enable_shared_from_this<scenario::monopod::Model>
+      , public std::enable_shared_from_this<scenario::monopod::Model>
 {
 public:
     Model();

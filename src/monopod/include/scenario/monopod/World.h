@@ -15,7 +15,7 @@ namespace scenario::monopod {
 
 class scenario::monopod::World final
       : public scenario::core::World
-      // , public std::enable_shared_from_this<scenario::monopod::World>
+      , public std::enable_shared_from_this<scenario::monopod::World>
 {
 public:
     World();
