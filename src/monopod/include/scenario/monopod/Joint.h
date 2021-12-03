@@ -15,7 +15,7 @@ namespace scenario::monopod {
 // using namespace scenario::monopod;
 class scenario::monopod::Joint final
       : public scenario::core::Joint
-      // , public std::enable_shared_from_this<scenario::monopod::Joint>
+      , public std::enable_shared_from_this<scenario::monopod::Joint>
 {
 public:
     Joint();
