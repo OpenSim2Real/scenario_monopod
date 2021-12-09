@@ -3,12 +3,11 @@
 #include "scenario/monopod/World.h"
 
 #include <cassert>
-// #include <ostream>
-// #include <iostream>
 #include <stdexcept>
 #include <limits>
 
 #include "scenario/monopod/easylogging++.h"
+// #include <monopod_sdk/monopod.h>
 
 using namespace scenario::monopod;
 const scenario::core::PID DefaultPID;

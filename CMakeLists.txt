@@ -37,9 +37,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(UNIX AND NOT APPLE)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
         get_filename_component(LINKER_BIN ${CMAKE_LINKER} NAME)
-            if("${LINKER_BIN}" STREQUAL "ld")
-                set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
-            endif()
+        if("${LINKER_BIN}" STREQUAL "ld")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
+        endif()
     endif()
 endif()
 
@@ -97,12 +97,6 @@ if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
     find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
     message(STATUS "Using Python: ${Python3_EXECUTABLE}")
 endif()
-
-# =========
-# Find Scenario root
-# =========
-
-# Assume that scenario was installed using pip... This is necesary for this to work
 
 find_package(Scenario COMPONENTS Core REQUIRED)
 
