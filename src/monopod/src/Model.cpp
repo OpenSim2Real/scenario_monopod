@@ -11,7 +11,7 @@
 #include <stdexcept>
 
 #include "scenario/monopod/easylogging++.h"
-// #include <monopod_sdk/monopod.h>
+#include <monopod_sdk/monopod.hpp>
 
 using namespace scenario::monopod;
 
@@ -43,6 +43,7 @@ public:
 Model::Model()
     : pImpl{std::make_unique<Impl>()}
 {
+    auto monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
     // Get the joint names from api
     // Currently a place holder
     std::vector<std::string> jointNames = {"upper_leg_joint", "lower_leg_joint",
@@ -52,7 +53,7 @@ Model::Model()
         // Initialize The joint
         // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
-        joint->initialize(jointName, this->name());
+        joint->initialize(jointName, this->name(), monopod_sdk);
         // Cache joint
         pImpl->joints[jointName] = joint;
     }

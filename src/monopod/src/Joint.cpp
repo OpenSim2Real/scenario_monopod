@@ -7,7 +7,6 @@
 #include <limits>
 
 #include "scenario/monopod/easylogging++.h"
-// #include <monopod_sdk/monopod.h>
 
 using namespace scenario::monopod;
 const scenario::core::PID DefaultPID;
@@ -40,11 +39,13 @@ uint64_t Joint::id() const
     return std::hash<std::string>{}(scopedJointName);
 }
 
-bool Joint::initialize(const std::string _name, const std::string _model_name)
+bool Joint::initialize(const std::string name,
+                       const std::string parentModelName,
+                       const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk)
 {
     // Set the names...
-    pImpl->name = _name;
-    pImpl->parentModelName = _model_name;
+    pImpl->name = name;
+    pImpl->parentModelName = parentModelName;
 
     // Default max Force is set to inf by default..
     std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());

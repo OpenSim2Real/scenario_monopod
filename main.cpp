@@ -2,7 +2,7 @@
 #include <scenario/monopod/Model.h>
 #include <scenario/monopod/World.h>
 
-#include <scenario/core/Model.h>
+// #include <scenario/core/Model.h>
 
 #include <chrono>
 #include <string>

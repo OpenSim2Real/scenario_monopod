@@ -3,6 +3,7 @@
 #define SCENARIO_MONOPOD_JOINT_H
 
 #include "scenario/core/Joint.h"
+#include <monopod_sdk/monopod.hpp>
 
 #include <memory>
 #include <string>
@@ -23,7 +24,9 @@ public:
 
     uint64_t id() const;
 
-    bool initialize(const std::string _name, const std::string _model_name);
+    bool initialize(const std::string name,
+                    const std::string parentModelName,
+                    const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk);
 
     /**
      * Check if the joint is valid.
