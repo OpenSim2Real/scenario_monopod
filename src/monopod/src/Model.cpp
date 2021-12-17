@@ -20,6 +20,7 @@ public:
 
     using JointName = std::string;
     std::unordered_map<JointName, core::JointPtr> joints;
+    std::unordered_map<JointName, int> jointIndexingMap;
 
     struct
     {
@@ -48,17 +49,20 @@ Model::Model()
     pImpl->monopod_sdk->initialize();
     pImpl->monopod_sdk->start_loop();
 
-    std::vector<std::string> jointNames = pImpl->monopod_sdk->get_jointNames();
-
+    pImpl->jointIndexingMap = pImpl->monopod_sdk->get_jointNames();
+    // for (auto const &pair: buffers.write) {
+    //     // std::cout << "{" << pair.first << ": " << pair.second << "}";
+    //     rt_printf("{key: %s, Val: %f}", joint_names[pair.first].c_str(), pair.second);
+    // }
     // Set up all the joints.
-    for (auto& jointName : jointNames) {
+    for (auto const &jointPair : pImpl->jointIndexingMap) {
         // Initialize The joint
         // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
-        joint->initialize(jointName, this->name(), pImpl->monopod_sdk);
+        joint->initialize(jointPair, this->name(), pImpl->monopod_sdk);
 
         // Cache joint
-        pImpl->joints[jointName] = joint;
+        pImpl->joints[jointPair.first] = joint;
     }
     // Do not need to store the joint name.
     // It will be Cached the first time it is called.

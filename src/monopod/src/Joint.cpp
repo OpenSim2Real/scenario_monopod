@@ -21,6 +21,7 @@ public:
     std::vector<double> jointMaxGeneralizedForce;
     std::string parentModelName;
     std::string name;
+    int monopodSdkIndex;
 };
 
 Joint::Joint()
@@ -39,14 +40,13 @@ uint64_t Joint::id() const
     return std::hash<std::string>{}(scopedJointName);
 }
 
-// bool Joint::initialize(const std::string name,
-  //                       const std::string parentModelName)
-bool Joint::initialize(const std::string name,
+bool Joint::initialize(const std::pair<std::string, int> nameIndexPair,
                        const std::string parentModelName,
                        const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk)
 {
     // Set the names...
-    pImpl->name = name;
+    pImpl->name = nameIndexPair.first;
+    pImpl->monopodSdkIndex = nameIndexPair.second;
     pImpl->parentModelName = parentModelName;
 
     // Default max Force is set to inf by default..
@@ -80,12 +80,12 @@ scenario::core::JointType Joint::type() const
 size_t Joint::dofs() const
 {
     switch (this->type()) {
-        case core::JointType::Invalid:
-            return 0;
         case core::JointType::Fixed:
         case core::JointType::Revolute:
         case core::JointType::Prismatic:
             return 1;
+        case core::JointType::Invalid:
+            return 0;
         default:
             assert(false);
             return 0;
@@ -201,19 +201,13 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
     }
 
     switch (this->controlMode()) {
-        case scenario::core::JointControlMode::Position:
-        case scenario::core::JointControlMode::PositionInterpolated:
-        case scenario::core::JointControlMode::Velocity:
-        case scenario::core::JointControlMode::VelocityFollowerDart:
-        case scenario::core::JointControlMode::Idle:
-        case scenario::core::JointControlMode::Invalid:
-            LOG(ERROR) << "Joint, '" + this->name()
-                        + "' is not in force control mode.";
-            return false;
         case core::JointControlMode::Force:
             // Set the component data
             pImpl->forceTarget = force;
             break;
+        default:
+            LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
+            return false;
     }
 
     // Print values for testing
@@ -233,10 +227,7 @@ std::vector<double> Joint::jointMaxGeneralizedForce() const
             maxGeneralizedForce = pImpl->jointMaxGeneralizedForce;
             break;
         }
-        case scenario::core::JointType::Fixed:
-        case scenario::core::JointType::Prismatic:
-        case scenario::core::JointType::Invalid:
-        case scenario::core::JointType::Ball:{
+        default: {
             LOG(WARNING) << "Type of Joint with name '" + this->name()
                           + "' has no max effort defined";
             break;

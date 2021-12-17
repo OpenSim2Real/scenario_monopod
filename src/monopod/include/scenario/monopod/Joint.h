@@ -26,12 +26,9 @@ public:
     uint64_t id() const;
 
 
-    bool initialize(const std::string name,
+    bool initialize(const std::pair<std::string, int> nameIndexPair,
                     const std::string parentModelName,
                     const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk);
-
-  // bool initialize(const std::string name,
-  //                 const std::string parentModelName);
 
     /**
      * Check if the joint is valid.
