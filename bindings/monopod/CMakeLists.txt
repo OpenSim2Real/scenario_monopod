@@ -11,7 +11,6 @@ swig_add_library(${scenario_swig_name}
     OUTFILE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..
   SOURCES ${scenario_swig_name}.i)
 
-target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonopod)
 
 # target_link_libraries(${scenario_swig_name} PUBLIC ScenarioCore)
 # target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
@@ -19,6 +18,9 @@ target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonop
 # swig_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
 
 add_library(ScenarioSwig::monopod ALIAS monopod)
+
+target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonopod)
+# target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
 
 set_property(TARGET ${scenario_swig_name} PROPERTY
     SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)

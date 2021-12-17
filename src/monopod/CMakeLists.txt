@@ -31,13 +31,33 @@ target_link_libraries(ScenarioMonopod
     # ${dependency path}
   )
 
+# target_link_libraries( ScenarioMonopod
+#     PRIVATE
+#     real_time_tools::real_time_tools
+#   )
+set(misc_targets)
+macro(add_demo demo_name)
+  add_executable(
+    ${demo_name}
+    demos/${demo_name}.cpp)
+  target_include_directories(
+    ${demo_name}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/demos>
+           $<INSTALL_INTERFACE:${SCENARIO_INSTALL_INCLUDEDIR}>)
+  target_link_libraries(${demo_name} ScenarioMonopod)
+  list(APPEND misc_targets ${demo_name})
+endmacro()
+
+add_demo(demo_main)
+
 set_target_properties(ScenarioMonopod PROPERTIES
-PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
+    PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
 
 
 install(
     TARGETS
-    ScenarioMonopod
+    ScenarioMonopod ${misc_targets}
     EXPORT ScenarioMonopodExport
     LIBRARY DESTINATION ${SCENARIO_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${SCENARIO_INSTALL_LIBDIR}

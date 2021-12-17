@@ -72,7 +72,7 @@ private:
     std::array<double, 3> gravity() const override;
 };
 
-inline double scenario::monopod::World::time() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::World::gravity() const {exit(0);};
+inline double scenario::monopod::World::time() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::World::gravity() const {exit(0);}
 
 #endif // SCENARIO_MONOPOD_WORLD_H

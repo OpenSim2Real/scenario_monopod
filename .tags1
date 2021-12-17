@@ -1,0 +1,26 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Impl	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^class Model::Impl$/;"	class	line:17	class:Model	file:
+jointNames	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^        std::optional<std::vector<std::string>> jointNames;$/;"	member	line:26	struct:Model::Impl::__anon1	file:
+scopedJointNames	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^        std::optional<std::vector<std::string>> scopedJointNames;$/;"	member	line:27	struct:Model::Impl::__anon1	file:
+buffers	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^    } buffers;$/;"	member	line:28	class:Model::Impl	typeref:struct:Model::Impl::__anon1	file:
+Model	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^Model::Model()$/;"	function	line:42	class:Model	signature:()
+id	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^uint64_t Model::id() const$/;"	function	line:67	class:Model	signature:() const
+valid	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^bool Model::valid() const$/;"	function	line:76	class:Model	signature:() const
+name	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^std::string Model::name() const$/;"	function	line:85	class:Model	signature:() const
+dofs	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^size_t Model::dofs(const std::vector<std::string>& jointNames) const$/;"	function	line:91	class:Model	signature:(const std::vector<std::string>& jointNames) const
+jointNames	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^std::vector<std::string> Model::jointNames(const bool scoped) const$/;"	function	line:105	class:Model	signature:(const bool scoped) const
+getJoint	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^scenario::core::JointPtr Model::getJoint(const std::string& jointName) const$/;"	function	line:129	class:Model	signature:(const std::string& jointName) const
+joints	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^Model::joints(const std::vector<std::string>& jointNames) const$/;"	function	line:144	class:Model	signature:(const std::vector<std::string>& jointNames) const
+setJointControlMode	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^bool Model::setJointControlMode(const scenario::core::JointControlMode mode,$/;"	function	line:157	class:Model	signature:(const scenario::core::JointControlMode mode, const std::vector<std::string>& jointNames)
+jointPositions	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^Model::jointPositions(const std::vector<std::string>& jointNames) const$/;"	function	line:173	class:Model	signature:(const std::vector<std::string>& jointNames) const
+jointVelocities	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^Model::jointVelocities(const std::vector<std::string>& jointNames) const$/;"	function	line:183	class:Model	signature:(const std::vector<std::string>& jointNames) const
+jointAccelerations	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^Model::jointAccelerations(const std::vector<std::string>& jointNames) const$/;"	function	line:193	class:Model	signature:(const std::vector<std::string>& jointNames) const
+setJointGeneralizedForceTargets	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^bool Model::setJointGeneralizedForceTargets($/;"	function	line:202	class:Model	signature:( const std::vector<double>& forces, const std::vector<std::string>& jointNames)
+jointGeneralizedForceTargets	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^std::vector<double> Model::jointGeneralizedForceTargets($/;"	function	line:213	class:Model	signature:( const std::vector<std::string>& jointNames) const
+getJointDataSerialized	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^std::vector<double> Model::Impl::getJointDataSerialized($/;"	function	line:227	class:Model::Impl	signature:( const Model* model, const std::vector<std::string>& jointNames, std::function<std::vector<double>(core::JointPtr)> getJointData)
+setJointDataSerialized	/home/capstone/Documents/Repos/SIM/src/monopod/src/Model.cpp	/^bool Model::Impl::setJointDataSerialized($/;"	function	line:249	class:Model::Impl	signature:( Model* model, const std::vector<double>& data, const std::vector<std::string>& jointNames, std::function<bool(core::JointPtr, const std::vector<double>)> setJointData)

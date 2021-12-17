@@ -1,6 +1,7 @@
 #include "scenario/monopod/Model.h"
 #include "scenario/monopod/Joint.h"
 #include "scenario/monopod/World.h"
+#include "scenario/monopod/easylogging++.h"
 
 #include <algorithm>
 #include <cassert>
@@ -10,8 +11,6 @@
 #include <unordered_map>
 #include <stdexcept>
 
-#include "scenario/monopod/easylogging++.h"
-#include <monopod_sdk/monopod.hpp>
 
 using namespace scenario::monopod;
 
@@ -44,6 +43,7 @@ Model::Model()
     : pImpl{std::make_unique<Impl>()}
 {
     auto monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
+    monopod_sdk->start_loop();
     // Get the joint names from api
     // Currently a place holder
     std::vector<std::string> jointNames = {"upper_leg_joint", "lower_leg_joint",
@@ -54,6 +54,7 @@ Model::Model()
         // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
         joint->initialize(jointName, this->name(), monopod_sdk);
+
         // Cache joint
         pImpl->joints[jointName] = joint;
     }
@@ -232,7 +233,9 @@ std::vector<double> Model::Impl::getJointDataSerialized(
         jointNames.empty() ? model->jointNames() : jointNames;
 
     std::vector<double> data;
-    data.reserve(model->dofs());
+    data.reserve(jointSerialization.size());
+
+    // data.reserve(model->dofs(jointSerialization));
 
     for (auto& joint : model->joints(jointSerialization)) {
         for (auto& value: getJointData(joint)) {
@@ -265,14 +268,20 @@ bool Model::Impl::setJointDataSerialized(
 
     auto it = data.begin();
 
+    std::vector<double> values(1);
+    // std::vector<double> values;
+    // values.reserve(1);
+
     for (auto& joint : model->joints(jointNames)) {
 
-        std::vector<double> values;
-        values.reserve(joint->dofs());
+        // std::vector<double> values;
+        // values.reserve(joint->dofs());
+        //
+        // for (size_t dof = 0; dof < joint->dofs(); ++dof)
+        //   values.push_back(*it++);
 
-        for (size_t dof = 0; dof < joint->dofs(); ++dof) {
-          values.push_back(*it++);
-        }
+        for (size_t dof = 0; dof < joint->dofs(); ++dof)
+          values[0]=*it++;
 
         if (!setJointData(joint, values)) {
             LOG(ERROR) << "Failed to set force of joint '" << joint->name();

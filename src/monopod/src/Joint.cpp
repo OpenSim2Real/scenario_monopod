@@ -39,6 +39,8 @@ uint64_t Joint::id() const
     return std::hash<std::string>{}(scopedJointName);
 }
 
+// bool Joint::initialize(const std::string name,
+  //                       const std::string parentModelName)
 bool Joint::initialize(const std::string name,
                        const std::string parentModelName,
                        const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk)
@@ -84,9 +86,10 @@ size_t Joint::dofs() const
         case core::JointType::Revolute:
         case core::JointType::Prismatic:
             return 1;
+        default:
+            assert(false);
+            return 0;
     }
-    assert(false);
-    return 0;
 }
 
 std::string Joint::name(const bool scoped) const
@@ -107,12 +110,7 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
         case core::JointControlMode::Force:
             pImpl->jointControlMode = mode;
             return true;
-        case core::JointControlMode::Position:
-        case core::JointControlMode::PositionInterpolated:
-        case core::JointControlMode::Velocity:
-        case core::JointControlMode::VelocityFollowerDart:
-        case core::JointControlMode::Idle:
-        case core::JointControlMode::Invalid:
+        default:
             LOG(ERROR) << "Only support force control mode.";
             return false;
     }

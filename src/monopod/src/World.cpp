@@ -10,7 +10,7 @@
 
 #include "scenario/monopod/easylogging++.h"
 
-INITIALIZE_EASYLOGGINGPP;
+INITIALIZE_EASYLOGGINGPP
 
 using namespace scenario::monopod;
 

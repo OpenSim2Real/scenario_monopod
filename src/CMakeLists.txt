@@ -2,10 +2,6 @@
 # Find scanrio Monopod dependencies
 # ==============
 
-find_package(Scenario COMPONENTS Core REQUIRED)
-find_package(MonopodSdk COMPONENTS Core REQUIRED)
-find_package(real_time_tools REQUIRED)
-
 set(SCENARIO_COMPONENTS ScenarioCore)
 set(SCENARIO_PRIVATE_DEPENDENCIES "")
 

@@ -22,6 +22,19 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${SCENARIO_BUILD_TYPES})
 endif()
 
+if (MSVC)
+    # warning level 4 and all warnings as errors
+    # add_compile_options(/W4 /WX)
+else()
+    # lots of warnings and all warnings as errors
+    add_compile_options(-Wno-unused-parameter -Wno-missing-field-initializers)
+endif()
+
+#DEPENDS
+
+find_package(Scenario COMPONENTS Core REQUIRED)
+find_package(MonopodSdk COMPONENTS Core REQUIRED)
+
 # Expose shared or static compilation
 set(SCENARIO_BUILD_SHARED_LIBRARY TRUE
     CACHE BOOL "Compile libraries as shared libraries")
@@ -68,6 +81,7 @@ if(NOT MSVC)
     option(ENABLE_RPATH "Enable RPATH installation" TRUE)
     mark_as_advanced(ENABLE_RPATH)
 endif()
+
 
 # Dependencies
 add_subdirectory(deps)
@@ -148,13 +162,6 @@ include(InstallBasicPackageFiles)
 # =========
 
 add_subdirectory(src)
-
-# ========
-# Testing Executable
-# ========
-
-add_executable(Test main.cpp)
-target_link_libraries(Test PRIVATE ScenarioMonopod)
 
 # # ========
 # # BINDINGS
