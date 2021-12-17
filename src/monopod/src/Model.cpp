@@ -50,10 +50,6 @@ Model::Model()
     pImpl->monopod_sdk->start_loop();
 
     pImpl->jointIndexingMap = pImpl->monopod_sdk->get_jointNames();
-    // for (auto const &pair: buffers.write) {
-    //     // std::cout << "{" << pair.first << ": " << pair.second << "}";
-    //     rt_printf("{key: %s, Val: %f}", joint_names[pair.first].c_str(), pair.second);
-    // }
     // Set up all the joints.
     for (auto const &jointPair : pImpl->jointIndexingMap) {
         // Initialize The joint
@@ -64,8 +60,6 @@ Model::Model()
         // Cache joint
         pImpl->joints[jointPair.first] = joint;
     }
-    // Do not need to store the joint name.
-    // It will be Cached the first time it is called.
 }
 
 Model::~Model() = default;
@@ -140,10 +134,10 @@ scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
     }
     std::string str = " ";
     for(auto& name: this->jointNames())
-        str = str + " " + name;
+        str = str + name + ", ";
 
-    LOG(ERROR) << "Joint name does not exist in model. Available models are: " + str;
-    throw std::invalid_argument( "Joint name does not exist in model. Available models are: " + str );
+    LOG(ERROR) << "Joint name " + jointName + " does not exist in model. Available joints are: " + str;
+    throw std::invalid_argument( "Joint name: " + jointName + ",  does not exist in model. Available joints are: " + str );
 }
 
 std::vector<scenario::core::JointPtr>

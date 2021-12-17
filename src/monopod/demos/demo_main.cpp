@@ -29,9 +29,7 @@ int main(int argc, char* argv[])
     std::cout << std::endl << std::endl;
 
     std::vector<double> forces = {1,2,3,4,5};
-    std::vector<std::string> jNames = {"upper_leg_joint", "lower_leg_joint",
-                                      "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
-
+    std::vector<std::string> jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
 // Check if setting force targets work before setting the control mode.
 
     auto ok = monopod->setJointGeneralizedForceTargets(forces, jNames);
@@ -62,7 +60,7 @@ int main(int argc, char* argv[])
 
 // Test the order of the force targets getter given specified joints
 
-    jNames = {"upper_leg_joint", "lower_leg_joint"};
+    jNames = {"knee_joint",  "hip_joint"};
     std::cout << "For the joints: ";
     for (auto i: jNames)
         std::cout << i << ", ";
@@ -73,8 +71,7 @@ int main(int argc, char* argv[])
 
   // Test vel, accel, pos getters
 
-  jNames = {"upper_leg_joint", "lower_leg_joint",
-                                    "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
+  jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
 
   auto pos = monopod->jointPositions(jNames);
   std::cout << std::endl << "Joints position: ";
