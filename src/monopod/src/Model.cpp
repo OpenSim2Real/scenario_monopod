@@ -37,23 +37,25 @@ public:
         const std::vector<double>& data,
         const std::vector<std::string>& jointNames,
         std::function<bool(core::JointPtr, const std::vector<double>)> setJointData);
+
+    std::shared_ptr<monopod_drivers::Monopod> monopod_sdk;
 };
 
 Model::Model()
     : pImpl{std::make_unique<Impl>()}
 {
-    auto monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
-    monopod_sdk->start_loop();
-    // Get the joint names from api
-    // Currently a place holder
-    std::vector<std::string> jointNames = {"upper_leg_joint", "lower_leg_joint",
-                                "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
+    pImpl->monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
+    pImpl->monopod_sdk->initialize();
+    pImpl->monopod_sdk->start_loop();
+
+    std::vector<std::string> jointNames = pImpl->monopod_sdk->get_jointNames();
+
     // Set up all the joints.
     for (auto& jointName : jointNames) {
         // Initialize The joint
         // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
-        joint->initialize(jointName, this->name(), monopod_sdk);
+        joint->initialize(jointName, this->name(), pImpl->monopod_sdk);
 
         // Cache joint
         pImpl->joints[jointName] = joint;

@@ -31,10 +31,6 @@ target_link_libraries(ScenarioMonopod
     # ${dependency path}
   )
 
-# target_link_libraries( ScenarioMonopod
-#     PRIVATE
-#     real_time_tools::real_time_tools
-#   )
 set(misc_targets)
 macro(add_demo demo_name)
   add_executable(
@@ -50,6 +46,7 @@ macro(add_demo demo_name)
 endmacro()
 
 add_demo(demo_main)
+add_demo(demo_loops)
 
 set_target_properties(ScenarioMonopod PROPERTIES
     PUBLIC_HEADER "${SCENARIO_MONOPOD_PUBLIC_HDRS}")
