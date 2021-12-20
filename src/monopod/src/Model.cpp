@@ -40,22 +40,25 @@ public:
         std::function<bool(core::JointPtr, const std::vector<double>)> setJointData);
 
     std::shared_ptr<monopod_drivers::Monopod> monopod_sdk;
+    std::string modelName;
 };
 
 Model::Model()
     : pImpl{std::make_unique<Impl>()}
 {
+    // Initialize the monopod sdk and start the loop.
+    // Set model name.
     pImpl->monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
     pImpl->monopod_sdk->initialize();
     pImpl->monopod_sdk->start_loop();
+    pImpl->modelName = pImpl->monopod_sdk->get_model_name();
 
-    pImpl->jointIndexingMap = pImpl->monopod_sdk->get_jointNames();
     // Set up all the joints.
+    pImpl->jointIndexingMap = pImpl->monopod_sdk->get_joint_names();
     for (auto const &jointPair : pImpl->jointIndexingMap) {
         // Initialize The joint
-        // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
-        joint->initialize(jointPair, this->name(), pImpl->monopod_sdk);
+        joint->initialize(jointPair, pImpl->monopod_sdk);
 
         // Cache joint
         pImpl->joints[jointPair.first] = joint;
@@ -84,8 +87,7 @@ bool Model::valid() const
 
 std::string Model::name() const
 {
-    std::string modelName = "monopod";
-    return modelName;
+    return pImpl->modelName;
 }
 
 size_t Model::dofs(const std::vector<std::string>& jointNames) const

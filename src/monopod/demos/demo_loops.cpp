@@ -50,9 +50,10 @@ int main(int, char**)
     while (!StopDemos)
     {
         real_time_tools::Timer::sleep_sec(1);
-
-        // monopod.set_torque_targets({x, x + 1});
-        x++;
+        rt_printf("New iteration \n");
+        auto pos = monopod->jointPositions();
+        // auto vel = monopod->jointVelocities();
+        // auto acc = monopod->jointAccelerations();
 
     }
 

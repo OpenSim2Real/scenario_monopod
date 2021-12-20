@@ -24,8 +24,6 @@ public:
     Model();
     virtual ~Model();
 
-    // bool initialize(const std::string _name);
-
     uint64_t id() const;
     /**
      * Check if the model is valid.
@@ -41,7 +39,17 @@ public:
      */
     std::string name() const override;
 
+    /**
+     * Get the joints DOF
+     *
+     * @param jointNames Optional vector of considered joints that also
+     * defines the joint serialization. By default, ``Model::jointNames`` is
+     * used.
+     * @return The sum of serialization of joint DOFs. The sum is the number of DoFs
+     * of all the considered joints.
+     */
     size_t dofs(const std::vector<std::string>& jointNames = {}) const override;
+
     /**
      * Get a joint belonging to the model.
      *
@@ -58,8 +66,7 @@ public:
      * (e.g. ``mymodel::joint1``).
      * @return The list of joint names.
      */
-    std::vector<std::string>
-    jointNames(const bool scoped = false) const override;
+    std::vector<std::string> jointNames(const bool scoped = false) const override;
 
     // ==================
     // Vectorized Methods
@@ -148,7 +155,6 @@ public:
      * ``Model::jointNames`` is used.
      * @return The generalized force targets of the joints.
      */
-
      std::vector<double> jointGeneralizedForceTargets( //
          const std::vector<std::string>& jointNames = {}) const override;
 

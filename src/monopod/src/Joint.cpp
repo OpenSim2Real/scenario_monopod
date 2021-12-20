@@ -22,6 +22,7 @@ public:
     std::string parentModelName;
     std::string name;
     int monopodSdkIndex;
+    std::shared_ptr<monopod_drivers::Monopod> monopod_sdk;
 };
 
 Joint::Joint()
@@ -41,13 +42,13 @@ uint64_t Joint::id() const
 }
 
 bool Joint::initialize(const std::pair<std::string, int> nameIndexPair,
-                       const std::string parentModelName,
                        const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk)
 {
     // Set the names...
     pImpl->name = nameIndexPair.first;
     pImpl->monopodSdkIndex = nameIndexPair.second;
-    pImpl->parentModelName = parentModelName;
+    pImpl->monopod_sdk = monopod_sdk;
+    pImpl->parentModelName = pImpl->monopod_sdk->get_model_name();
 
     // Default max Force is set to inf by default..
     std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
@@ -137,45 +138,55 @@ bool Joint::setPID(const scenario::core::PID& pid)
 
 std::vector<double> Joint::jointPosition() const
 {
-    const std::vector<double> jointPosition(this->dofs(), 0);
-    //Todo: get joint pos from low level control
+    std::vector<double> jointPosition;
+    jointPosition.reserve(1);
+    auto data = pImpl->monopod_sdk->get_position(pImpl->monopodSdkIndex);
+    if(data.has_value())
+        jointPosition.push_back(data.value());
 
     if (jointPosition.size() != this->dofs()) {
         LOG(ERROR) << "The size of velocity being set for the joint '"
                    + this->name() + "' does not match the joint's DOFs.";
     }
 
-    LOG(INFO) << "Getting position for joint, " + this->name();
+    LOG(INFO) << "Getting position for joint, " + this->name() + " = " + std::to_string(data.value());
 
     return jointPosition;
 }
 
 std::vector<double> Joint::jointVelocity() const
 {
-    const std::vector<double> jointVelocity(this->dofs(), 0);
-    // Todo: Get joint Velocity from low level control
+    std::vector<double> jointVelocity;
+    jointVelocity.reserve(1);
+    auto data = pImpl->monopod_sdk->get_velocity(pImpl->monopodSdkIndex);
+    if(data.has_value())
+        jointVelocity.push_back(data.value());
+
 
     if (jointVelocity.size() != this->dofs()) {
         LOG(ERROR) << "The size of velocity being set for the joint '"
                     + this->name() + "' does not match the joint's DOFs.";
     }
 
-    LOG(INFO) << "Getting velocity for joint, " + this->name();
+    LOG(INFO) << "Getting velocity for joint, " + this->name() + " = " + std::to_string(data.value());
 
     return jointVelocity;
 }
 
 std::vector<double> Joint::jointAcceleration() const
 {
-    const std::vector<double> jointAcceleration(this->dofs(), 0);
-    //Todo: Get joint acceleration from low level control
+    std::vector<double> jointAcceleration;
+    jointAcceleration.reserve(1);
+    auto data = pImpl->monopod_sdk->get_acceleration(pImpl->monopodSdkIndex);
+    if(data.has_value())
+        jointAcceleration.push_back(data.value());
 
     if (jointAcceleration.size() != this->dofs()) {
         LOG(ERROR) << "The size of acceleration being set for the joint '"
                    + this->name() + "' does not match the joint's DOFs.";
     }
 
-    LOG(INFO) << "Getting acceleration for joint, " + this->name();
+    LOG(INFO) << "Getting acceleration for joint, " + this->name() + " = " + std::to_string(data.value());
 
     return jointAcceleration;
 }

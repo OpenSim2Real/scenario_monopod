@@ -27,7 +27,6 @@ public:
 
 
     bool initialize(const std::pair<std::string, int> nameIndexPair,
-                    const std::string parentModelName,
                     const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk);
 
     /**
@@ -111,8 +110,7 @@ public:
      * joint DOFs.
      * @return True for success, false otherwise.
      */
-    bool
-    setJointMaxGeneralizedForce(const std::vector<double>& maxForce) override;
+    bool setJointMaxGeneralizedForce(const std::vector<double>& maxForce) override;
 
     /**
      * Get the position of the joint.

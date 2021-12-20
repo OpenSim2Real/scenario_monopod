@@ -74,22 +74,22 @@ int main(int argc, char* argv[])
   jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
 
   auto pos = monopod->jointPositions(jNames);
-  std::cout << std::endl << "Joints position: ";
-  for (auto i: pos)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints position: ";
+  // for (auto i: pos)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
   auto vel = monopod->jointVelocities(jNames);
-  std::cout << std::endl << "Joints Velocity ";
-  for (auto i: vel)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints Velocity ";
+  // for (auto i: vel)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
   auto acc = monopod->jointAccelerations(jNames);
-  std::cout << std::endl << "Joints Acceleration ";
-  for (auto i: acc)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints Acceleration ";
+  // for (auto i: acc)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
     return 0;
 }
