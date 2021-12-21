@@ -15,8 +15,8 @@ class Joint::Impl
 {
 public:
     // We only have Revolute joints
+    const core::JointType jointType = core::JointType::Revolute;
     core::JointControlMode jointControlMode = core::JointControlMode::Idle;
-    core::JointType jointType = core::JointType::Revolute;
     std::optional<std::vector<double>> jointMaxGeneralizedForce;
     std::string parentModelName;
     std::string name;
@@ -66,8 +66,7 @@ bool Joint::valid() const
 
 scenario::core::JointType Joint::type() const
 {
-  const auto type = pImpl->jointType;
-  return type;
+    return pImpl->jointType;
 }
 
 size_t Joint::dofs() const
@@ -117,20 +116,7 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
 
 scenario::core::JointControlMode Joint::controlMode() const
 {
-    const scenario::core::JointControlMode mode = pImpl->jointControlMode;
-    return mode;
-}
-
-scenario::core::PID Joint::pid() const
-{
-    // get PID of low level controller here
-    return scenario::core::PID();
-}
-
-bool Joint::setPID(const scenario::core::PID& pid)
-{
-    // Set PID of lowlevel controller here
-    return true;
+    return pImpl->jointControlMode;
 }
 
 std::vector<double> Joint::jointPosition() const
@@ -232,40 +218,77 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
 std::vector<double> Joint::jointMaxGeneralizedForce() const
 {
-    if(!pImpl->jointMaxGeneralizedForce.has_value()){
-        // Set to default value here.
-        std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
-        pImpl->jointMaxGeneralizedForce = defaultMaxForce;
-    }
+    // if(!pImpl->jointMaxGeneralizedForce.has_value()){
+    //     // Set to default value here.
+    //     std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
+    //     pImpl->jointMaxGeneralizedForce = defaultMaxForce;
+    // }
+    //
+    // std::vector<double> maxGeneralizedForce(this->dofs(), 0);
+    // switch (this->type()) {
+    //     case scenario::core::JointType::Revolute: {
+    //         maxGeneralizedForce = pImpl->jointMaxGeneralizedForce.value();
+    //         break;
+    //     }
+    //     default: {
+    //         LOG(WARNING) << "Type of Joint with name '" + this->name()
+    //                       + "' has no max effort defined. Only defined for Revolute Joints";
+    //         break;
+    //     }
+    // }
+    // return maxGeneralizedForce;
 
-    std::vector<double> maxGeneralizedForce(this->dofs(), 0);
-    switch (this->type()) {
-        case scenario::core::JointType::Revolute: {
-            maxGeneralizedForce = pImpl->jointMaxGeneralizedForce.value();
-            break;
-        }
-        default: {
-            LOG(WARNING) << "Type of Joint with name '" + this->name()
-                          + "' has no max effort defined. Only defined for Revolute Joints";
-            break;
-        }
+    auto data = pImpl->monopod_sdk->get_max_torque_target(pImpl->monopodSdkIndex);
+
+    std::vector<double> maxGeneralizedForce;
+    maxGeneralizedForce.reserve(1);
+
+    if(data.has_value()){
+      maxGeneralizedForce.push_back(data.value());
+        // Set to default value here.
+    }else{
+      maxGeneralizedForce.push_back(0);
     }
     return maxGeneralizedForce;
 }
 
 bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 {
+    // if (maxForce.size() != this->dofs()) {
+    //     LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
+    //     return false;
+    // }
+    //
+    // pImpl->jointMaxGeneralizedForce = maxForce;
+    // return true;
 
     if (maxForce.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
         return false;
-    }
 
-    assert(maxForce.size() == 1);
-    pImpl->jointMaxGeneralizedForce = maxForce;
-    return true;
+    }
+    return pImpl->monopod_sdk->set_max_torque_target(maxForce[0], pImpl->monopodSdkIndex);
+
 }
 
+scenario::core::PID Joint::pid() const
+{
+    // get PID of low level controller here
+    auto data_op = pImpl->monopod_sdk->get_pid(pImpl->monopodSdkIndex);
+    if(data_op.has_value()){
+        auto data = data_op.value();
+        return scenario::core::PID(data.p, data.i, data.d);
+          // Set to default value here.
+    }else{
+        return scenario::core::PID();
+    }
+}
+
+bool Joint::setPID(const scenario::core::PID& pid)
+{
+    // Set PID of lowlevel controller here
+    return pImpl->monopod_sdk->set_pid(pid.p, pid.i, pid.d, pImpl->monopodSdkIndex);
+}
 
 // scenario::core::JointLimit Joint::jointPositionLimit() const
 // {

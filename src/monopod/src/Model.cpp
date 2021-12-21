@@ -262,9 +262,7 @@ bool Model::Impl::setJointDataSerialized(
     expectedDOFs = model->dofs(jointSerialization);
 
     if (data.size() != expectedDOFs) {
-        LOG(ERROR) << "The size of value being set for each joint ";
-        //            << "does not match the considered joint's DOFs."
-        //            << std::endl;
+        LOG(ERROR) << "The size of value being set for each joint does not match the considered joint's DOFs.";
         return false;
     }
 
@@ -287,31 +285,9 @@ bool Model::Impl::setJointDataSerialized(
 
         if (!setJointData(joint, values)) {
             LOG(ERROR) << "Failed to set force of joint '" << joint->name();
-            //            << "'" << std::endl;
             return false;
         }
     }
     assert(it == data.end());
     return true;
 }
-
-// scenario::core::JointLimit
-// Model::jointLimits(const std::vector<std::string>& jointNames) const
-// {
-//     const std::vector<std::string>& jointSerialization =
-//         jointNames.empty() ? this->jointNames() : jointNames;
-//
-//     std::vector<double> low;
-//     std::vector<double> high;
-//
-//     low.reserve(jointSerialization.size());
-//     high.reserve(jointSerialization.size());
-//
-//     for (const auto& joint : this->joints(jointSerialization)) {
-//         auto limit = joint->jointPositionLimit();
-//         std::move(limit.min.begin(), limit.min.end(), std::back_inserter(low));
-//         std::move(limit.max.begin(), limit.max.end(), std::back_inserter(high));
-//     }
-//
-//     return core::JointLimit(low, high);
-// }
