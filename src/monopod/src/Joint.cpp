@@ -8,6 +8,8 @@
 
 #include "scenario/monopod/easylogging++.h"
 
+
+
 using namespace scenario::monopod;
 const scenario::core::PID DefaultPID;
 
@@ -22,6 +24,7 @@ public:
     std::string name;
     int monopodSdkIndex;
     std::shared_ptr<monopod_drivers::Monopod> monopod_sdk;
+
 };
 
 Joint::Joint()
@@ -49,11 +52,6 @@ bool Joint::initialize(const std::pair<std::string, int> nameIndexPair,
     pImpl->monopod_sdk = monopod_sdk;
     pImpl->parentModelName = pImpl->monopod_sdk->get_model_name();
 
-    if (this->dofs() > 1) {
-        LOG(ERROR) << "Joints with DoFs > 1 are not currently supported";
-        return false;
-    }
-    // Todo::Set default PID here.
     return true;
 }
 
@@ -178,38 +176,45 @@ std::vector<double> Joint::jointGeneralizedForceTarget() const
 {
     std::vector<double> torque_target;
     torque_target.reserve(1);
-    auto data = pImpl->monopod_sdk->get_torque_target(pImpl->monopodSdkIndex);
-    if(data.has_value())
-        torque_target.push_back(data.value());
 
-    return torque_target;
+
+    switch (this->controlMode()) {
+        case core::JointControlMode::Force:
+        {
+            auto data = pImpl->monopod_sdk->get_torque_target(pImpl->monopodSdkIndex);
+            if(data.has_value())
+            {
+                torque_target.push_back(data.value());
+            }
+
+            return torque_target;
+        }
+        default:
+            LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
+            return torque_target;
+    }
 }
 
 bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 {
-    if (force.size() != this->dofs()) {
-        LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
-        return false;
-
-    }
-
-    const std::vector<double>& maxForce = this->jointMaxGeneralizedForce();
-    for (size_t dof = 0; dof < this->dofs(); ++dof) {
-        if (std::abs(force[dof]) > maxForce[dof]) {
-            LOG(WARNING) << "The force target is higher than the limit. Will be clipped.";
-        }
-    }
-
-    // Print values for testing
-    std::string msg = "Setting the joint, " + this->name() + ", to the force value: ";
-    for (auto i: force)
-        msg = msg + std::to_string(i) + ", ";
-    LOG(INFO) << msg;
 
     switch (this->controlMode()) {
         case core::JointControlMode::Force:
+        {
             // Set the component data
+            if (force.size() != this->dofs()) {
+                LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
+                return false;
+            }
+
+            const std::vector<double>& maxForce = this->jointMaxGeneralizedForce();
+            for (size_t dof = 0; dof < this->dofs(); ++dof) {
+                if (std::abs(force[dof]) > maxForce[dof]) {
+                    LOG(WARNING) << "The force target is higher than the limit. It may be clipped.";
+                }
+            }
             return pImpl->monopod_sdk->set_torque_target(force[0], pImpl->monopodSdkIndex);
+        }
         default:
             LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
             return false;
@@ -218,25 +223,6 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
 std::vector<double> Joint::jointMaxGeneralizedForce() const
 {
-    // if(!pImpl->jointMaxGeneralizedForce.has_value()){
-    //     // Set to default value here.
-    //     std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
-    //     pImpl->jointMaxGeneralizedForce = defaultMaxForce;
-    // }
-    //
-    // std::vector<double> maxGeneralizedForce(this->dofs(), 0);
-    // switch (this->type()) {
-    //     case scenario::core::JointType::Revolute: {
-    //         maxGeneralizedForce = pImpl->jointMaxGeneralizedForce.value();
-    //         break;
-    //     }
-    //     default: {
-    //         LOG(WARNING) << "Type of Joint with name '" + this->name()
-    //                       + "' has no max effort defined. Only defined for Revolute Joints";
-    //         break;
-    //     }
-    // }
-    // return maxGeneralizedForce;
 
     auto data = pImpl->monopod_sdk->get_max_torque_target(pImpl->monopodSdkIndex);
 
@@ -244,28 +230,19 @@ std::vector<double> Joint::jointMaxGeneralizedForce() const
     maxGeneralizedForce.reserve(1);
 
     if(data.has_value()){
-      maxGeneralizedForce.push_back(data.value());
+        maxGeneralizedForce.push_back(data.value());
         // Set to default value here.
     }else{
-      maxGeneralizedForce.push_back(0);
+        maxGeneralizedForce.push_back(0);
     }
     return maxGeneralizedForce;
 }
 
 bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 {
-    // if (maxForce.size() != this->dofs()) {
-    //     LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
-    //     return false;
-    // }
-    //
-    // pImpl->jointMaxGeneralizedForce = maxForce;
-    // return true;
-
     if (maxForce.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
         return false;
-
     }
     return pImpl->monopod_sdk->set_max_torque_target(maxForce[0], pImpl->monopodSdkIndex);
 

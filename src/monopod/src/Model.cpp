@@ -263,6 +263,7 @@ bool Model::Impl::setJointDataSerialized(
 
     if (data.size() != expectedDOFs) {
         LOG(ERROR) << "The size of value being set for each joint does not match the considered joint's DOFs.";
+        throw std::invalid_argument( "Failed to set value of joints,  The size of value being set for each joint does not match the considered joint's DOFs." );
         return false;
     }
 
@@ -284,7 +285,8 @@ bool Model::Impl::setJointDataSerialized(
           values[0]=*it++;
 
         if (!setJointData(joint, values)) {
-            LOG(ERROR) << "Failed to set force of joint '" << joint->name();
+            LOG(ERROR) << "Failed to set force of joint '" << joint->name() <<"'. Joint Might not support Force control";
+            throw std::invalid_argument( "Failed to set value of joint '" + joint->name() + "'. Joint Might not support Force control" );
             return false;
         }
     }

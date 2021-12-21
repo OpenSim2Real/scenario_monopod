@@ -46,14 +46,35 @@ int main(int, char**)
 
     rt_printf("loops have started \n");
 
-    double x = 0;
+    int i = 0;
+    std::vector<double> force = {0,0};
+    std::vector<double> max_force = {15};
+
+    monopod->setJointControlMode(scenario::core::JointControlMode::Force);
+    auto j1 = monopod->getJoint("knee_joint");
+    auto j2 = monopod->getJoint("hip_joint");
+
+    j1->setJointMaxGeneralizedForce(max_force);
+    j2->setJointMaxGeneralizedForce(max_force);
+
     while (!StopDemos)
     {
         real_time_tools::Timer::sleep_sec(1);
         rt_printf("New iteration \n");
-        auto pos = monopod->jointPositions();
+        // auto pos = monopod->jointPositions();
         // auto vel = monopod->jointVelocities();
         // auto acc = monopod->jointAccelerations();
+        monopod->setJointGeneralizedForceTargets(force, {"knee_joint", "hip_joint"});
+
+        rt_printf("Force targets \n");
+        for (auto i: monopod->jointGeneralizedForceTargets())
+            std::cout << i << ", ";
+        std::cout << std::endl << std::endl;
+
+        // force[(i++)%2]++;
+        i++;
+        force[0] = i%20;
+        force[1] = -i%20;
 
     }
 

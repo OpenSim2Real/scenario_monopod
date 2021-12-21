@@ -28,19 +28,20 @@ int main(int argc, char* argv[])
         std::cout << i << ", ";
     std::cout << std::endl << std::endl;
 
-    std::vector<double> forces = {1,2,3,4,5};
-    std::vector<std::string> jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
+    std::vector<double> forces = {1,2};
+    // std::vector<std::string> jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
+    std::vector<std::string> jNames = {"knee_joint", "hip_joint"};
 // Check if setting force targets work before setting the control mode.
-
-    auto ok = monopod->setJointGeneralizedForceTargets(forces, jNames);
-    std::cout << "Setting force successful? "
-              << ok
-              << std::endl<< std::endl;
-
-    std::cout << "What are the set Joint Generalized force targets: ";
-    for (auto i: monopod->jointGeneralizedForceTargets())
-        std::cout << i << ", ";
-    std::cout << std::endl;
+    bool ok;
+    // auto ok = monopod->setJointGeneralizedForceTargets(forces, jNames);
+    // std::cout << "Setting force successful? "
+    //           << ok
+    //           << std::endl<< std::endl;
+    //
+    // std::cout << "What are the set Joint Generalized force targets: ";
+    // for (auto i: monopod->jointGeneralizedForceTargets())
+    //     std::cout << i << ", ";
+    // std::cout << std::endl;
 
 // Set control mode and test again...
 
