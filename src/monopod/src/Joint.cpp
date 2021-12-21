@@ -17,8 +17,7 @@ public:
     // We only have Revolute joints
     core::JointControlMode jointControlMode = core::JointControlMode::Idle;
     core::JointType jointType = core::JointType::Revolute;
-    std::vector<double> forceTarget;
-    std::vector<double> jointMaxGeneralizedForce;
+    std::optional<std::vector<double>> jointMaxGeneralizedForce;
     std::string parentModelName;
     std::string name;
     int monopodSdkIndex;
@@ -50,13 +49,6 @@ bool Joint::initialize(const std::pair<std::string, int> nameIndexPair,
     pImpl->monopod_sdk = monopod_sdk;
     pImpl->parentModelName = pImpl->monopod_sdk->get_model_name();
 
-    // Default max Force is set to inf by default..
-    std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
-    pImpl->jointMaxGeneralizedForce = std::move(defaultMaxForce);
-
-    // Set the force targets to 0 for all DOF...
-    std::vector<double> forcetarget(this->dofs(), 0);
-    pImpl->forceTarget = forcetarget;
     if (this->dofs() > 1) {
         LOG(ERROR) << "Joints with DoFs > 1 are not currently supported";
         return false;
@@ -109,8 +101,13 @@ bool Joint::setControlMode(const scenario::core::JointControlMode mode)
     // Real robot only has torque control or invalid (no control)
     switch (mode) {
         case core::JointControlMode::Force:
+        {
             pImpl->jointControlMode = mode;
+            // Set the force targets to 0 for all DOF...
+            std::vector<double> forcetarget(this->dofs(), 0);
+            this->setJointGeneralizedForceTarget(forcetarget);
             return true;
+        }
         default:
             LOG(ERROR) << "Only support force control mode.";
             return false;
@@ -193,7 +190,13 @@ std::vector<double> Joint::jointAcceleration() const
 
 std::vector<double> Joint::jointGeneralizedForceTarget() const
 {
-    return pImpl->forceTarget;
+    std::vector<double> torque_target;
+    torque_target.reserve(1);
+    auto data = pImpl->monopod_sdk->get_torque_target(pImpl->monopodSdkIndex);
+    if(data.has_value())
+        torque_target.push_back(data.value());
+
+    return torque_target;
 }
 
 bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
@@ -211,36 +214,39 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
         }
     }
 
-    switch (this->controlMode()) {
-        case core::JointControlMode::Force:
-            // Set the component data
-            pImpl->forceTarget = force;
-            break;
-        default:
-            LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
-            return false;
-    }
-
     // Print values for testing
     std::string msg = "Setting the joint, " + this->name() + ", to the force value: ";
     for (auto i: force)
         msg = msg + std::to_string(i) + ", ";
     LOG(INFO) << msg;
 
-    return true;
+    switch (this->controlMode()) {
+        case core::JointControlMode::Force:
+            // Set the component data
+            return pImpl->monopod_sdk->set_torque_target(force[0], pImpl->monopodSdkIndex);
+        default:
+            LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
+            return false;
+    }
 }
 
 std::vector<double> Joint::jointMaxGeneralizedForce() const
 {
-    std::vector<double> maxGeneralizedForce;
+    if(!pImpl->jointMaxGeneralizedForce.has_value()){
+        // Set to default value here.
+        std::vector<double> defaultMaxForce(this->dofs(), std::numeric_limits<double>::infinity());
+        pImpl->jointMaxGeneralizedForce = defaultMaxForce;
+    }
+
+    std::vector<double> maxGeneralizedForce(this->dofs(), 0);
     switch (this->type()) {
         case scenario::core::JointType::Revolute: {
-            maxGeneralizedForce = pImpl->jointMaxGeneralizedForce;
+            maxGeneralizedForce = pImpl->jointMaxGeneralizedForce.value();
             break;
         }
         default: {
             LOG(WARNING) << "Type of Joint with name '" + this->name()
-                          + "' has no max effort defined";
+                          + "' has no max effort defined. Only defined for Revolute Joints";
             break;
         }
     }
