@@ -17,17 +17,17 @@ Joint	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^Joint::Join
 id	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^uint64_t Joint::id() const$/;"	function	line:36	class:Joint	signature:() const
 initialize	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::initialize(const std::pair<std::string, int> nameIndexPair,$/;"	function	line:46	class:Joint	signature:(const std::pair<std::string, int> nameIndexPair, const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk)
 valid	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::valid() const$/;"	function	line:58	class:Joint	signature:() const
-type	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^scenario::core::JointType Joint::type() const$/;"	function	line:65	class:Joint	signature:() const
-dofs	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^size_t Joint::dofs() const$/;"	function	line:70	class:Joint	signature:() const
+type	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^scenario::core::JointType Joint::type() const$/;"	function	line:64	class:Joint	signature:() const
+dofs	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^size_t Joint::dofs() const$/;"	function	line:69	class:Joint	signature:() const
 name	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::string Joint::name(const bool scoped) const$/;"	function	line:85	class:Joint	signature:(const bool scoped) const
 setControlMode	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setControlMode(const scenario::core::JointControlMode mode)$/;"	function	line:96	class:Joint	signature:(const scenario::core::JointControlMode mode)
 controlMode	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^scenario::core::JointControlMode Joint::controlMode() const$/;"	function	line:115	class:Joint	signature:() const
 jointPosition	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointPosition() const$/;"	function	line:120	class:Joint	signature:() const
-jointVelocity	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointVelocity() const$/;"	function	line:138	class:Joint	signature:() const
-jointAcceleration	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointAcceleration() const$/;"	function	line:157	class:Joint	signature:() const
-jointGeneralizedForceTarget	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointGeneralizedForceTarget() const$/;"	function	line:175	class:Joint	signature:() const
-setJointGeneralizedForceTarget	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)$/;"	function	line:198	class:Joint	signature:(const std::vector<double>& force)
-jointMaxGeneralizedForce	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointMaxGeneralizedForce() const$/;"	function	line:224	class:Joint	signature:() const
-setJointMaxGeneralizedForce	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)$/;"	function	line:241	class:Joint	signature:(const std::vector<double>& maxForce)
-pid	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^scenario::core::PID Joint::pid() const$/;"	function	line:251	class:Joint	signature:() const
-setPID	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setPID(const scenario::core::PID& pid)$/;"	function	line:264	class:Joint	signature:(const scenario::core::PID& pid)
+jointVelocity	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointVelocity() const$/;"	function	line:132	class:Joint	signature:() const
+jointAcceleration	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointAcceleration() const$/;"	function	line:144	class:Joint	signature:() const
+jointGeneralizedForceTarget	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointGeneralizedForceTarget() const$/;"	function	line:156	class:Joint	signature:() const
+setJointGeneralizedForceTarget	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)$/;"	function	line:174	class:Joint	signature:(const std::vector<double>& force)
+jointMaxGeneralizedForce	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^std::vector<double> Joint::jointMaxGeneralizedForce() const$/;"	function	line:200	class:Joint	signature:() const
+setJointMaxGeneralizedForce	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)$/;"	function	line:212	class:Joint	signature:(const std::vector<double>& maxForce)
+pid	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^scenario::core::PID Joint::pid() const$/;"	function	line:222	class:Joint	signature:() const
+setPID	/home/capstone/Documents/Repos/SIM/src/monopod/src/Joint.cpp	/^bool Joint::setPID(const scenario::core::PID& pid)$/;"	function	line:235	class:Joint	signature:(const scenario::core::PID& pid)
