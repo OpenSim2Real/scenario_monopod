@@ -68,17 +68,6 @@ scenario::core::JointType Joint::type() const
 
 size_t Joint::dofs() const
 {
-    // switch (this->type()) {
-    //     case core::JointType::Fixed:
-    //     case core::JointType::Revolute:
-    //     case core::JointType::Prismatic:
-    //         return 1;
-    //     case core::JointType::Invalid:
-    //         return 0;
-    //     default:
-    //         assert(false);
-    //         return 0;
-    // }
     return 1;
 }
 
@@ -95,21 +84,33 @@ std::string Joint::name(const bool scoped) const
 
 bool Joint::setControlMode(const scenario::core::JointControlMode mode)
 {
-    // Real robot only has torque control or invalid (no control)
+
     switch (mode) {
         case core::JointControlMode::Force:
         {
+            // Check if this joint can be controlled
+            if (pImpl->monopod_sdk->is_joint_controllable(pImpl->monopodSdkIndex))
+            {
+              pImpl->jointControlMode = mode;
+              // Set the force targets to 0 for all DOF...
+              std::vector<double> forcetarget(this->dofs(), 0);
+              this->setJointGeneralizedForceTarget(forcetarget);
+              return true;
+            }
+            throw std::invalid_argument("Joint '" + this->name() + "' is not controllable. Does not support Force control mode.");
+
+        }
+        case core::JointControlMode::Invalid:
+        case core::JointControlMode::Idle:
+        {
             pImpl->jointControlMode = mode;
-            // Set the force targets to 0 for all DOF...
-            std::vector<double> forcetarget(this->dofs(), 0);
-            this->setJointGeneralizedForceTarget(forcetarget);
             return true;
         }
         default:
-            LOG(ERROR) << "Only support force control mode.";
-            return false;
+            // Real robot only has torque control or invalid (no control)
+            throw std::invalid_argument("Only support force control mode.");
     }
-    return false;
+
 }
 
 scenario::core::JointControlMode Joint::controlMode() const
@@ -160,7 +161,8 @@ std::vector<double> Joint::jointGeneralizedForceTarget() const
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
-        return torque_target;
+        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
+        // return torque_target;
     }
 
     if(auto data_op = pImpl->monopod_sdk->get_torque_target(pImpl->monopodSdkIndex))
@@ -176,12 +178,14 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
+        // throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
         return false;
     }
 
     // Set the component data
     if (force.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
+        // throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
         return false;
     }
 
@@ -213,6 +217,7 @@ bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 {
     if (maxForce.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
+        // throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
         return false;
     }
     return pImpl->monopod_sdk->set_max_torque_target(maxForce[0], pImpl->monopodSdkIndex);

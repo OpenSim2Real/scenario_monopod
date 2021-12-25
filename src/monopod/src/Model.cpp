@@ -244,6 +244,12 @@ std::vector<double> Model::Impl::getJointDataSerialized(
             data.push_back(value);
         }
     }
+    size_t expectedDOFs = model->dofs(jointSerialization);
+    if (data.size() != expectedDOFs)
+    {
+        LOG(ERROR) << "Failed to collect data from joints. Number of data elements does not match considered joint's DOFs.";
+        throw std::invalid_argument( "Failed to collect data from joints. Number of data elements does not match considered joint's DOFs." );
+    }
 
     return data;
 }

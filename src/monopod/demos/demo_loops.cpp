@@ -50,7 +50,7 @@ int main(int, char**)
     std::vector<double> force = {0,0};
     std::vector<double> max_force = {15};
 
-    monopod->setJointControlMode(scenario::core::JointControlMode::Force);
+    monopod->setJointControlMode(scenario::core::JointControlMode::Force, {"knee_joint", "hip_joint"});
     auto j1 = monopod->getJoint("knee_joint");
     auto j2 = monopod->getJoint("hip_joint");
 
@@ -67,7 +67,7 @@ int main(int, char**)
         monopod->setJointGeneralizedForceTargets(force, {"knee_joint", "hip_joint"});
 
         rt_printf("Force targets \n");
-        for (auto i: monopod->jointGeneralizedForceTargets())
+        for (auto i: monopod->jointGeneralizedForceTargets({"knee_joint", "hip_joint"}))
             std::cout << i << ", ";
         std::cout << std::endl << std::endl;
 

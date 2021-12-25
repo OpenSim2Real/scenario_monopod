@@ -158,6 +158,7 @@ public:
      std::vector<double> jointGeneralizedForceTargets( //
          const std::vector<std::string>& jointNames = {}) const override;
 
+     bool setControllerPeriod(const double period) override;
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
@@ -174,7 +175,6 @@ private:
     std::vector<std::string>
     linkNames(const bool scoped = false) const override;
     double controllerPeriod() const override;
-    bool setControllerPeriod(const double period) override;
     bool enableHistoryOfAppliedJointForces(
         const bool enable = true,
         const size_t maxHistorySizePerJoint = 100,
@@ -258,6 +258,11 @@ private:
 };
 
 // ==========
+// place holder
+// ==========
+inline bool scenario::monopod::Model::setControllerPeriod(const double period) {return true;} // set as a dummy.
+
+// ==========
 // Model Core
 // ==========
 inline size_t scenario::monopod::Model::nrOfLinks() const {exit(0);}
@@ -266,7 +271,6 @@ inline double scenario::monopod::Model::totalMass(const std::vector<std::string>
 inline scenario::core::LinkPtr scenario::monopod::Model::getLink(const std::string& linkName) const {exit(0);}
 inline std::vector<std::string> scenario::monopod::Model::linkNames(const bool scoped) const {exit(0);}
 inline double scenario::monopod::Model::controllerPeriod() const {exit(0);}
-inline bool scenario::monopod::Model::setControllerPeriod(const double period) {exit(0);}
 inline bool scenario::monopod::Model::enableHistoryOfAppliedJointForces(
     const bool enable,
     const size_t maxHistorySizePerJoint,
