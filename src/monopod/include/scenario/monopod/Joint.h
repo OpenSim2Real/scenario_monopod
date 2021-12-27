@@ -152,59 +152,71 @@ public:
      */
     std::vector<double> jointGeneralizedForceTarget() const override;
 
+    /**
+     * Get the position limits of the joint.
+     *
+     * @return The position limits of the joint.
+     */
+    core::JointLimit jointPositionLimit() const override;
+
+    /**
+     * Get the velocity limits of the joint.
+     *
+     * @return The velocity limits of the joint.
+     */
+    core::JointLimit jointVelocityLimit() const override;
+
+    /**
+     * Get the acceleration limits of the joint.
+     *
+     * @return The acceleration limits of the joint.
+     */
+    core::JointLimit jointAccelerationLimit() const;
+
+    /**
+     * Set the maximum position of the joint.
+     *
+     * This limit can be used to set safety limits on the joint position.
+     * when violated the Robot will enter into a safe mode. disabling the robot
+     * until it is reset or restart.
+     *
+     * @param maxVelocity A vector with the maximum position of the joint DOFs.
+     * @return True for success, false otherwise.
+     */
+    bool setJointPositionLimit(const double& maxPosition, const double& minPosition);
+
+    /**
+     * Set the maximum velocity of the joint.
+     *
+     * This limit can be used to set safety limits on the joint velocity.
+     * when violated the Robot will enter into a safe mode. disabling the robot
+     * until it is reset or restart.
+     *
+     * @param maxVelocity A vector with the maximum velocity of the joint DOFs.
+     * @return True for success, false otherwise.
+     */
+    bool setJointVelocityLimit(const double& maxVelocity, const double& minVelocity);
+
+    /**
+     * Set the maximum acceleration of the joint.
+     *
+     * This limit can be used to set safety limits on the joint acceleration.
+     * when violated the Robot will enter into a safe mode. disabling the robot
+     * until it is reset or restart.
+     *
+     * @param maxVelocity A vector with the maximum acceleration of the joint DOFs.
+     * @return True for success, false otherwise.
+     */
+    bool setJointAccelerationLimit(const double& maxAcceleration, const double& minAcceleration);
+
     // /**
-    //  * Get the position limits of the joint.
+    //  * Reset joint to feshly initialized state. The zeros are not reset. This
+    //  * method is required after a violation of the joint safety limits.
     //  *
-    //  * @return The position limits of the joint.
-    //  */
-    // virtual JointLimit jointPositionLimit() const = 0;
-    //
-    // /**
-    //  * Get the velocity limits of the joint.
-    //  *
-    //  * @return The velocity limits of the joint.
-    //  */
-    // virtual JointLimit jointVelocityLimit() const = 0;
-    //
-    // /**
-    //  * Get the acceleration limits of the joint.
-    //  *
-    //  * @return The acceleration limits of the joint.
-    //  */
-    // virtual JointLimit jointAccelerationLimit() const = 0;
-    //
-    // /**
-    //  * Set the maximum position of the joint.
-    //  *
-    //  * This limit can be used to clip the position applied by joint
-    //  * controllers.
-    //  *
-    //  * @param maxVelocity A vector with the maximum position of the joint DOFs.
     //  * @return True for success, false otherwise.
     //  */
-    // virtual bool setJointPositionLimit(const std::vector<double>& maxPosition) = 0;
-    //
-    // /**
-    //  * Set the maximum velocity of the joint.
-    //  *
-    //  * This limit can be used to clip the velocity applied by joint
-    //  * controllers.
-    //  *
-    //  * @param maxVelocity A vector with the maximum velocity of the joint DOFs.
-    //  * @return True for success, false otherwise.
-    //  */
-    // virtual bool setJointVelocityLimit(const std::vector<double>& maxVelocity) = 0;
-    //
-    // /**
-    //  * Set the maximum acceleration of the joint.
-    //  *
-    //  * This limit can be used to clip the acceleration applied by joint
-    //  * controllers.
-    //  *
-    //  * @param maxVelocity A vector with the maximum acceleration of the joint DOFs.
-    //  * @return True for success, false otherwise.
-    //  */
-    // virtual bool setJointAccelerationLimit(const std::vector<double>& maxAcceleration) = 0;
+    //  // * @param reset_zeros A vector with the maximum acceleration of the joint DOFs.
+    // bool jointReset();
 
 private:
     class Impl;
@@ -243,8 +255,8 @@ private:
    // =================
    // Multi DOF methods
    // =================
-   core::JointLimit jointPositionLimit() const override;
-   core::JointLimit jointVelocityLimit() const override;
+   // core::JointLimit jointPositionLimit() const override;
+   // core::JointLimit jointVelocityLimit() const override;
    bool setJointVelocityLimit(const std::vector<double>& maxVelocity) override;
    std::vector<double> jointGeneralizedForce() const override;
    bool setJointPositionTarget(const std::vector<double>& position) override;
@@ -287,8 +299,8 @@ inline double scenario::monopod::Joint::generalizedForceTarget(const size_t dof)
 // =================
 // Multi DOF methods
 // =================
-inline scenario::core::JointLimit scenario::monopod::Joint::jointPositionLimit() const {exit(0);}
-inline scenario::core::JointLimit scenario::monopod::Joint::jointVelocityLimit() const {exit(0);}
+// inline scenario::core::JointLimit scenario::monopod::Joint::jointPositionLimit() const {exit(0);}
+// inline scenario::core::JointLimit scenario::monopod::Joint::jointVelocityLimit() const {exit(0);}
 inline bool scenario::monopod::Joint::setJointVelocityLimit(const std::vector<double>& maxVelocity) {exit(0);}
 inline std::vector<double> scenario::monopod::Joint::jointGeneralizedForce() const {exit(0);}
 inline bool scenario::monopod::Joint::setJointVelocityTarget(const std::vector<double>& velocity) {exit(0);}

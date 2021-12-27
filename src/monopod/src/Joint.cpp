@@ -125,9 +125,12 @@ std::vector<double> Joint::jointPosition() const
     {
         jointPosition.push_back(data.value());
         LOG(INFO) << "Getting position for joint, " + this->name() + " = " + std::to_string(data.value());
+        return jointPosition;
     }
 
-    return jointPosition;
+    throw std::invalid_argument( "No joint position found for joint '" + this->name() + "'.");
+    // return jointPosition;
+
 }
 
 std::vector<double> Joint::jointVelocity() const
@@ -137,9 +140,12 @@ std::vector<double> Joint::jointVelocity() const
     {
         jointVelocity.push_back(data.value());
         LOG(INFO) << "Getting velocity for joint, " + this->name() + " = " + std::to_string(data.value());
+        return jointVelocity;
     }
 
-    return jointVelocity;
+    throw std::invalid_argument( "No joint velocity found for joint '" + this->name() + "'.");
+    // return jointVelocity;
+
 }
 
 std::vector<double> Joint::jointAcceleration() const
@@ -149,28 +155,33 @@ std::vector<double> Joint::jointAcceleration() const
     {
         jointAcceleration.push_back(data.value());
         LOG(INFO) << "Getting acceleration for joint, " + this->name() + " = " + std::to_string(data.value());
+        return jointAcceleration;
     }
 
-    return jointAcceleration;
+    throw std::invalid_argument( "No joint acceleration found for joint '" + this->name() + "'.");
+    // return jointAcceleration;
+
 }
 
 std::vector<double> Joint::jointGeneralizedForceTarget() const
 {
 
-    std::vector<double> torque_target;
+    std::vector<double> torqueTarget;
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
         throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
-        // return torque_target;
+        // return torqueTarget;
     }
 
     if(auto data_op = pImpl->monopod_sdk->get_torque_target(pImpl->monopodSdkIndex))
     {
-        torque_target.push_back(data_op.value());
+        torqueTarget.push_back(data_op.value());
+        return torqueTarget;
     }
 
-    return torque_target;
+    throw std::invalid_argument( "No generalized force target found for joint '" + this->name() + "'.");
+    // return torqueTarget;
 }
 
 bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
@@ -178,15 +189,15 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
-        // throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
-        return false;
+        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
+        // return false;
     }
 
     // Set the component data
     if (force.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
-        // throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
-        return false;
+        throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
+        // return false;
     }
 
     // // NOTE: This gets handled in monopod_sdk. No need to waste
@@ -203,150 +214,104 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
 std::vector<double> Joint::jointMaxGeneralizedForce() const
 {
-
     std::vector<double> maxGeneralizedForce;
 
     if(auto data_op = pImpl->monopod_sdk->get_max_torque_target(pImpl->monopodSdkIndex)){
         maxGeneralizedForce.push_back(data_op.value());
         // Set to default value here.
+        return maxGeneralizedForce;
     }
-    return maxGeneralizedForce;
+
+    throw std::invalid_argument( "No max generalized force found for joint '" + this->name() + "'.");
+    // return maxGeneralizedForce;
 }
 
 bool Joint::setJointMaxGeneralizedForce(const std::vector<double>& maxForce)
 {
     if (maxForce.size() != this->dofs()) {
         LOG(ERROR) << "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")";
-        // throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
-        return false;
+        throw std::invalid_argument( "Wrong number of elements (joint_dofs=" + std::to_string(this->dofs()) + ")" );
+        // return false;
     }
+
     return pImpl->monopod_sdk->set_max_torque_target(maxForce[0], pImpl->monopodSdkIndex);
 
 }
 
 scenario::core::PID Joint::pid() const
 {
-    // get PID of low level controller here
+    if(this->controlMode() != core::JointControlMode::Force) {
+        LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.";
+        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
+    }
 
     if(auto data_op = pImpl->monopod_sdk->get_pid(pImpl->monopodSdkIndex)){
         auto data = data_op.value();
         return scenario::core::PID(data.p, data.i, data.d);
           // Set to default value here.
-    }else{
-        return scenario::core::PID();
     }
+
+    throw std::invalid_argument( "No PID value found for joint '" + this->name() + "'.");
+    // return scenario::core::PID();
+
 }
 
 bool Joint::setPID(const scenario::core::PID& pid)
 {
-    // Set PID of lowlevel controller here
+    if(this->controlMode() != core::JointControlMode::Force) {
+        LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.";
+        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
+    }
+
     return pImpl->monopod_sdk->set_pid(pid.p, pid.i, pid.d, pImpl->monopodSdkIndex);
 }
 
-// scenario::core::JointLimit Joint::jointPositionLimit() const
-// {
-//     core::JointLimit jointLimit(this->dofs());
-//
-//     // switch (this->type()) {
-//     //     case core::JointType::Revolute:
-//     //     case core::JointType::Prismatic: {
-//     //         sdf::JointAxis& axis = utils::getExistingComponentData< //
-//     //             ignition::gazebo::components::JointAxis>(m_ecm, m_entity);
-//     //         jointLimit.min[0] = axis.Lower();
-//     //         jointLimit.max[0] = axis.Upper();
-//     //         break;
-//     //     }
-//     //     case core::JointType::Fixed:
-//     //         sWarning << "Fixed joints do not have DOFs, limits are not defined"
-//     //                  << std::endl;
-//     //         break;
-//     //     case core::JointType::Invalid:
-//     //     case core::JointType::Ball:
-//     //         sWarning << "Type of Joint '" << this->name() << "' has no limits"
-//     //                  << std::endl;
-//     //         break;
-//     // }
-//
-//     return jointLimit;
-// }
-//
-// scenario::core::JointLimit Joint::jointVelocityLimit() const
-// {
-//     core::JointLimit jointLimit(this->dofs());
-//
-//     // switch (this->type()) {
-//     //     case core::JointType::Revolute:
-//     //     case core::JointType::Prismatic: {
-//     //         sdf::JointAxis& axis = utils::getExistingComponentData< //
-//     //             ignition::gazebo::components::JointAxis>(m_ecm, m_entity);
-//     //         jointLimit.min[0] = -axis.MaxVelocity();
-//     //         jointLimit.max[0] = axis.MaxVelocity();
-//     //         break;
-//     //     }
-//     //     case core::JointType::Fixed:
-//     //         sWarning << "Fixed joints do not have DOFs, limits are not defined"
-//     //                  << std::endl;
-//     //         break;
-//     //     case core::JointType::Invalid:
-//     //     case core::JointType::Ball:
-//     //         sWarning << "Type of Joint '" << this->name() << "' has no limits"
-//     //                  << std::endl;
-//     //         break;
-//     // }
-//
-//     return jointLimit;
-// }
-//
-// scenario::core::JointLimit Joint::jointAccelerationLimit() const
-// {
-//     core::JointLimit jointLimit(this->dofs());
-//
-//     // switch (this->type()) {
-//     //     case core::JointType::Revolute:
-//     //     case core::JointType::Prismatic: {
-//     //         sdf::JointAxis& axis = utils::getExistingComponentData< //
-//     //             ignition::gazebo::components::JointAxis>(m_ecm, m_entity);
-//     //         jointLimit.min[0] = -axis.MaxAcceleration();
-//     //         jointLimit.max[0] = axis.MaxAcceleration();
-//     //         break;
-//     //     }
-//     //     case core::JointType::Fixed:
-//     //         sWarning << "Fixed joints do not have DOFs, limits are not defined"
-//     //                  << std::endl;
-//     //         break;
-//     //     case core::JointType::Invalid:
-//     //     case core::JointType::Ball:
-//     //         sWarning << "Type of Joint '" << this->name() << "' has no limits"
-//     //                  << std::endl;
-//     //         break;
-//     // }
-//
-//     return jointLimit;
-// }
-//
-// bool Joint::setJointVelocityLimit(const std::vector<double>& maxVelocity)
-// {
-//     if (maxVelocity.size() != this->dofs()) {
-//         sError << "Wrong number of elements (joint_dofs=" << this->dofs() << ")"
-//                << std::endl;
-//         return false;
-//     }
-//
-//     // switch (this->type()) {
-//     //     case core::JointType::Revolute: {
-//     //         sdf::JointAxis& axis = utils::getExistingComponentData< //
-//     //             ignition::gazebo::components::JointAxis>(m_ecm, m_entity);
-//     //         axis.SetMaxVelocity(maxVelocity[0]);
-//     //         return true;
-//     //     }
-//     //     case core::JointType::Ball:
-//     //     case core::JointType::Prismatic:
-//     //     case core::JointType::Fixed:
-//     //     case core::JointType::Invalid:
-//     //         sWarning << "Fixed and Invalid joints have no friction defined."
-//     //                  << std::endl;
-//     //         return false;
-//     // }
-//
-//     return false;
-// }
+scenario::core::JointLimit Joint::jointPositionLimit() const
+{
+    if(auto data_op = pImpl->monopod_sdk->get_joint_position_limit(pImpl->monopodSdkIndex)){
+        auto data = data_op.value();
+        return scenario::core::JointLimit({data.min}, {data.max});
+    }
+
+    throw std::invalid_argument( "No position limit found for joint '" + this->name() + "'.");
+    // return scenario::core::JointLimit(this->dofs());
+}
+
+scenario::core::JointLimit Joint::jointVelocityLimit() const
+{
+    if(auto data_op = pImpl->monopod_sdk->get_joint_velocity_limit(pImpl->monopodSdkIndex)){
+        auto data = data_op.value();
+        return scenario::core::JointLimit({data.min}, {data.max});
+    }
+
+    throw std::invalid_argument( "No velocity limit found for joint '" + this->name() + "'.");
+    // return scenario::core::JointLimit(this->dofs());
+}
+
+scenario::core::JointLimit Joint::jointAccelerationLimit() const
+{
+    if(auto data_op = pImpl->monopod_sdk->get_joint_acceleration_limit(pImpl->monopodSdkIndex)){
+        auto data = data_op.value();
+        return scenario::core::JointLimit({data.min}, {data.max});
+    }
+
+    throw std::invalid_argument( "No acceleration limit found for joint '" + this->name() + "'.");
+    // return scenario::core::JointLimit(this->dofs());
+
+}
+
+
+bool Joint::setJointPositionLimit(const double& maxPosition, const double& minPosition)
+{
+  return pImpl->monopod_sdk->set_joint_position_limit(maxPosition, minPosition, pImpl->monopodSdkIndex);
+}
+
+bool Joint::setJointVelocityLimit(const double& maxVelocity, const double& minVelocity)
+{
+  return pImpl->monopod_sdk->set_joint_velocity_limit(maxVelocity, minVelocity, pImpl->monopodSdkIndex);
+}
+
+bool Joint::setJointAccelerationLimit(const double& maxAcceleration, const double& minAcceleration)
+{
+  return pImpl->monopod_sdk->set_joint_acceleration_limit(maxAcceleration, minAcceleration, pImpl->monopodSdkIndex);
+}
