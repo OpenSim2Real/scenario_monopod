@@ -128,7 +128,7 @@ std::vector<double> Joint::jointPosition() const
         return jointPosition;
     }
 
-    throw std::invalid_argument( "No joint position found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No joint position found for joint '" + this->name() + "'.");
     // return jointPosition;
 
 }
@@ -143,7 +143,7 @@ std::vector<double> Joint::jointVelocity() const
         return jointVelocity;
     }
 
-    throw std::invalid_argument( "No joint velocity found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No joint velocity found for joint '" + this->name() + "'.");
     // return jointVelocity;
 
 }
@@ -158,7 +158,7 @@ std::vector<double> Joint::jointAcceleration() const
         return jointAcceleration;
     }
 
-    throw std::invalid_argument( "No joint acceleration found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No joint acceleration found for joint '" + this->name() + "'.");
     // return jointAcceleration;
 
 }
@@ -170,7 +170,7 @@ std::vector<double> Joint::jointGeneralizedForceTarget() const
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
-        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
+        throw std::runtime_error( "Joint, '" + this->name() + "' is not in force control mode.");
         // return torqueTarget;
     }
 
@@ -180,7 +180,7 @@ std::vector<double> Joint::jointGeneralizedForceTarget() const
         return torqueTarget;
     }
 
-    throw std::invalid_argument( "No generalized force target found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No generalized force target found for joint '" + this->name() + "'.");
     // return torqueTarget;
 }
 
@@ -189,7 +189,7 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double>& force)
 
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode.";
-        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode.");
+        throw std::runtime_error( "Joint, '" + this->name() + "' is not in force control mode.");
         // return false;
     }
 
@@ -222,7 +222,7 @@ std::vector<double> Joint::jointMaxGeneralizedForce() const
         return maxGeneralizedForce;
     }
 
-    throw std::invalid_argument( "No max generalized force found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No max generalized force found for joint '" + this->name() + "'.");
     // return maxGeneralizedForce;
 }
 
@@ -242,7 +242,7 @@ scenario::core::PID Joint::pid() const
 {
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.";
-        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
+        throw std::runtime_error( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
     }
 
     if(auto data_op = pImpl->monopod_sdk->get_pid(pImpl->monopodSdkIndex)){
@@ -251,7 +251,7 @@ scenario::core::PID Joint::pid() const
           // Set to default value here.
     }
 
-    throw std::invalid_argument( "No PID value found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No PID value found for joint '" + this->name() + "'.");
     // return scenario::core::PID();
 
 }
@@ -260,7 +260,7 @@ bool Joint::setPID(const scenario::core::PID& pid)
 {
     if(this->controlMode() != core::JointControlMode::Force) {
         LOG(ERROR) << "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.";
-        throw std::invalid_argument( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
+        throw std::runtime_error( "Joint, '" + this->name() + "' is not in force control mode. Does not support PID.");
     }
 
     return pImpl->monopod_sdk->set_pid(pid.p, pid.i, pid.d, pImpl->monopodSdkIndex);
@@ -273,7 +273,7 @@ scenario::core::JointLimit Joint::jointPositionLimit() const
         return scenario::core::JointLimit({data.min}, {data.max});
     }
 
-    throw std::invalid_argument( "No position limit found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No position limit found for joint '" + this->name() + "'.");
     // return scenario::core::JointLimit(this->dofs());
 }
 
@@ -284,7 +284,7 @@ scenario::core::JointLimit Joint::jointVelocityLimit() const
         return scenario::core::JointLimit({data.min}, {data.max});
     }
 
-    throw std::invalid_argument( "No velocity limit found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No velocity limit found for joint '" + this->name() + "'.");
     // return scenario::core::JointLimit(this->dofs());
 }
 
@@ -295,7 +295,7 @@ scenario::core::JointLimit Joint::jointAccelerationLimit() const
         return scenario::core::JointLimit({data.min}, {data.max});
     }
 
-    throw std::invalid_argument( "No acceleration limit found for joint '" + this->name() + "'.");
+    throw std::runtime_error( "No acceleration limit found for joint '" + this->name() + "'.");
     // return scenario::core::JointLimit(this->dofs());
 
 }
