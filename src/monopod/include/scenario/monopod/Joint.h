@@ -180,7 +180,8 @@ public:
      * when violated the Robot will enter into a safe mode. disabling the robot
      * until it is reset or restart.
      *
-     * @param maxVelocity A vector with the maximum position of the joint DOFs.
+     * @param maxPosition maximum position of the joint DOFs.
+     * @param minPosition minimum position of the joint DOFs.
      * @return True for success, false otherwise.
      */
     bool setJointPositionLimit(const double& maxPosition, const double& minPosition);
@@ -192,7 +193,8 @@ public:
      * when violated the Robot will enter into a safe mode. disabling the robot
      * until it is reset or restart.
      *
-     * @param maxVelocity A vector with the maximum velocity of the joint DOFs.
+     * @param maxVelocity maximum velocity of the joint DOFs.
+     * @param minVelocity minimum position of the joint DOFs.
      * @return True for success, false otherwise.
      */
     bool setJointVelocityLimit(const double& maxVelocity, const double& minVelocity);
@@ -204,7 +206,8 @@ public:
      * when violated the Robot will enter into a safe mode. disabling the robot
      * until it is reset or restart.
      *
-     * @param maxVelocity A vector with the maximum acceleration of the joint DOFs.
+     * @param maxAcceleration maximum acceleration of the joint DOFs.
+     * @param minAcceleration minimum acceleration of the joint DOFs.
      * @return True for success, false otherwise.
      */
     bool setJointAccelerationLimit(const double& maxAcceleration, const double& minAcceleration);
