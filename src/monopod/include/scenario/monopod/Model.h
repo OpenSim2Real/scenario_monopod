@@ -2,6 +2,9 @@
 #ifndef SCENARIO_MONOPOD_MODEL_H
 #define SCENARIO_MONOPOD_MODEL_H
 
+// #include "real_time_tools/thread.hpp"
+#include <monopod_sdk/monopod.hpp>
+
 #include "scenario/core/Model.h"
 
 #include <array>
@@ -21,8 +24,6 @@ public:
     Model();
     virtual ~Model();
 
-    // bool initialize(const std::string _name);
-
     uint64_t id() const;
     /**
      * Check if the model is valid.
@@ -38,7 +39,17 @@ public:
      */
     std::string name() const override;
 
+    /**
+     * Get the joints DOF
+     *
+     * @param jointNames Optional vector of considered joints that also
+     * defines the joint serialization. By default, ``Model::jointNames`` is
+     * used.
+     * @return The sum of serialization of joint DOFs. The sum is the number of DoFs
+     * of all the considered joints.
+     */
     size_t dofs(const std::vector<std::string>& jointNames = {}) const override;
+
     /**
      * Get a joint belonging to the model.
      *
@@ -55,8 +66,7 @@ public:
      * (e.g. ``mymodel::joint1``).
      * @return The list of joint names.
      */
-    std::vector<std::string>
-    jointNames(const bool scoped = false) const override;
+    std::vector<std::string> jointNames(const bool scoped = false) const override;
 
     // ==================
     // Vectorized Methods
@@ -145,10 +155,10 @@ public:
      * ``Model::jointNames`` is used.
      * @return The generalized force targets of the joints.
      */
-
      std::vector<double> jointGeneralizedForceTargets( //
          const std::vector<std::string>& jointNames = {}) const override;
 
+     bool setControllerPeriod(const double period) override;
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
@@ -165,7 +175,6 @@ private:
     std::vector<std::string>
     linkNames(const bool scoped = false) const override;
     double controllerPeriod() const override;
-    bool setControllerPeriod(const double period) override;
     bool enableHistoryOfAppliedJointForces(
         const bool enable = true,
         const size_t maxHistorySizePerJoint = 100,
@@ -249,93 +258,97 @@ private:
 };
 
 // ==========
+// place holder
+// ==========
+inline bool scenario::monopod::Model::setControllerPeriod(const double period) {return true;} // set as a dummy.
+
+// ==========
 // Model Core
 // ==========
-inline size_t scenario::monopod::Model::nrOfLinks() const {exit(0);};
-inline size_t scenario::monopod::Model::nrOfJoints() const {exit(0);};
-inline double scenario::monopod::Model::totalMass(const std::vector<std::string>& linkNames) const {exit(0);};
-inline scenario::core::LinkPtr scenario::monopod::Model::getLink(const std::string& linkName) const {exit(0);};
-inline std::vector<std::string> scenario::monopod::Model::linkNames(const bool scoped) const {exit(0);};
-inline double scenario::monopod::Model::controllerPeriod() const {exit(0);};
-inline bool scenario::monopod::Model::setControllerPeriod(const double period) {exit(0);};
+inline size_t scenario::monopod::Model::nrOfLinks() const {exit(0);}
+inline size_t scenario::monopod::Model::nrOfJoints() const {exit(0);}
+inline double scenario::monopod::Model::totalMass(const std::vector<std::string>& linkNames) const {exit(0);}
+inline scenario::core::LinkPtr scenario::monopod::Model::getLink(const std::string& linkName) const {exit(0);}
+inline std::vector<std::string> scenario::monopod::Model::linkNames(const bool scoped) const {exit(0);}
+inline double scenario::monopod::Model::controllerPeriod() const {exit(0);}
 inline bool scenario::monopod::Model::enableHistoryOfAppliedJointForces(
     const bool enable,
     const size_t maxHistorySizePerJoint,
-    const std::vector<std::string>& jointNames) {exit(0);};
+    const std::vector<std::string>& jointNames) {exit(0);}
 inline bool scenario::monopod::Model::historyOfAppliedJointForcesEnabled(
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 inline std::vector<double> scenario::monopod::Model::historyOfAppliedJointForces(
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 // ========
 // Contacts
 // ========
-inline bool scenario::monopod::Model::contactsEnabled() const {exit(0);};
-inline bool scenario::monopod::Model::enableContacts(const bool enable) {exit(0);};
-inline std::vector<std::string> scenario::monopod::Model::linksInContact() const {exit(0);};
-inline std::vector<scenario::core::Contact> scenario::monopod::Model::contacts(const std::vector<std::string>& linkNames) const {exit(0);};
+inline bool scenario::monopod::Model::contactsEnabled() const {exit(0);}
+inline bool scenario::monopod::Model::enableContacts(const bool enable) {exit(0);}
+inline std::vector<std::string> scenario::monopod::Model::linksInContact() const {exit(0);}
+inline std::vector<scenario::core::Contact> scenario::monopod::Model::contacts(const std::vector<std::string>& linkNames) const {exit(0);}
 // ==================
 // Vectorized Methods
 // ==================
 inline std::vector<double> scenario::monopod::Model::jointGeneralizedForces( //
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 inline scenario::core::JointLimit scenario::monopod::Model::jointLimits( //
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 inline std::vector<scenario::core::LinkPtr> scenario::monopod::Model::links( //
-    const std::vector<std::string>& linkNames) const {exit(0);};
+    const std::vector<std::string>& linkNames) const {exit(0);}
 // =========================
 // Vectorized Target Methods
 // =========================
 inline bool scenario::monopod::Model::setJointPositionTargets( //
     const std::vector<double>& positions,
-    const std::vector<std::string>& jointNames) {exit(0);};
+    const std::vector<std::string>& jointNames) {exit(0);}
 inline bool scenario::monopod::Model::setJointVelocityTargets( //
     const std::vector<double>& velocities,
-    const std::vector<std::string>& jointNames) {exit(0);};
+    const std::vector<std::string>& jointNames) {exit(0);}
 inline bool scenario::monopod::Model::setJointAccelerationTargets( //
     const std::vector<double>& accelerations,
-    const std::vector<std::string>& jointNames) {exit(0);};
+    const std::vector<std::string>& jointNames) {exit(0);}
 inline std::vector<double> scenario::monopod::Model::jointPositionTargets( //
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 inline std::vector<double> scenario::monopod::Model::jointVelocityTargets( //
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 inline std::vector<double> scenario::monopod::Model::jointAccelerationTargets( //
-    const std::vector<std::string>& jointNames) const {exit(0);};
+    const std::vector<std::string>& jointNames) const {exit(0);}
 // =========
 // Base Link
 // =========
-inline std::string scenario::monopod::Model::baseFrame() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::basePosition() const {exit(0);};
-inline std::array<double, 4> scenario::monopod::Model::baseOrientation() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseBodyLinearVelocity() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseBodyAngularVelocity() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearVelocity() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularVelocity() const {exit(0);};
+inline std::string scenario::monopod::Model::baseFrame() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::basePosition() const {exit(0);}
+inline std::array<double, 4> scenario::monopod::Model::baseOrientation() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseBodyLinearVelocity() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseBodyAngularVelocity() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearVelocity() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularVelocity() const {exit(0);}
 // =================
 // Base Link Targets
 // =================
 inline bool scenario::monopod::Model::setBasePoseTarget( //
     const std::array<double, 3>& position,
-    const std::array<double, 4>& orientation) {exit(0);};
+    const std::array<double, 4>& orientation) {exit(0);}
 inline bool scenario::monopod::Model::setBasePositionTarget( //
-    const std::array<double, 3>& position) {exit(0);};
+    const std::array<double, 3>& position) {exit(0);}
 inline bool scenario::monopod::Model::setBaseOrientationTarget( //
-    const std::array<double, 4>& orientation) {exit(0);};
+    const std::array<double, 4>& orientation) {exit(0);}
 inline bool scenario::monopod::Model::setBaseWorldVelocityTarget( //
     const std::array<double, 3>& linear,
-    const std::array<double, 3>& angular) {exit(0);};
+    const std::array<double, 3>& angular) {exit(0);}
 inline bool scenario::monopod::Model::setBaseWorldLinearVelocityTarget( //
-    const std::array<double, 3>& linear) {exit(0);};
+    const std::array<double, 3>& linear) {exit(0);}
 inline bool scenario::monopod::Model::setBaseWorldAngularVelocityTarget( //
-    const std::array<double, 3>& angular) {exit(0);};
+    const std::array<double, 3>& angular) {exit(0);}
 inline bool scenario::monopod::Model::setBaseWorldLinearAccelerationTarget( //
-    const std::array<double, 3>& linear) {exit(0);};
+    const std::array<double, 3>& linear) {exit(0);}
 inline bool scenario::monopod::Model::setBaseWorldAngularAccelerationTarget( //
-    const std::array<double, 3>& angular) {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::basePositionTarget() const {exit(0);};
-inline std::array<double, 4> scenario::monopod::Model::baseOrientationTarget() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearVelocityTarget() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularVelocityTarget() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearAccelerationTarget() const {exit(0);};
-inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularAccelerationTarget() const {exit(0);};
+    const std::array<double, 3>& angular) {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::basePositionTarget() const {exit(0);}
+inline std::array<double, 4> scenario::monopod::Model::baseOrientationTarget() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearVelocityTarget() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularVelocityTarget() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldLinearAccelerationTarget() const {exit(0);}
+inline std::array<double, 3> scenario::monopod::Model::baseWorldAngularAccelerationTarget() const {exit(0);}
 
 #endif // SCENARIO_MONOPOD_MODEL_H

@@ -4,14 +4,13 @@
 
 #include <algorithm>
 #include <cassert>
-// #include <ostream>
 #include <stdexcept>
 #include <functional>
 #include <unordered_map>
 
 #include "scenario/monopod/easylogging++.h"
 
-INITIALIZE_EASYLOGGINGPP;
+INITIALIZE_EASYLOGGINGPP
 
 using namespace scenario::monopod;
 

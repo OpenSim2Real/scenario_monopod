@@ -2,7 +2,6 @@
 #include <scenario/monopod/Model.h>
 #include <scenario/monopod/World.h>
 
-#include <scenario/core/Model.h>
 
 #include <chrono>
 #include <string>
@@ -29,21 +28,20 @@ int main(int argc, char* argv[])
         std::cout << i << ", ";
     std::cout << std::endl << std::endl;
 
-    std::vector<double> forces = {1,2,3,4,5};
-    std::vector<std::string> jNames = {"upper_leg_joint", "lower_leg_joint",
-                                      "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
-
+    std::vector<double> forces = {1,2};
+    // std::vector<std::string> jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
+    std::vector<std::string> jNames = {"knee_joint", "hip_joint"};
 // Check if setting force targets work before setting the control mode.
-
-    auto ok = monopod->setJointGeneralizedForceTargets(forces, jNames);
-    std::cout << "Setting force successful? "
-              << ok
-              << std::endl<< std::endl;
-
-    std::cout << "What are the set Joint Generalized force targets: ";
-    for (auto i: monopod->jointGeneralizedForceTargets())
-        std::cout << i << ", ";
-    std::cout << std::endl;
+    bool ok;
+    // auto ok = monopod->setJointGeneralizedForceTargets(forces, jNames);
+    // std::cout << "Setting force successful? "
+    //           << ok
+    //           << std::endl<< std::endl;
+    //
+    // std::cout << "What are the set Joint Generalized force targets: ";
+    // for (auto i: monopod->jointGeneralizedForceTargets())
+    //     std::cout << i << ", ";
+    // std::cout << std::endl;
 
 // Set control mode and test again...
 
@@ -63,7 +61,7 @@ int main(int argc, char* argv[])
 
 // Test the order of the force targets getter given specified joints
 
-    jNames = {"upper_leg_joint", "lower_leg_joint"};
+    jNames = {"knee_joint",  "hip_joint"};
     std::cout << "For the joints: ";
     for (auto i: jNames)
         std::cout << i << ", ";
@@ -74,26 +72,25 @@ int main(int argc, char* argv[])
 
   // Test vel, accel, pos getters
 
-  jNames = {"upper_leg_joint", "lower_leg_joint",
-                                    "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
+  jNames = {"knee_joint", "boom_connector_joint", "planarizer_yaw_joint", "hip_joint", "planarizer_pitch_joint"};
 
   auto pos = monopod->jointPositions(jNames);
-  std::cout << std::endl << "Joints position: ";
-  for (auto i: pos)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints position: ";
+  // for (auto i: pos)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
   auto vel = monopod->jointVelocities(jNames);
-  std::cout << std::endl << "Joints Velocity ";
-  for (auto i: vel)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints Velocity ";
+  // for (auto i: vel)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
   auto acc = monopod->jointAccelerations(jNames);
-  std::cout << std::endl << "Joints Acceleration ";
-  for (auto i: acc)
-      std::cout << i << ", ";
-  std::cout << std::endl << std::endl;
+  // std::cout << std::endl << "Joints Acceleration ";
+  // for (auto i: acc)
+  //     std::cout << i << ", ";
+  // std::cout << std::endl << std::endl;
 
     return 0;
 }

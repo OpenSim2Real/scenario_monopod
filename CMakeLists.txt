@@ -22,6 +22,19 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${SCENARIO_BUILD_TYPES})
 endif()
 
+if (MSVC)
+    # warning level 4 and all warnings as errors
+    # add_compile_options(/W4 /WX)
+else()
+    # lots of warnings and all warnings as errors
+    add_compile_options(-Wno-unused-parameter -Wno-missing-field-initializers)
+endif()
+
+#DEPENDS
+
+find_package(Scenario COMPONENTS Core REQUIRED)
+find_package(MonopodSdk COMPONENTS Core REQUIRED)
+
 # Expose shared or static compilation
 set(SCENARIO_BUILD_SHARED_LIBRARY TRUE
     CACHE BOOL "Compile libraries as shared libraries")
@@ -37,9 +50,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(UNIX AND NOT APPLE)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
         get_filename_component(LINKER_BIN ${CMAKE_LINKER} NAME)
-            if("${LINKER_BIN}" STREQUAL "ld")
-                set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
-            endif()
+        if("${LINKER_BIN}" STREQUAL "ld")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
+        endif()
     endif()
 endif()
 
@@ -69,6 +82,7 @@ if(NOT MSVC)
     mark_as_advanced(ENABLE_RPATH)
 endif()
 
+
 # Dependencies
 add_subdirectory(deps)
 
@@ -97,12 +111,6 @@ if(SCENARIO_ENABLE_BINDINGS OR SCENARIO_CALL_FROM_SETUP_PY)
     find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
     message(STATUS "Using Python: ${Python3_EXECUTABLE}")
 endif()
-
-# =========
-# Find Scenario root
-# =========
-
-# Assume that scenario was installed using pip... This is necesary for this to work
 
 find_package(Scenario COMPONENTS Core REQUIRED)
 
@@ -154,13 +162,6 @@ include(InstallBasicPackageFiles)
 # =========
 
 add_subdirectory(src)
-
-# ========
-# Testing Executable
-# ========
-
-add_executable(Test main.cpp)
-target_link_libraries(Test PRIVATE ScenarioMonopod)
 
 # # ========
 # # BINDINGS

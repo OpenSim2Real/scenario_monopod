@@ -1,17 +1,16 @@
 #include "scenario/monopod/Model.h"
 #include "scenario/monopod/Joint.h"
 #include "scenario/monopod/World.h"
+#include "scenario/monopod/easylogging++.h"
 
 #include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <functional>
 #include <tuple>
-// #include <iostream>
 #include <unordered_map>
 #include <stdexcept>
 
-#include "scenario/monopod/easylogging++.h"
 
 using namespace scenario::monopod;
 
@@ -21,6 +20,7 @@ public:
 
     using JointName = std::string;
     std::unordered_map<JointName, core::JointPtr> joints;
+    std::unordered_map<JointName, int> jointIndexingMap;
 
     struct
     {
@@ -38,26 +38,31 @@ public:
         const std::vector<double>& data,
         const std::vector<std::string>& jointNames,
         std::function<bool(core::JointPtr, const std::vector<double>)> setJointData);
+
+    std::shared_ptr<monopod_drivers::Monopod> monopod_sdk;
+    std::string modelName;
 };
 
 Model::Model()
     : pImpl{std::make_unique<Impl>()}
 {
-    // Get the joint names from api
-    // Currently a place holder
-    std::vector<std::string> jointNames = {"upper_leg_joint", "lower_leg_joint",
-                                "boom_pitch_joint", "boom_yaw_joint", "hip_joint"};
+    // Initialize the monopod sdk and start the loop.
+    // Set model name.
+    pImpl->monopod_sdk = std::make_shared<monopod_drivers::Monopod>();
+    pImpl->monopod_sdk->initialize();
+    pImpl->monopod_sdk->start_loop();
+    pImpl->modelName = pImpl->monopod_sdk->get_model_name();
+
     // Set up all the joints.
-    for (auto& jointName : jointNames) {
+    pImpl->jointIndexingMap = pImpl->monopod_sdk->get_joint_names();
+    for (auto const &jointPair : pImpl->jointIndexingMap) {
         // Initialize The joint
-        // Will need to include the Robot SDK to be passed into the initialize
         auto joint = std::make_shared<scenario::monopod::Joint>();
-        joint->initialize(jointName, this->name());
+        joint->initialize(jointPair, pImpl->monopod_sdk);
+
         // Cache joint
-        pImpl->joints[jointName] = joint;
+        pImpl->joints[jointPair.first] = joint;
     }
-    // Do not need to store the joint name.
-    // It will be Cached the first time it is called.
 }
 
 Model::~Model() = default;
@@ -82,8 +87,7 @@ bool Model::valid() const
 
 std::string Model::name() const
 {
-    std::string modelName = "monopod";
-    return modelName;
+    return pImpl->modelName;
 }
 
 size_t Model::dofs(const std::vector<std::string>& jointNames) const
@@ -132,10 +136,10 @@ scenario::core::JointPtr Model::getJoint(const std::string& jointName) const
     }
     std::string str = " ";
     for(auto& name: this->jointNames())
-        str = str + " " + name;
+        str = str + name + ", ";
 
-    LOG(ERROR) << "Joint name does not exist in model. Available models are: " + str;
-    throw std::invalid_argument( "Joint name does not exist in model. Available models are: " + str );
+    LOG(ERROR) << "Joint name " + jointName + " does not exist in model. Available joints are: " + str;
+    throw std::invalid_argument( "Joint name: " + jointName + ",  does not exist in model. Available joints are: " + str );
 }
 
 std::vector<scenario::core::JointPtr>
@@ -231,12 +235,20 @@ std::vector<double> Model::Impl::getJointDataSerialized(
         jointNames.empty() ? model->jointNames() : jointNames;
 
     std::vector<double> data;
-    data.reserve(model->dofs());
+    data.reserve(jointSerialization.size());
+
+    // data.reserve(model->dofs(jointSerialization));
 
     for (auto& joint : model->joints(jointSerialization)) {
         for (auto& value: getJointData(joint)) {
             data.push_back(value);
         }
+    }
+    size_t expectedDOFs = model->dofs(jointSerialization);
+    if (data.size() != expectedDOFs)
+    {
+        LOG(ERROR) << "Failed to collect data from joints. Number of data elements does not match considered joint's DOFs.";
+        throw std::invalid_argument( "Failed to collect data from joints. Number of data elements does not match considered joint's DOFs." );
     }
 
     return data;
@@ -256,50 +268,34 @@ bool Model::Impl::setJointDataSerialized(
     expectedDOFs = model->dofs(jointSerialization);
 
     if (data.size() != expectedDOFs) {
-        LOG(ERROR) << "The size of value being set for each joint ";
-        //            << "does not match the considered joint's DOFs."
-        //            << std::endl;
+        LOG(ERROR) << "The size of value being set for each joint does not match the considered joint's DOFs.";
+        throw std::invalid_argument( "Failed to set value of joints,  The size of value being set for each joint does not match the considered joint's DOFs." );
         return false;
     }
 
     auto it = data.begin();
 
+    std::vector<double> values(1);
+    // std::vector<double> values;
+    // values.reserve(1);
+
     for (auto& joint : model->joints(jointNames)) {
 
-        std::vector<double> values;
-        values.reserve(joint->dofs());
+        // std::vector<double> values;
+        // values.reserve(joint->dofs());
+        //
+        // for (size_t dof = 0; dof < joint->dofs(); ++dof)
+        //   values.push_back(*it++);
 
-        for (size_t dof = 0; dof < joint->dofs(); ++dof) {
-          values.push_back(*it++);
-        }
+        for (size_t dof = 0; dof < joint->dofs(); ++dof)
+          values[0]=*it++;
 
         if (!setJointData(joint, values)) {
-            LOG(ERROR) << "Failed to set force of joint '" << joint->name();
-            //            << "'" << std::endl;
+            LOG(ERROR) << "Failed to set force of joint '" << joint->name() <<"'. Joint Might not support Force control";
+            throw std::invalid_argument( "Failed to set value of joint '" + joint->name() + "'. Joint Might not support Force control" );
             return false;
         }
     }
     assert(it == data.end());
     return true;
 }
-
-// scenario::core::JointLimit
-// Model::jointLimits(const std::vector<std::string>& jointNames) const
-// {
-//     const std::vector<std::string>& jointSerialization =
-//         jointNames.empty() ? this->jointNames() : jointNames;
-//
-//     std::vector<double> low;
-//     std::vector<double> high;
-//
-//     low.reserve(jointSerialization.size());
-//     high.reserve(jointSerialization.size());
-//
-//     for (const auto& joint : this->joints(jointSerialization)) {
-//         auto limit = joint->jointPositionLimit();
-//         std::move(limit.min.begin(), limit.min.end(), std::back_inserter(low));
-//         std::move(limit.max.begin(), limit.max.end(), std::back_inserter(high));
-//     }
-//
-//     return core::JointLimit(low, high);
-// }

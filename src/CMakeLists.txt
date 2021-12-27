@@ -1,5 +1,5 @@
 # ==============
-# Find scanrio Core dependencies
+# Find scanrio Monopod dependencies
 # ==============
 
 set(SCENARIO_COMPONENTS ScenarioCore)
@@ -7,7 +7,6 @@ set(SCENARIO_PRIVATE_DEPENDENCIES "")
 
 add_subdirectory(monopod)
 list(APPEND SCENARIO_COMPONENTS ScenarioMonopod ScenarioGazebo)
-# list(APPEND SCENARIO_COMPONENTS ScenarioMonopod)
 
 # Dummy meta target for the top-level EXPORT
 add_library(Scenario INTERFACE)
