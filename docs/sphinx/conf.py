@@ -101,7 +101,7 @@ breathe_default_project = "scenario"
 # -- Options for sphinx_multiversion extension ----------------------------------
 
 # From: https://holzhaus.github.io/sphinx-multiversion
-smv_prefer_remote_refs = True
+smv_prefer_remote_refs = False
 smv_remote_whitelist = r"^(origin|upstream)$"
 smv_tag_whitelist = r"^dummy"
 smv_branch_whitelist = r"^(master|devel|docs/.*)$"

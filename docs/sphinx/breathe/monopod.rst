@@ -1,4 +1,4 @@
-.. _scenario_monopod:
+.. _scenario_monopod_cpp:
 
 Monopod
 =======
