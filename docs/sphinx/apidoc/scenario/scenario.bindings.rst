@@ -7,14 +7,6 @@ scenario.bindings
    :show-inheritance:
 
 
-scenario.bindings.core
-----------------------
-
-.. automodule:: scenario.bindings.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 scenario.bindings.monopod
 -------------------------
 
