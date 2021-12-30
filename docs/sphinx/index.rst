@@ -1,0 +1,18 @@
+.. _scenario_monopod:
+
+Scenario Monopod
+================
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: ScenarIO C++ API:
+
+   breathe/monopod
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: Python Packages
+
+   apidoc/scenario/scenario.bindings

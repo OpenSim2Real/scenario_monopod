@@ -10,13 +10,12 @@ set(DOXYGEN_GENERATE_LATEX YES)
 set(DOXYGEN_FILE_PATTERNS "*.h")
 set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 set(DOXYGEN_EXCLUDE_PATTERNS
-    */components/* */plugins/* */details/* */private/*
-  */examples/* */tests/* */gympp/* */easylogging++.*)
+    */demos/* */easylogging++.*)
 
 doxygen_add_docs(
     doxygen
     ${PROJECT_SOURCE_DIR}
-    COMMENT "Generate man pages"
+    COMMENT "Generate main pages"
 )
 
 # This is required by Sphinx to find Doxygen XMLs
