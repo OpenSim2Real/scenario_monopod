@@ -34,7 +34,7 @@ add_custom_command(
     --no-toc --module-first --maxdepth 4
     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
     -o ${CMAKE_CURRENT_SOURCE_DIR}/apidoc/scenario
-    ${BINDINGS_MODULES_DIR}/scenario
+    ${BINDINGS_MODULES_DIR}/scenario/bindings/monopod
     COMMENT "Building <scenario> apidoc")
 
 # =============
