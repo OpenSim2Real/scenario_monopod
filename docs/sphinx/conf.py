@@ -17,7 +17,7 @@
 # -- Project information -----------------------------------------------------
 from datetime import datetime
 
-project = "scenario_monopod"
+project = "scenario"
 copyright = f"{datetime.now().year}, University of British Columbia"
 author = "Dawson Horvath"
 
