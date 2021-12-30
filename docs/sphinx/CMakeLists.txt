@@ -27,15 +27,15 @@ endif()
 find_package(SphinxApidoc REQUIRED)
 add_custom_target(apidoc ALL DEPENDS doxygen ScenarioSwig::Core ScenarioSwig::Monopod)
 
-add_custom_command(
-    TARGET apidoc POST_BUILD
-    COMMAND
-    ${SPHINX_APIDOC_EXECUTABLE} --force
-    --no-toc --module-first --maxdepth 4
-    -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
-    -o ${CMAKE_CURRENT_SOURCE_DIR}/apidoc/scenario
-    ${BINDINGS_MODULES_DIR}/scenario/bindings/monopod
-    COMMENT "Building <scenario> apidoc")
+# add_custom_command(
+#     TARGET apidoc POST_BUILD
+#     COMMAND
+#     ${SPHINX_APIDOC_EXECUTABLE} --force
+#     --no-toc --module-first --maxdepth 4
+#     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
+#     -o ${CMAKE_CURRENT_SOURCE_DIR}/apidoc/scenario
+#     ${BINDINGS_MODULES_DIR}/scenario/
+#     COMMENT "Building <scenario> apidoc")
 
 # =============
 # SPHINX TARGET
