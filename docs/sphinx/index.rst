@@ -8,7 +8,7 @@ Scenario Monopod
    :maxdepth: 2
    :caption: ScenarIO C++ API:
 
-   breathe/monopod
+   breathe/scenario_monopod_cpp
 
 .. toctree::
    :hidden:

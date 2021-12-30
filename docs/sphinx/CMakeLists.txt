@@ -34,9 +34,30 @@ add_custom_command(
     --no-toc --module-first --maxdepth 4
     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
     -o ${CMAKE_CURRENT_SOURCE_DIR}/apidoc/scenario
-    ${BINDINGS_MODULES_DIR}/scenario
+    ${BINDINGS_MODULES_DIR}/scenario/
     COMMENT "Building <scenario> apidoc")
 
+# =============
+# Create built package for overlord webpage in /html
+# =============
+set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/html)
+set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Copy over the breathe doxygen xml
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+"${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/xml")
+
+# Copy over the breathe docs
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+"${SPHINX_SOURCE}/breathe" "${SPHINX_BUILD}/sphinx_build/breathe")
+
+# Copy over the python bindings docs
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+"${SPHINX_SOURCE}/apidoc" "${SPHINX_BUILD}/sphinx_build/apidoc")
+
+# Copy over the python bindings docs
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy
+"${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/index.rst")
 # =============
 # SPHINX TARGET
 # =============
@@ -48,8 +69,6 @@ if(${DOXYGEN_OUTPUT_DIRECTORY} STREQUAL "")
     message(FATAL_ERROR "Doxygen was not configured properly")
 endif()
 
-set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/html)
-set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Extend the Python path including before generating the website
 # set(SPHINX_CMD export PYTHONPATH="${BINDINGS_MODULES_DIR}:$ENV{PYTHONPATH}" &&)
@@ -74,8 +93,8 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E touch "${SPHINX_BUILD}/.nojekyll"
     COMMENT "Disabling Jekyll in html folder")
 
-# # Handle redirect
-# add_custom_command(
-#     TARGET sphinx POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/index.html" "${SPHINX_BUILD}"
-#     COMMENT "Copying html redirect to html folder")
+# Handle redirect
+add_custom_command(
+    TARGET sphinx POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/index.html" "${SPHINX_BUILD}"
+    COMMENT "Copying html redirect to html folder")

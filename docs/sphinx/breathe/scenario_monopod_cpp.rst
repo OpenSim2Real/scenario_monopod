@@ -1,7 +1,7 @@
 .. _scenario_monopod_cpp:
 
-Monopod
-=======
+scenario::monopod
+====================
 
 .. doxygennamespace:: scenario::monopod
    :project: scenario
