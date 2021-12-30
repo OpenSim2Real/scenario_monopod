@@ -171,5 +171,13 @@ if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)
 endif()
 
+# # ========
+# # DOCS
+# # ========
+
+if(BUILD_DOCS)
+    add_subdirectory(docs)
+endif()
+
 # Add unistall target
 include(AddUninstallTarget)

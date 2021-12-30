@@ -17,7 +17,7 @@ swig_add_library(${scenario_swig_name}
 
 # swig_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
 
-add_library(ScenarioSwig::monopod ALIAS monopod)
+add_library(ScenarioSwig::Monopod ALIAS monopod)
 
 target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonopod)
 # target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
