@@ -57,7 +57,7 @@ endif()
 
 add_custom_target(source_rst_copy ALL
     DEPENDS apidoc
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${SPHINX_SOURCE}/scenario_monopod_docs" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_docs"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${SPHINX_SOURCE}/scenario_monopod_docs" "${SPHINX_BUILD}/sphinx_build"
     COMMENT "copy source doc build files."
   )
 
@@ -69,7 +69,7 @@ add_custom_target(index_copy ALL
 
 add_custom_target(doxygen_xml_copy ALL
     DEPENDS apidoc
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_xml"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/xml"
     COMMENT "copy source doxygen xml build files."
   )
 
