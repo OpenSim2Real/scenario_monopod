@@ -57,7 +57,7 @@ endif()
 
 add_custom_target(source_rst_copy ALL
     DEPENDS apidoc
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${SPHINX_SOURCE}/scenario_monopod_docs" "${SPHINX_BUILD}/scenario_monopod_docs/sphinx_build"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${SPHINX_SOURCE}/scenario_monopod_docs" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_docs"
     COMMENT "copy source doc build files."
   )
 
