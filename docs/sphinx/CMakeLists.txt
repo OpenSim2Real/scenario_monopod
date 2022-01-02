@@ -63,7 +63,7 @@ add_custom_target(source_rst_copy ALL
 
 add_custom_target(index_copy ALL
     DEPENDS apidoc
-    COMMAND ${CMAKE_COMMAND} -E copy "${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_index.rst"
+    COMMAND ${CMAKE_COMMAND} -E copy "${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/index.rst"
     COMMENT "copy index rst."
   )
 
