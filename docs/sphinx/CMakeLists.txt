@@ -26,6 +26,8 @@ endif()
 
 find_package(SphinxApidoc REQUIRED)
 add_custom_target(apidoc ALL DEPENDS doxygen ScenarioSwig::Core ScenarioSwig::Monopod)
+set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/html)
+set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_custom_command(
     TARGET apidoc POST_BUILD
@@ -33,31 +35,11 @@ add_custom_command(
     ${SPHINX_APIDOC_EXECUTABLE} --force
     --no-toc --module-first --maxdepth 4
     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
-    -o ${CMAKE_CURRENT_SOURCE_DIR}/apidoc/scenario
+    -o ${SPHINX_SOURCE}/scenario_monopod_docs/apidoc/scenario
     ${BINDINGS_MODULES_DIR}/scenario/
     COMMENT "Building <scenario> apidoc")
 
-# =============
-# Create built package for overlord webpage in /html
-# =============
-set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/html)
-set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Copy over the breathe doxygen xml
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/xml")
-
-# Copy over the breathe docs
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${SPHINX_SOURCE}/breathe" "${SPHINX_BUILD}/sphinx_build/breathe")
-
-# Copy over the python bindings docs
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${SPHINX_SOURCE}/apidoc" "${SPHINX_BUILD}/sphinx_build/apidoc")
-
-# Copy over the python bindings docs
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy
-"${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/index.rst")
 # =============
 # SPHINX TARGET
 # =============
@@ -68,6 +50,28 @@ find_package(SphinxMultiVersion REQUIRED)
 if(${DOXYGEN_OUTPUT_DIRECTORY} STREQUAL "")
     message(FATAL_ERROR "Doxygen was not configured properly")
 endif()
+
+# =============
+# Create built package for overlord webpage in /html
+# =============
+
+add_custom_target(source_rst_copy ALL
+    DEPENDS apidoc
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${SPHINX_SOURCE}/scenario_monopod_docs" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_docs"
+    COMMENT "copy source doc build files."
+  )
+
+add_custom_target(index_copy ALL
+    DEPENDS apidoc
+    COMMAND ${CMAKE_COMMAND} -E copy "${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_index.rst"
+    COMMENT "copy index rst."
+  )
+
+add_custom_target(doxygen_xml_copy ALL
+    DEPENDS apidoc
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/scenario_monopod_xml"
+    COMMENT "copy source doxygen xml build files."
+  )
 
 
 # Extend the Python path including before generating the website
