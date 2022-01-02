@@ -47,17 +47,10 @@ set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
 "${DOXYGEN_OUTPUT_DIRECTORY}/xml" "${SPHINX_BUILD}/sphinx_build/xml")
 
-# Copy over the breathe docs
+# Copy over the build files
 execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${SPHINX_SOURCE}/breathe" "${SPHINX_BUILD}/sphinx_build/breathe")
+"${SPHINX_SOURCE}" "${SPHINX_BUILD}/sphinx_build")
 
-# Copy over the python bindings docs
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-"${SPHINX_SOURCE}/apidoc" "${SPHINX_BUILD}/sphinx_build/apidoc")
-
-# Copy over the python bindings docs
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy
-"${SPHINX_SOURCE}/index.rst" "${SPHINX_BUILD}/sphinx_build/index.rst")
 # =============
 # SPHINX TARGET
 # =============
