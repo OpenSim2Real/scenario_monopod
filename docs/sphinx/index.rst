@@ -1,6 +1,6 @@
 .. _scenario_monopod:
 
-Scenario Monopod
+scenario_monopod
 ================
 
 .. toctree::
