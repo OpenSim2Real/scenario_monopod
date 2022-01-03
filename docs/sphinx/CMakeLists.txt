@@ -35,7 +35,7 @@ add_custom_command(
     ${SPHINX_APIDOC_EXECUTABLE} --force
     --no-toc --module-first --maxdepth 4
     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
-    -o ${SPHINX_SOURCE}/scenario_monopod_docs/apidoc/scenario
+    -o ${SPHINX_SOURCE}/scenario_monopod_docs/python/scenario
     ${BINDINGS_MODULES_DIR}/scenario/
     COMMENT "Building <scenario> apidoc")
 
