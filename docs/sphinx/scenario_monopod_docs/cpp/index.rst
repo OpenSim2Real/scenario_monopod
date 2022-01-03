@@ -8,4 +8,4 @@ scenario::monopod API
    :maxdepth: 4
    :caption: ScenarIO C++ API:
 
-   scenario_monopod_docs/breathe/scenario_monopod_cpp
+   scenario_monopod_cpp
