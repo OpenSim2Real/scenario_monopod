@@ -4,7 +4,7 @@ Scenario Monopod
 ================
 
 .. toctree::
-   :caption: ScenarIO Monopod Package:
+  :caption: ScenarIO Monopod Package:
 
    scenario_monopod_docs/introduction/index
    scenario_monopod_docs/cpp/index
