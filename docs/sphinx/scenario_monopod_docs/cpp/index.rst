@@ -1,7 +1,7 @@
 .. _scenario_monopod_cpp_api:
 
-scenario::monopod API
-=====================
+ScenarIO C++ API
+================
 
 .. toctree::
    :hidden:
