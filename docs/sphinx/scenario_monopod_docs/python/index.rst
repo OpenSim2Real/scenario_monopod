@@ -1,11 +1,6 @@
 .. _scenario_monopod_python_api:
 
-Python Bindings
-================
+scenario.bindings.monopod
+=========================
 
-.. toctree::
-   :hidden:
-   :maxdepth: 4
-   :caption: Python Bindings
-
-   scenario/scenario.bindings
+.. include:: scenario/scenario.bindings.rst
