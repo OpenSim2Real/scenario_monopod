@@ -175,6 +175,10 @@ endif()
 # # DOCS
 # # ========
 
+option(BUILD_DOCS "Enable the configuration and building of the documentation." FALSE)
+option(BUILD_DOCS_SUPERBUILD "Build the docs with the purpose of using in the superbuild doc compilation. \
+This will make it so the docs are not built only configured." FALSE)
+
 if(BUILD_DOCS)
     add_subdirectory(docs)
 endif()

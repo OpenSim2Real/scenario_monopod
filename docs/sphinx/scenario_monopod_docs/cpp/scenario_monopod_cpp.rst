@@ -1,7 +1,7 @@
 .. _scenario_monopod_cpp:
 
-scenario::monopod
-====================
+ScenarIO C++ API
+================
 
 .. doxygennamespace:: scenario::monopod
    :project: scenario

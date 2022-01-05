@@ -7,5 +7,5 @@ scenario_monopod
   :caption: ScenarIO Monopod Package:
 
   scenario_monopod_docs/introduction/index
-  scenario_monopod_docs/cpp/index
-  scenario_monopod_docs/python/index
+  scenario_monopod_docs/cpp/scenario_monopod_cpp
+  scenario_monopod_docs/python/scenario.bindings
