@@ -8,3 +8,4 @@ Getting Started
   introduction
   installation
   quick_start
+  next_steps
