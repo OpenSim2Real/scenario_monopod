@@ -3,6 +3,26 @@
 ScenarIO C++ API
 ================
 
-.. doxygennamespace:: scenario::monopod
+
+ scenario::monopod::World
+ ------------------------
+
+ .. doxygenclass:: scenario::monopod::World
+   :project: scenario
+   :members:
+
+
+ scenario::monopod::Model
+ ------------------------
+
+ .. doxygenclass:: scenario::monopod::Model
+   :project: scenario
+   :members:
+
+
+ scenario::monopod::Joint
+ ---------------------------
+
+ .. doxygenclass:: scenario::monopod::Joint
    :project: scenario
    :members:
