@@ -1,7 +1,7 @@
 .. _scenario_monopod_cpp:
 
-ScenarIO C++ API
-================
+scenario::monopod C++ API
+=========================
 
 scenario::monopod::World
 ------------------------
