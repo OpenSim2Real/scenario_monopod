@@ -35,7 +35,7 @@ add_custom_command(
     ${SPHINX_APIDOC_EXECUTABLE} --force
     --no-toc --module-first --maxdepth 4
     -t ${CMAKE_CURRENT_SOURCE_DIR}/_templates
-    -o ${SPHINX_SOURCE}/scenario_monopod_docs/python/scenario
+    -o ${SPHINX_SOURCE}/scenario_monopod_docs/python
     ${BINDINGS_MODULES_DIR}/scenario/
     COMMENT "Building <scenario> apidoc")
 
@@ -52,7 +52,7 @@ if(${DOXYGEN_OUTPUT_DIRECTORY} STREQUAL "")
 endif()
 
 # =============
-# Create built package for overlord webpage in /html
+# Create built package for overlord webpage in /html. This is used by superbuild when generating the docs.
 # =============
 
 add_custom_target(source_rst_copy ALL
@@ -73,32 +73,34 @@ add_custom_target(doxygen_xml_copy ALL
     COMMENT "copy source doxygen xml build files."
   )
 
+IF(NOT BUILD_DOCS_SUPERBUILD)
+    # Extend the Python path including before generating the website
+    # set(SPHINX_CMD export PYTHONPATH="${BINDINGS_MODULES_DIR}:$ENV{PYTHONPATH}" &&)
+    set(SPHINX_CMD export PYTHONPATH="${BINDINGS_MODULES_DIR}" &&)
 
-# Extend the Python path including before generating the website
-# set(SPHINX_CMD export PYTHONPATH="${BINDINGS_MODULES_DIR}:$ENV{PYTHONPATH}" &&)
-set(SPHINX_CMD export PYTHONPATH="${BINDINGS_MODULES_DIR}" &&)
+    # Sphinx build command
+    list(APPEND SPHINX_CMD
+        ${SPHINX_MULTIVERSION_EXECUTABLE}
+        ${SPHINX_SOURCE} ${SPHINX_BUILD}
+        -D breathe_projects.scenario="${DOXYGEN_OUTPUT_DIRECTORY}/xml")
 
-# Sphinx build command
-list(APPEND SPHINX_CMD
-    ${SPHINX_MULTIVERSION_EXECUTABLE}
-    ${SPHINX_SOURCE} ${SPHINX_BUILD}
-    -D breathe_projects.scenario="${DOXYGEN_OUTPUT_DIRECTORY}/xml")
+    # Generate the website
+    add_custom_target(sphinx ALL
+        DEPENDS apidoc
+        COMMAND ${SPHINX_CMD}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating documentation with Sphinx")
 
-# Generate the website
-add_custom_target(sphinx ALL
-    DEPENDS apidoc
-    COMMAND ${SPHINX_CMD}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Generating documentation with Sphinx")
+    # Disable GitHub pages autogeneration
+    add_custom_command(
+        TARGET sphinx POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E touch "${SPHINX_BUILD}/.nojekyll"
+        COMMENT "Disabling Jekyll in html folder")
 
-# Disable GitHub pages autogeneration
-add_custom_command(
-    TARGET sphinx POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E touch "${SPHINX_BUILD}/.nojekyll"
-    COMMENT "Disabling Jekyll in html folder")
+    # Handle redirect
+    add_custom_command(
+        TARGET sphinx POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/index.html" "${SPHINX_BUILD}"
+        COMMENT "Copying html redirect to html folder")
 
-# Handle redirect
-add_custom_command(
-    TARGET sphinx POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/index.html" "${SPHINX_BUILD}"
-    COMMENT "Copying html redirect to html folder")
+ENDIF()
