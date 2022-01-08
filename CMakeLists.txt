@@ -33,7 +33,7 @@ endif()
 #DEPENDS
 
 find_package(Scenario COMPONENTS Core REQUIRED)
-find_package(MonopodSdk COMPONENTS Core REQUIRED)
+find_package(MonopodSdk COMPONENTS MonopodDrivers REQUIRED)
 
 # Expose shared or static compilation
 set(SCENARIO_BUILD_SHARED_LIBRARY TRUE
