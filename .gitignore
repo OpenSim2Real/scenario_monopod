@@ -13,3 +13,6 @@ build
 
 **.log
 **/**.log
+
+*.tags
+*.tags1

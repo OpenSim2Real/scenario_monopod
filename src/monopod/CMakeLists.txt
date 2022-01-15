@@ -25,7 +25,7 @@ target_include_directories(ScenarioMonopod PUBLIC
 target_link_libraries(ScenarioMonopod
     PUBLIC
     ScenarioCore::ScenarioABC
-    MonopodDrivers::MonopodSdkCore
+    MonopodSdk::MonopodSdk
     PRIVATE
     ScenarioCore::CoreUtils
     # ${dependency path}
