@@ -14,5 +14,6 @@ build
 **.log
 **/**.log
 
+.ccls-cache
 *.tags
 *.tags1
