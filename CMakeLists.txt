@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(scenario VERSION 1.3.1)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+
 # Add custom functions / macros
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -170,6 +172,13 @@ add_subdirectory(src)
 if(SCENARIO_ENABLE_BINDINGS)
     add_subdirectory(bindings)
 endif()
+
+
+execute_process(
+    COMMAND ln -s "${PROJECT_BINARY_DIR}/compile_commands.json" "${PROJECT_SOURCE_DIR}/compile_commands.json"
+    ERROR_QUIET
+)
+message(STATUS "Create compile commands.")
 
 # # ========
 # # DOCS
