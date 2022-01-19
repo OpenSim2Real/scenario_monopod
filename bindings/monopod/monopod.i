@@ -69,7 +69,6 @@
 %shared_ptr(scenario::monopod::World)
 
 // Ignored methods
-%ignore "scenario/monopod/easylogging++.h";
 // %ignore "scenario/monopod/Joint.h";
 // %ignore "scenario/monopod/Model.h";
 
