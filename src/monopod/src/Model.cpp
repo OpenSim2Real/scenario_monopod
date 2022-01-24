@@ -45,10 +45,8 @@ Model::Model() : pImpl{std::make_unique<Impl>()} {
 
 Model::~Model() = default;
 
-bool Model::initialize(const int &num_joints, const double &hip_home_offset_rad,
-                       const double &knee_home_offset_rad) const {
-  pImpl->monopod_sdk->initialize(num_joints, hip_home_offset_rad,
-                                 knee_home_offset_rad);
+bool Model::initialize(const Mode &mode) const {
+  bool success = pImpl->monopod_sdk->initialize(mode);
   pImpl->monopod_sdk->start_loop();
   pImpl->modelName = pImpl->monopod_sdk->get_model_name();
 
@@ -57,20 +55,21 @@ bool Model::initialize(const int &num_joints, const double &hip_home_offset_rad,
   for (auto const &jointPair : pImpl->jointIndexingMap) {
     // Initialize The joint
     auto joint = std::make_shared<scenario::monopod::Joint>();
-    joint->initialize(jointPair, pImpl->monopod_sdk);
-
+    success = success && joint->initialize(jointPair, pImpl->monopod_sdk);
     // Cache joint
     pImpl->joints[jointPair.first] = joint;
   }
+  return success;
 }
 
-bool Model::valid() const {
-  bool ok = true;
-  for (auto &joint : this->joints(this->jointNames())) {
-    ok = ok && joint->valid();
-  }
-  return ok;
+void Model::calibrate(const double &hip_home_offset_rad,
+                      const double &knee_home_offset_rad) {
+  pImpl->monopod_sdk->calibrate(hip_home_offset_rad, knee_home_offset_rad);
 }
+
+bool Model::valid() const { return pImpl->monopod_sdk->valid(); }
+
+void Model::reset() { pImpl->monopod_sdk->reset(); }
 
 std::string Model::name() const { return pImpl->modelName; }
 

@@ -3,6 +3,7 @@
 #define SCENARIO_MONOPOD_WORLD_H
 
 #include "scenario/core/World.h"
+#include "scenario/monopod/Model.h"
 
 #include <array>
 #include <memory>
@@ -21,17 +22,12 @@ public:
   virtual ~World();
 
   /**
-   * @brief Initialize world creating model for monopod.
+   * @brief Initialize can_bus connections to encoder board and motor board.
    *
-   * @param num_joints is the number of joints the robot is running. Supports 2
-   * (only leg), 3 (fixed hip_joint and planarizer_yaw_joint),4 (fixed
-   * hip_joint), 5 (free).
-   * @param hip_home_offset_rad hip offset from found encoder index 0 (rad)
-   * @param knee_home_offset_rad knee offset from found encoder index 0 (rad)
+   * @param monopod_mode defines the task mode of the monopod. Can also specify
+   * individual boards.
    */
-  bool initialize(const int &num_joints = 5,
-                  const double &hip_home_offset_rad = 0,
-                  const double &knee_home_offset_rad = 0) const;
+  bool initialize(const Model::Mode &mode = Model::Mode::Free) const;
 
   /**
    * Check if the world is valid.

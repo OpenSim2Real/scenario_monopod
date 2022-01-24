@@ -7,7 +7,6 @@
 #include <stdexcept>
 
 using namespace scenario::monopod;
-const scenario::core::PID DefaultPID;
 
 class Joint::Impl {
 public:
@@ -46,10 +45,7 @@ bool Joint::initialize(
   return true;
 }
 
-bool Joint::valid() const {
-  // TODO: Hardware check here...
-  return true;
-}
+bool Joint::valid() const { return pImpl->monopod_sdk->valid(); }
 
 scenario::core::JointType Joint::type() const { return pImpl->jointType; }
 

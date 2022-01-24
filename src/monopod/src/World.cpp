@@ -28,17 +28,17 @@ World::World() : pImpl{std::make_unique<Impl>()} {
 
 World::~World() = default;
 
-bool World::initialize(const int &num_joints, const double &hip_home_offset_rad,
-                       const double &knee_home_offset_rad) const {
+bool World::initialize(const Model::Mode &mode) const {
 
-  scenario::core::ModelPtr model = std::make_shared<scenario::monopod::Model>();
-  model->initialize(num_joints, hip_home_offset_rad, knee_home_offset_rad)
-      std::string modelName = model->name();
+  auto model = std::make_shared<scenario::monopod::Model>();
+  bool success = model->initialize(mode);
+  std::string modelName = model->name();
   // initialize the model.
   pImpl->buffers.modelNames.clear();
   pImpl->buffers.modelNames.push_back(modelName);
   // Initialize our model class
   pImpl->models[modelName] = model;
+  return success;
 }
 
 bool World::valid() const {
