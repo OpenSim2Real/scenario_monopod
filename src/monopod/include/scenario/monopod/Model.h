@@ -22,6 +22,11 @@ public:
   virtual ~Model();
 
   /**
+   * @brief A useful shortcut for using cpp scenario code.
+   */
+  typedef monopod_drivers::Mode Mode;
+
+  /**
    * @brief Initialize can_bus connections to encoder board and motor board.
    *
    * @param monopod_mode defines the task mode of the monopod. Can also specify
