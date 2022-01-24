@@ -2,8 +2,8 @@
 #ifndef SCENARIO_MONOPOD_WORLD_H
 #define SCENARIO_MONOPOD_WORLD_H
 
+#include "monopod_sdk/mode.hpp"
 #include "scenario/core/World.h"
-#include "scenario/monopod/Model.h"
 
 #include <array>
 #include <memory>
@@ -27,7 +27,7 @@ public:
    * @param monopod_mode defines the task mode of the monopod. Can also specify
    * individual boards.
    */
-  bool initialize(const Model::Mode &mode = Model::Mode::Free) const;
+  bool initialize(const monopod_drivers::Mode &mode) const;
 
   /**
    * Check if the world is valid.

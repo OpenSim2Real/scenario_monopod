@@ -2,10 +2,8 @@
 #ifndef SCENARIO_MONOPOD_MODEL_H
 #define SCENARIO_MONOPOD_MODEL_H
 
-// #include "real_time_tools/thread.hpp"
-#include <monopod_sdk/monopod.hpp>
-
 #include "scenario/core/Model.h"
+#include <monopod_sdk/monopod.hpp>
 
 #include <array>
 #include <memory>
@@ -24,17 +22,12 @@ public:
   virtual ~Model();
 
   /**
-   * @brief A useful shortcut
-   */
-  typedef monopod_drivers::Mode Mode;
-
-  /**
    * @brief Initialize can_bus connections to encoder board and motor board.
    *
    * @param monopod_mode defines the task mode of the monopod. Can also specify
    * individual boards.
    */
-  bool initialize(const Mode &mode = Mode::Free) const;
+  bool initialize(const monopod_drivers::Mode &mode) const;
 
   /**
    * @brief Calibrate the Encoders.
