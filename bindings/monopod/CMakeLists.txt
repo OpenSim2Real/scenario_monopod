@@ -20,7 +20,7 @@ swig_add_library(${scenario_swig_name}
 add_library(ScenarioSwig::Monopod ALIAS monopod)
 
 target_link_libraries(${scenario_swig_name} PUBLIC Python3::Python ScenarioMonopod)
-# target_link_libraries(${scenario_swig_name} PUBLIC ScenarioMonopod)
+# target_link_libraries(${scenario_swig_name} PUBLIC MonopodSdk::MonopodSdk)
 
 set_property(TARGET ${scenario_swig_name} PROPERTY
     SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)

@@ -14,5 +14,8 @@ build
 **.log
 **/**.log
 
+compile_commands.json
+.cache
+.ccls-cache
 *.tags
 *.tags1
