@@ -11,6 +11,7 @@
 #include "scenario/core/Link.h"
 #include "scenario/core/Model.h"
 #include "scenario/core/World.h"
+#include "monopod_sdk/mode.hpp"
 #include <cstdint>
 %}
 
@@ -51,6 +52,7 @@
 // Rename all methods to undercase with _ separators excluding the classes.
 %rename("%(undercase)s") "";
 %rename("") PID;
+%rename("") Mode;
 %rename("") Pose;
 %rename("") Link;
 %rename("") Joint;
@@ -68,11 +70,8 @@
 %shared_ptr(scenario::monopod::Model)
 %shared_ptr(scenario::monopod::World)
 
-// Ignored methods
-// %ignore "scenario/monopod/Joint.h";
-// %ignore "scenario/monopod/Model.h";
-
 // ScenarI/O headers
 %include "scenario/monopod/Joint.h"
 %include "scenario/monopod/Model.h"
 %include "scenario/monopod/World.h"
+%include "monopod_sdk/mode.hpp"

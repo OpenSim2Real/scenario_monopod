@@ -24,15 +24,6 @@ Joint::Joint() : pImpl{std::make_unique<Impl>()} {}
 
 Joint::~Joint() = default;
 
-uint64_t Joint::id() const {
-  // Build a unique string identifier of this joint
-  const std::string scopedJointName =
-      pImpl->parentModelName + "::" + this->name(/*scoped=*/true);
-
-  // Return the hashed string
-  return std::hash<std::string>{}(scopedJointName);
-}
-
 bool Joint::initialize(
     const std::pair<std::string, int> nameIndexPair,
     const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk) {

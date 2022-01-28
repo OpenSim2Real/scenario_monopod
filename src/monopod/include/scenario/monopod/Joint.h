@@ -22,8 +22,6 @@ public:
   Joint();
   virtual ~Joint();
 
-  uint64_t id() const;
-
   bool initialize(const std::pair<std::string, int> nameIndexPair,
                   const std::shared_ptr<monopod_drivers::Monopod> &monopod_sdk);
 
