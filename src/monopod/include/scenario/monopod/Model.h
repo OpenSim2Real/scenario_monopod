@@ -51,6 +51,11 @@ public:
   void reset();
 
   /**
+   * @brief print status messages of robot.
+   */
+  void print();
+
+  /**
    * Check if the model is valid.
    *
    * @return True if the model is valid, false otherwise.
