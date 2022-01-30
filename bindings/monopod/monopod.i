@@ -1,6 +1,6 @@
 %module(package="scenario.bindings") monopod
 
-// %include "to_monopod.i"
+%include "to_monopod.i"
 
 %{
 #define SWIG_FILE_WITH_INIT
