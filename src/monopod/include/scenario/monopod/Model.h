@@ -53,7 +53,7 @@ public:
   /**
    * @brief print status messages of robot.
    */
-  void print();
+  void print_status();
 
   /**
    * Check if the model is valid.
