@@ -28,10 +28,11 @@ World::World() : pImpl{std::make_unique<Impl>()} {
 
 World::~World() = default;
 
-bool World::initialize(const monopod_drivers::Mode &mode) const {
+bool World::initialize(const monopod_drivers::Mode &mode,
+                       const bool &dummy_mode) const {
 
   auto model = std::make_shared<scenario::monopod::Model>();
-  bool success = model->initialize(mode);
+  bool success = model->initialize(mode, dummy_mode);
   std::string modelName = model->name();
   // initialize the model.
   pImpl->buffers.modelNames.clear();

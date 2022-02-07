@@ -45,8 +45,9 @@ Model::Model() : pImpl{std::make_unique<Impl>()} {
 
 Model::~Model() = default;
 
-bool Model::initialize(const monopod_drivers::Mode &mode) const {
-  bool success = pImpl->monopod_sdk->initialize(mode);
+bool Model::initialize(const monopod_drivers::Mode &mode,
+                       const bool &dummy_mode) const {
+  bool success = pImpl->monopod_sdk->initialize(mode, dummy_mode);
   pImpl->monopod_sdk->start_loop();
   pImpl->modelName = pImpl->monopod_sdk->get_model_name();
 
@@ -71,7 +72,7 @@ bool Model::valid() const { return pImpl->monopod_sdk->valid(); }
 
 void Model::reset() { pImpl->monopod_sdk->reset(); }
 
-void Model::print() { pImpl->monopod_sdk->print(); }
+void Model::print_status() { pImpl->monopod_sdk->print(); }
 
 std::string Model::name() const { return pImpl->modelName; }
 
