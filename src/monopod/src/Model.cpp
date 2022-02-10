@@ -48,7 +48,8 @@ Model::~Model() = default;
 bool Model::initialize(const monopod_drivers::Mode &mode,
                        const bool &dummy_mode) const {
   bool success = pImpl->monopod_sdk->initialize(mode, dummy_mode);
-  pImpl->monopod_sdk->start_loop();
+  // Automatially does this...
+  // pImpl->monopod_sdk->start_safety_loop();
   pImpl->modelName = pImpl->monopod_sdk->get_model_name();
 
   // Set up all the joints.
