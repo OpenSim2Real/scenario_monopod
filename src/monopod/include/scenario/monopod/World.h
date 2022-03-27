@@ -26,9 +26,12 @@ public:
    *
    * @param monopod_mode defines the task mode of the monopod. Can also specify
    * individual boards.
+   * @param dummy_mode if false the sdk will try to connect to the
+   * canbus connection otherwise it will just create a dummy board class which
+   * fakes the real robot.
    */
-  bool initialize(const monopod_drivers::Mode &mode) const;
-
+  bool initialize(const monopod_drivers::Mode &mode,
+                  const bool &dummy_mode = false) const;
   /**
    * Check if the world is valid.
    *

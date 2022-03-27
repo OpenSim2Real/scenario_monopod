@@ -45,9 +45,11 @@ Model::Model() : pImpl{std::make_unique<Impl>()} {
 
 Model::~Model() = default;
 
-bool Model::initialize(const monopod_drivers::Mode &mode) const {
-  bool success = pImpl->monopod_sdk->initialize(mode);
-  pImpl->monopod_sdk->start_loop();
+bool Model::initialize(const monopod_drivers::Mode &mode,
+                       const bool &dummy_mode) const {
+  bool success = pImpl->monopod_sdk->initialize(mode, dummy_mode);
+  // Automatially does this...
+  // pImpl->monopod_sdk->start_safety_loop();
   pImpl->modelName = pImpl->monopod_sdk->get_model_name();
 
   // Set up all the joints.
@@ -70,6 +72,8 @@ void Model::calibrate(const double &hip_home_offset_rad,
 bool Model::valid() const { return pImpl->monopod_sdk->valid(); }
 
 void Model::reset() { pImpl->monopod_sdk->reset(); }
+
+void Model::print_status() { pImpl->monopod_sdk->print(); }
 
 std::string Model::name() const { return pImpl->modelName; }
 
@@ -114,15 +118,15 @@ scenario::core::JointPtr Model::getJoint(const std::string &jointName) const {
     assert(pImpl->joints.at(jointName));
     return pImpl->joints.at(jointName);
   }
-  std::string str = " ";
+  std::string str = "(";
   for (auto &name : this->jointNames())
     str = str + name + ", ";
+  str = str + ")";
 
-  // LOG(ERROR) << "Joint name " + jointName +
-  //                   " does not exist in model. Available joints are: " + str;
-  throw std::invalid_argument(
-      "Joint name: " + jointName +
-      ",  does not exist in model. Available joints are: " + str);
+  std::cerr << "Joint name (" << jointName
+            << ") does not exist in model. Available joints are: " << str
+            << std::endl;
+  exit(-1);
 }
 
 std::vector<scenario::core::JointPtr>
@@ -221,12 +225,11 @@ std::vector<double> Model::Impl::getJointDataSerialized(
   }
   size_t expectedDOFs = model->dofs(jointSerialization);
   if (data.size() != expectedDOFs) {
-    // LOG(ERROR) << "Failed to collect data from joints. Number of data
-    // elements "
-    //               "does not match considered joint's DOFs.";
-    throw std::invalid_argument(
-        "Failed to collect data from joints. Number of data elements does not "
-        "match considered joint's DOFs.");
+    std::cerr << "Failed to collect data from joints. Number of data "
+                 "elements does not "
+                 "match considered joint's DOFs."
+              << '\n';
+    exit(-1);
   }
 
   return data;
@@ -245,12 +248,10 @@ bool Model::Impl::setJointDataSerialized(
   expectedDOFs = model->dofs(jointSerialization);
 
   if (data.size() != expectedDOFs) {
-    // LOG(ERROR) << "The size of value being set for each joint does not match
-    // "
-    //               "the considered joint's DOFs.";
-    throw std::invalid_argument(
-        "Failed to set value of joints,  The size of value being set for each "
-        "joint does not match the considered joint's DOFs.");
+    std::cerr << "Failed to set value of joints,  The size of value being set "
+                 "for each "
+                 "joint does not match the considered joint's DOFs."
+              << '\n';
     return false;
   }
 
@@ -272,11 +273,8 @@ bool Model::Impl::setJointDataSerialized(
       values[0] = *it++;
 
     if (!setJointData(joint, values)) {
-      // LOG(ERROR) << "Failed to set force of joint '" << joint->name()
-      //            << "'. Joint Might not support Force control";
-      throw std::invalid_argument("Failed to set value of joint '" +
-                                  joint->name() +
-                                  "'. Joint Might not support Force control");
+      std::cerr << "Failed to set value of joint '" << joint->name()
+                << "'. Joint Might not support Force control" << '\n';
       return false;
     }
   }

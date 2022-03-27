@@ -1,6 +1,6 @@
 %module(package="scenario.bindings") monopod
 
-// %include "to_monopod.i"
+%include "to_monopod.i"
 
 %{
 #define SWIG_FILE_WITH_INIT
@@ -19,20 +19,20 @@
 
 %naturalvar;
 
-// %inline %{
-// namespace scenario::monopod::utils {
-//    template <typename Base, typename Derived>
-//    std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
-//    {
-//        return std::dynamic_pointer_cast<Derived>(base);
-//    }
-// }
-// %}
+%inline %{
+namespace scenario::monopod::utils {
+  template <typename Base, typename Derived>
+  std::shared_ptr<Derived> ToMonopod(const std::shared_ptr<Base>& base)
+  {
+      return std::dynamic_pointer_cast<Derived>(base);
+  }
+}
+%}
 
-// // Helpers for downcasting to monopod classes
-// %template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
-// %template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
-// %template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
+// Helpers for downcasting to monopod classes
+%template(ToMonopodWorld) scenario::monopod::utils::ToMonopod<scenario::core::World, scenario::monopod::World>;
+%template(ToMonopodModel) scenario::monopod::utils::ToMonopod<scenario::core::Model, scenario::monopod::Model>;
+%template(ToMonopodJoint) scenario::monopod::utils::ToMonopod<scenario::core::Joint, scenario::monopod::Joint>;
 
 // STL classes
 %include <stdint.i>

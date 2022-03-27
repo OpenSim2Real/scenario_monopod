@@ -13,7 +13,6 @@ public:
   // We only have Revolute joints
   const core::JointType jointType = core::JointType::Revolute;
   core::JointControlMode jointControlMode = core::JointControlMode::Idle;
-  std::optional<std::vector<double>> jointMaxGeneralizedForce;
   std::string parentModelName;
   std::string name;
   int monopodSdkIndex;
@@ -167,16 +166,6 @@ bool Joint::setJointGeneralizedForceTarget(const std::vector<double> &force) {
                                 std::to_string(this->dofs()) + ")");
     // return false;
   }
-
-  // // NOTE: This gets handled in monopod_sdk. No need to waste
-  // // time getting the max generalized force
-  // const std::vector<double>& maxForce = this->jointMaxGeneralizedForce();
-  // for (size_t dof = 0; dof < this->dofs(); ++dof) {
-  //     if (std::abs(force[dof]) > maxForce[dof]) {
-  //         LOG(WARNING) << "The force target is higher than the limit. It may
-  //         be clipped.";
-  //     }
-  // }
 
   return pImpl->monopod_sdk->set_torque_target(force[0],
                                                pImpl->monopodSdkIndex);
