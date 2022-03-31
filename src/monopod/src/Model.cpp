@@ -71,7 +71,7 @@ void Model::calibrate(const double &hip_home_offset_rad,
 
 bool Model::valid() const { return pImpl->monopod_sdk->valid(); }
 
-void Model::reset() { pImpl->monopod_sdk->reset(); }
+bool Model::reset() { return pImpl->monopod_sdk->reset(); }
 
 void Model::print_status() { pImpl->monopod_sdk->print(); }
 
