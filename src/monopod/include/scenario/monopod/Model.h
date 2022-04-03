@@ -51,10 +51,8 @@ public:
    * @brief If the joint module is not valid (safemode after limit reached) the
    * joint will be reset into a valid state. This means the joint must be set
    * back into the valid state first otherwise it will trigger the limits again.
-   *
-   * @return bool true if goto zero position was successful otherwise false.
    */
-  bool reset();
+  void reset();
 
   /**
    * @brief print status messages of robot.
