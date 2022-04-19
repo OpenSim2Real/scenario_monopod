@@ -69,7 +69,7 @@ install_basic_package_files(ScenarioMonopod
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
     EXPORT ScenarioMonopodExport
-    DEPENDENCIES ScenarioCore
+    DEPENDENCIES ScenarioCore MonopodSdk
     NAMESPACE ScenarioMonopod::
     NO_CHECK_REQUIRED_COMPONENTS_MACRO
     INSTALL_DESTINATION
